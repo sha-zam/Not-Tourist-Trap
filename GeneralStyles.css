@@ -1,0 +1,41 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.jumbotron {
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 0;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar {
+    transition: top 0.5s ease;
+}
+
+.navbar-hide {
+    top: -56px;
+}
+
+form {
+    -webkit-transform: translateZ( 0);
+    transform: translateZ( 0);
+    -webkit-transition: -webkit-transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card {
+    margin: 30px;
+    margin-top: 40px;
+    width: 20rem;
+    transition: all .25s linear;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+    box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.8);
+}
