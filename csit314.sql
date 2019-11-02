@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2019 at 04:39 PM
+-- Generation Time: Nov 02, 2019 at 05:19 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.32
 
@@ -54,7 +54,10 @@ CREATE TABLE `country` (
 
 INSERT INTO `country` (`CountryID`, `Name`) VALUES
 (2, 'France'),
-(3, 'Afghanistan');
+(6, 'USA'),
+(7, 'Indonesia'),
+(8, 'South Korea'),
+(9, 'Czech Republic');
 
 -- --------------------------------------------------------
 
@@ -167,7 +170,10 @@ INSERT INTO `spokenlanguage` (`UserID`, `LanguageID`) VALUES
 (11, 21),
 (12, 40),
 (13, 17),
-(13, 3);
+(13, 3),
+(14, 0),
+(14, 0),
+(14, 0);
 
 -- --------------------------------------------------------
 
@@ -179,16 +185,22 @@ CREATE TABLE `state` (
   `StateID` int(11) NOT NULL,
   `CountryID` int(11) NOT NULL,
   `Name` varchar(255) NOT NULL,
-  `Description_1` text NOT NULL
+  `Description_1` text NOT NULL,
+  `Description_2` text NOT NULL,
+  `Image_1` varchar(255) NOT NULL,
+  `Image_2` varchar(255) NOT NULL,
+  `Image_3` varchar(255) NOT NULL,
+  `Title_1` varchar(255) NOT NULL,
+  `Title_2` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `state`
 --
 
-INSERT INTO `state` (`StateID`, `CountryID`, `Name`, `Description_1`) VALUES
-(7, 2, 'Paris', ''),
-(8, 3, 'Afghan', '');
+INSERT INTO `state` (`StateID`, `CountryID`, `Name`, `Description_1`, `Description_2`, `Image_1`, `Image_2`, `Image_3`, `Title_1`, `Title_2`) VALUES
+(7, 2, 'Paris', 'The Champs-Élysées is a truly lovely avenue: a picture postcard scene. Nearly 2 kilometres in length, this historic thoroughfare runs from Place de la Concorde to the majestic Arc de Triomphe. But though it has since become ‘the world’s most beautiful avenue’, the Champs-Élysées was once a swamp. The avenue has only become more beautiful with every passing decade.', 'Set in the heart of Paris, the former French royal palace today is home to one of the largest and most renowned art collections in the world. Home to Leonardo da Vinci\'s Mona Lisa, the Louvre is considered the world\'s greatest art museum, with an unparalleled collection of items covering the full spectrum of art through the ages', 'champs_elysees.jpg', 'louvre.jpg', 'paris.jpg', 'The Champs-Élysées, past and present', 'The Musée du Louvre'),
+(9, 9, 'Prague', 'Prague Castle is a castle complex in Prague, Czech Republic, built in the 9th century. It is the official office of the President of the Czech Republic. The castle was a seat of power for kings of Bohemia, Holy Roman emperors, and presidents of Czechoslovakia.', 'Connecting the Old town with Lesser Town, this popular pedestrian bridge is filled with musicians, painters, vendors and tourists during the summertime.', 'prague_castle.jpg', 'Charles_bridge.jpg', 'prague.jpg', 'Prague Castle', 'Charles Bridge');
 
 -- --------------------------------------------------------
 
@@ -258,7 +270,8 @@ INSERT INTO `user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`) VALU
 (1, 'Jonathan', 'Lua', 'jonlua@gmail.com', 'password'),
 (11, 'System', 'Admin', 'sysadmin@gmail.com', 'sysadmin123'),
 (12, 'Huzair', 'Yazid', 'huzairyazid@gmail.com', 'sysadmin123'),
-(13, 'zayn', 'malik', 'Pu55yslayer@gmail.com', 'abcd1234!');
+(13, 'zayn', 'malik', 'Pu55yslayer@gmail.com', 'abcd1234!'),
+(14, 'Pu55y', 'Slayer', 'abcd@gmail.com', '12345678');
 
 --
 -- Indexes for dumped tables
@@ -344,7 +357,7 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
-  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -356,19 +369,19 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tourimage`
 --
 ALTER TABLE `tourimage`
-  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `tourreview`
@@ -380,7 +393,7 @@ ALTER TABLE `tourreview`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
