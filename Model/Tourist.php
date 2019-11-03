@@ -4,9 +4,9 @@ include_once('User.php');
 
 class Tourist extends User
 {
-    public function __construct($email, $pwd, $fName, $lName, $lang)
+    public function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
-        parent :: __construct($email, $pwd, $fName, $lName, $lang);
+        parent :: __construct($email, $pwd, $fName, $lName, $profileImg, $lang);
     }
 
     public function touristLogin()

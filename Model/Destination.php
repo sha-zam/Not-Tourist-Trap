@@ -5,6 +5,12 @@ class Destination
     private $country;
     private $state;
 
+    private $countryID;
+    private $stateID;
+
+    private $tours = array();
+
+
     //Database Variables
     private $servername;
     private $username;
@@ -16,6 +22,31 @@ class Destination
     {
         $this->country = $country;
         $this->state = $state;
+
+        //set country and state ID
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query country ID
+        $query = "SELECT * FROM state WHERE Name='$this->state'";
+        $result = $conn->query($query);
+
+        if($result->num_rows > 0) //if state exists
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $this->countryID = $x['CountryID'];
+                $this->stateID = $x['StateID'];
+            }
+            
+        }
+
+        $conn->close();
     }
 
     //Database connection (private)
@@ -25,7 +56,6 @@ class Destination
         $this->username = "root";
         $this->password = "";
         $this->dbname = "csit314";
-
         $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
         return $conn;
@@ -40,6 +70,16 @@ class Destination
     public function getState()
     {
         return $this->state;
+    }
+
+    public function getCountryID()
+    {
+        return $this->countryID;
+    }
+
+    public function getStateID()
+    {
+        return $this->stateID;
     }
 
 
@@ -225,6 +265,37 @@ class Destination
                 return $x['Title_2'];
             }
         }
+    }
+
+    public function getTours()
+    {
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query for all tours with current country and state ID
+        $query = "SELECT * FROM tour WHERE CountryID = '$this->countryID' AND StateID = '$this->stateID'";
+        $result = $conn->query($query);
+
+        //return query result
+        return $result;
+    }
+
+    public function getTourGuides()
+    {
+        //get Tour query result
+
+        //query for TourGuideID
+
+        //query profileImage, fname, and lname from user table
+
+        //store in array
+
+        //return result
+    }
+
+    public function getTourInfos()
+    {
+
     }
 
     //Mutators

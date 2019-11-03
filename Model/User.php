@@ -11,6 +11,7 @@ class User
     private $fName;
     private $lName;
     private $userID;
+    private $profileImg;
     private $lang = array();
 
     private $servername;
@@ -18,12 +19,13 @@ class User
     private $password;
     private $dbname;
 
-    protected function __construct($email, $pwd, $fName, $lName, $lang)
+    protected function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         $this->email = $email;
         $this->pwd = $pwd;
         $this->fName = $fName;
         $this->lName = $lName;
+        $this->profileImg = $profileImg;
 
         for($i = 0; $i < count($lang); $i++)
         {
@@ -95,12 +97,20 @@ class User
         return ($this->pwd);
     }
 
+    public function getProfileImg()
+    {
+        return ($this->profileImg);
+    }
+
     //Login function
     protected function checkLogin()
     {
         echo "<script type='text/javascript'>alert('checking $this->email and $this->pwd')</script>";
 
         $conn = $this->connect(); //create connection
+
+        //query
+        $this->pwd = md5($this->pwd);
 
         $query = "SELECT * from user WHERE Email='$this->email' and Password='$this->pwd'";
 
@@ -122,12 +132,13 @@ class User
                 $this->fName = $x['FirstName'];
                 $this->lName = $x['LastName'];
                 $this->userID = $x['UserID'];
+                $this->profileImg = $x['Profile_Image'];
             }
 
-            echo "<script type='text/javascript'>alert('user full name = $this->fName $this->lName', user id = $userID)</script>";
+            echo "<script type='text/javascript'>alert('user full name = $this->fName $this->lName, user id = $this->userID)</script>";
 
             //get language ID
-            $langQ = "SELECT LanguageID FROM spokenlanguage WHERE UserID = $userID";
+            $langQ = "SELECT LanguageID FROM spokenlanguage WHERE UserID = '$this->userID'";
             $langQ_result = $conn->query($langQ);
 
             if ($langQ_result->num_rows > 0) //if any language exists
@@ -189,8 +200,11 @@ class User
 
         if($count_row == 0)//Check whether user already exists 
         {
+            //md5 pwd
+            $this->pwd = md5($this->pwd);
+
             //query to insert user 
-            $sql1 = "INSERT INTO user (FirstName,LastName,Email,Password) VALUES ('$this->fName','$this->lName','$this->email','$this->pwd')"; 
+            $sql1 = "INSERT INTO user (FirstName,LastName,Email,Password,Profile_Image) VALUES ('$this->fName','$this->lName','$this->email','$this->pwd','$this->profileImg')"; 
             $insertUser = $conn->query($sql1);
 
             $last_uid = $conn->insert_id;

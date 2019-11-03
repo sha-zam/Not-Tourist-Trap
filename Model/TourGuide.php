@@ -17,9 +17,9 @@ class TourGuide extends User
     //tours hosted
     private $tours = array();
 
-    public function __construct($userID, $email, $pwd, $fName, $lName, $langs)
+    public function __construct($userID, $email, $pwd, $fName, $lName, $profileImg, $langs)
     {
-        parent::__construct($email, $pwd, $fName, $lName, $langs);
+        parent::__construct($email, $pwd, $fName, $lName, $profileImg, $langs);
         $this->userID = $userID;
     }
 

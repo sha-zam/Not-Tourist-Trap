@@ -132,11 +132,12 @@ if ($method == "POST")
         $_SESSION['ufName'] = $check->getfName();
         $_SESSION['ulName'] = $check->getlName();
         $_SESSION['uLangs'] = $check->getLangs();
+        $_SESSION['profileImg'] = $check->getProfileImg();
 
-        //$langs = count($x3);
+        $temp = $_SESSION['profileImg'];
 
         //to be changed later, testing only
-        //echo "<script type='text/javascript'>alert('$x1, $x2, $x3[0], $x3[1], $x3[2]')</script>";
+        //echo "<script type='text/javascript'>alert('$temp')</script>";
         header("location:../index.php");
     }
 }

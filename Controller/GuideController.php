@@ -41,7 +41,7 @@ class GuideController
         }
         else //pass to tourist entity
         {
-            $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['uLangs']);
+            $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
 
             //generate tour
             $check = $user->submitTour($this->name, $this->country, $this->state, $this->textDescription, $this->tourImg, $this->tourPrice, $this->tourStartDate, $this->tourEndDate);

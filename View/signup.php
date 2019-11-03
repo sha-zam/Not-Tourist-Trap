@@ -22,6 +22,30 @@ function displayForm()
 
             <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
+            <script>
+
+                function triggerClick()
+                {
+                    document.querySelector('#profileImage').click();
+                }
+
+                function displayImage(e)
+                {
+                    if(e.files[0])
+                    {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e)
+                        {
+                            document.querySelector('#profileDisplay').setAttribute('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(e.files[0]);
+                    }
+                }
+
+            </script>
+
             <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
         
             <style>
@@ -29,6 +53,16 @@ function displayForm()
                 .jumbotron 
                 {
                     background-image : url("../Images/hk_night.jpg");
+                    height : 100%;
+                }
+
+                #profileDisplay
+                {
+                    display : block;
+                    height : 400px;
+                    width : 60%;
+                    margin : 10px auto;
+                    border-radius : 50%;
                 }
 
             </style>
@@ -75,7 +109,13 @@ function displayForm()
         
                         <h1 style="margin-top : 10px;">Sign Up</h1>
         
-                            <form action="$phpself" method="POST" name="signup">
+                            <form action="$phpself" method="POST" name="signup" enctype="multipart/form-data">
+                                <div class="form-group text-center">
+                                    <img src="../Images/placeholder.jpg" onclick="triggerClick()" id="profileDisplay"/>
+                                    <label for="profileImage">Profile Image</label>
+                                    <input name="profileImage" type="file" onchange="displayImage(this)" class="form-control" id="profileImage" style="display:none;" required>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="inputEmail">Email address</label>
                                     <input name="email" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
@@ -105,10 +145,9 @@ function displayForm()
                                         <label class="input-group-text" for="inputGroupLang1">Primary Language</label>
                                     </div>
                                     <select name="primeLang" class="custom-select" id="inputGroupLang1"></select>
-
-                                    <script>
-                                        $("#inputGroupLang1").load("../constants/languages.html");
-                                    </script>
+                                        <script>
+                                            $("#inputGroupLang1").load("../constants/languages.html");
+                                        </script>
                                 </div>
                                 
                                 <div class="input-group mb-3">
@@ -155,6 +194,7 @@ $method = $_SERVER ["REQUEST_METHOD"];
 
 if ($method == "POST")
 {
+    //Get user details
     $email = $_POST["email"];
     $pwd = $_POST["pwd"];
     $fName = $_POST["fName"];
@@ -163,14 +203,24 @@ if ($method == "POST")
     $secondLang = $_POST["secondLang"];
     $thirdLang = $_POST["thirdLang"];
 
+    //Get profile image
+    chdir('../');
+    $x = getCwd();
+
+    
+    $profileImg = time() . '_' . $_FILES['profileImage']['name'];
+    $target=  $x . '/Uploaded_Images/' . $profileImg;
+
+    move_uploaded_file($_FILES['profileImage']['tmp_name'], $target);
+
     //Pass to Controller
-    $signUpCtr = new signupController($email, $fName, $lName, $pwd, $primeLang, $secondLang, $thirdLang);
+    $signUpCtr = new signupController($email, $fName, $lName, $pwd, $profileImg, $primeLang, $secondLang, $thirdLang);
 
     $check = $signUpCtr -> validateData();
 
     if ($check)
     {
-        echo "<script type='text/javascript'>alert('$email'); alert('$pwd'); alert('true')</script>";
+        echo "<script type='text/javascript'>alert('$email'); alert('$pwd'); alert('$profileImg'); alert('true')</script>";
         header("location:./login.php");
     }
     else

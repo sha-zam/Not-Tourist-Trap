@@ -9,12 +9,14 @@
         private $fName;
         private $lName;
         private $pwd;
+        private $profileImg;
         private $lang = array();
 
-        public function __construct($email, $fName, $lName, $pwd, $primeLang, $secondLang, $thirdLang)
+        public function __construct($email, $fName, $lName, $pwd, $profileImg, $primeLang, $secondLang, $thirdLang)
         {
             $this->email = $email;
             $this->pwd = $pwd;
+            $this->profileImg = $profileImg;
 
             $this->fName = $fName;
             $this->lName = $lName;
@@ -33,7 +35,7 @@
             }
             else
             {
-                $this->user = new Tourist($this->email, $this->pwd, $this->fName, $this->lName, $this->lang);
+                $this->user = new Tourist($this->email, $this->pwd, $this->fName, $this->lName, $this->profileImg, $this->lang);
                 $checkRegist = $this->user->touristSignUp();
 
                 return ($checkRegist);

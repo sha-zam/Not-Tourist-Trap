@@ -36,7 +36,7 @@ for ($i = 0 ; $i < count($imgArr); $i++)
 <html lang="en">
 <head>
 
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo $state.', '.$country?></title>
@@ -120,13 +120,13 @@ for ($i = 0 ; $i < count($imgArr); $i++)
 
                             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
+                                    <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" style="color : white">View Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="./logout.php" style="color : white">Log Out</a>
+                                    <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
                                 </li>
                             </ul>
 
@@ -138,13 +138,13 @@ LOGGEDNAV;
 
                         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
+                                <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./View/login.php" style="color : white">Log In</a>
+                                <a class="nav-link" href="./login.php" style="color : white">Log In</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./View/signup.php" style="color : white">Sign Up</a>
+                                <a class="nav-link" href="../signup.php" style="color : white">Sign Up</a>
                             </li>
                         </ul>
 
@@ -208,6 +208,7 @@ GENERALNAV;
         
     </div>
 
+    <!-- Tour Guide Displays -->
 
 </body>
 </html>

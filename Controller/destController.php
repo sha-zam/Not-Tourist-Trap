@@ -42,6 +42,11 @@ class destController
 
         return $titles;
     }
+
+    public function fetchTourGuides()
+    {
+        
+    }
 }
 
 ?>
