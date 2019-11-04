@@ -37,28 +37,46 @@ session_start();
 
     <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
 
+    <style>
+        .card 
+        {
+            width : 70rem;
+            height : 80rem;
+            margin : 0 auto;
+            margin-top : 8v 0px;
+        }
+    </style>
+
 </head>
 <body>
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            <img class="d-block w-100" src="../Images/seoul.jpg" alt="First slide">
+
+    <div class="card">
+
+        <div id="carouselImages" class="carousel slide" data-ride="carousel">
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../Images/seoul.jpeg" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                </div>
+                <div class="carousel-item">
+                    <img src="../Images/paris.jpg" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                </div>
+                <div class="carousel-item">
+                    <img src="../Images/nyc.jpeg" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                </div>
             </div>
-            <div class="carousel-item">
-            <img class="d-block w-100" src="../Images/nyc.jpeg" alt="Second slide">
-            </div>
-            <div class="carousel-item">
-            <img class="d-block w-100" src="../Images/labuan_bajo.jpg" alt="Third slide">
-            </div>
+
+            <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    
     </div>
+    
 </body>
 </html>
