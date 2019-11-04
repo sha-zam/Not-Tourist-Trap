@@ -207,7 +207,6 @@ if ($method == "POST")
     chdir('../');
     $x = getCwd();
 
-    
     $profileImg = time() . '_' . $_FILES['profileImage']['name'];
     $target=  $x . '/Uploaded_Images/' . $profileImg;
 

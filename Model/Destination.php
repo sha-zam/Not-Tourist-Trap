@@ -276,27 +276,44 @@ class Destination
         $query = "SELECT * FROM tour WHERE CountryID = '$this->countryID' AND StateID = '$this->stateID'";
         $result = $conn->query($query);
 
+        $conn->close();
+
         //return query result
         return $result;
     }
 
-    public function getTourGuides()
+    public function getTourGuideDetails($guideID)
     {
-        //get Tour query result
-
-        //query for TourGuideID
+        //create connection to DB
+        $conn = $this->connect();
 
         //query profileImage, fname, and lname from user table
+        $query = "SELECT * FROM user WHERE UserID = '$guideID'";
+        $result = $conn->query($query);
 
-        //store in array
+        $conn->close();
 
-        //return result
+        $resultArr = array();
+
+        if($result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $resultArr[0] = $x['FirstName'];
+                $resultArr[1] = $x['LastName'];
+                $resultArr[2] = $x['Profile_Image'];
+            }
+
+            return $resultArr;
+        }
     }
 
-    public function getTourInfos()
-    {
-
-    }
 
     //Mutators
     public function setCountry()

@@ -43,10 +43,18 @@ class destController
         return $titles;
     }
 
-    public function fetchTourGuides()
+    public function fetchTours()
     {
-        
+        $tours = $this->destination->getTours();
+        return $tours;
     }
+
+    public function fetchTourGuideDetails($guideID)
+    {
+        $guideDetails = $this->destination->getTourGuideDetails($guideID);
+        return $guideDetails;
+    }
+
 }
 
 ?>

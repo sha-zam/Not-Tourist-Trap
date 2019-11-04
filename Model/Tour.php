@@ -19,6 +19,12 @@ class Tour
     //Tour guide
     private $tourGuideID;
 
+    //Database Variables
+    private $servername;
+    private $username;
+    private $password;
+    private $dbname;
+
     public function __construct($tourName, $tourGuideID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate)
     {
         $this->tourName = $tourName;
@@ -30,6 +36,18 @@ class Tour
         $this->tourPrice = $tourPrice;
         $this->tourStartDate = $tourStartDate;
         $this->tourEndDate = $tourEndDate;
+    }
+
+    //Database connection (private)
+    private function connect()
+    {
+        $this->servername = "localhost";
+        $this->username = "root";
+        $this->password = "";
+        $this->dbname = "csit314";
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+
+        return $conn;
     }
 
     //mutators
@@ -76,7 +94,29 @@ class Tour
     //Accessors
     public function getTourID()
     {
-        return ($this->tourID);
+        //query for Tour ID
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query
+        $query = "SELECT * FROM tour WHERE Name = '$this->tourName'";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        if($result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                return $x['TourID'];
+            }
+        }
     }
 
     public function getCountry()

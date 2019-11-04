@@ -2,13 +2,15 @@
 
 //Controller include
 include '../Controller/destController.php';
+include '../Controller/guideController.php';
 
 //Ask the controller for the necessary information
 $country = $_GET['country'];
 $state = $_GET['state'];
 
 //Start Session
-session_start();
+if(!isset($_SESSION))
+    session_start();
 
 $destCtr = new destController($country, $state);
 
@@ -23,12 +25,26 @@ $titleArr = $destCtr->fetchTitles();
 
 $imageSrc = array();
 $descSrc = array();
+$tours = array();
 
 //Assign them to arrays for display
 for ($i = 0 ; $i < count($imgArr); $i++)
 {
     $imageSrc[$i] = "../Images/".$imgArr[$i];
 }
+
+//Ask destController to fetch number of tours available
+$result = $destCtr->fetchTours();
+
+if($result->num_rows > 0)
+{
+    while($row = $result->fetch_assoc())
+    {
+        $tours[] = $row; //tour rows
+    }
+}
+
+
 
 ?>
 
@@ -91,6 +107,18 @@ for ($i = 0 ; $i < count($imgArr); $i++)
             margin-top: auto;
             margin-bottom:auto;
             /* padding: 20px; */
+        }
+
+        .container-fluid 
+        {
+            overflow-x : auto;
+        }
+
+        .card-img-top 
+        {
+            max-width: 100%;
+            max-height : 100%;
+            object-fit: cover;
         }
         
     </style>
@@ -207,8 +235,51 @@ GENERALNAV;
         </div>
         
     </div>
+    
+    <br><br>
 
     <!-- Tour Guide Displays -->
+    <div class="toursAvail">
+        <h2 style="margin : 20px;">Tours Available</h2>
+
+        <div class="container-fluid">
+            <div class="row flex-row flex-nowrap">
+            
+                <?php if(count($tours) > 0) : ?>
+
+                    <?php foreach($tours as $x) : ?>
+
+                        <?php 
+
+                            $guideDetails = array();
+
+                            //Ask guideCtr for tourguide name and profileImg
+                            $guideDetails= $destCtr->fetchTourGuideDetails($x['TourGuideID']);
+                            //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
+
+                            $guideDetails[2] = "../Uploaded_Images/".$guideDetails[2];
+                        
+                        ?>
+
+                        <div class="col-3">
+                            <div class="card card-block text-center">
+                                <img class="card-img-top" src="<?php echo $guideDetails[2] ?>" alt="tourguide" style="width:500px; height:400px">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $x['Name']?></h5>
+                                    <p class="card-text">By : <?php echo $guideDetails[0].' '. $guideDetails[1] ?></p>
+                                    <a href="./tourView.php"><button type="button" class="btn btn-primary">Click Here for More Details</button></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php endforeach; ?>
+
+                <?php endif;?>
+
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

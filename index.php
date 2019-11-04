@@ -243,7 +243,7 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/paris.jpg" alt="paris cap" style="width:500px; height:400px">
-                        <a href="View/Destination.php?country=France&state=Paris">
+                        <a href="View/destView.php?country=France&state=Paris">
                             <div class="card-body">
                                 <h5 class="card-title">Paris, France</h5>
                                 <p class="card-text">Home to Leonardo da Vinci's Mona Lisa, the Louvre is considered the world's greatest art museum, with an unparalleled collection of items covering the full spectrum of art through the ages</p>
@@ -265,7 +265,7 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/prague.jpg" alt="prague cap" style="width:500px; height:400px">
-                        <a href="View/Destination.php?country=Czech Republic&state=Prague">
+                        <a href="View/destView.php?country=Czech Republic&state=Prague">
                             <div class="card-body">
                                 <h5 class="card-title">Prague, Czech Republic</h5>
                                 <p class="card-text">Prague is one of those places that seems like it was pulled straight from a fairy tale. Head to Prague Castle, specifically, and you'll see what we mean. The complex of castles have been around since the 9th century, and they've got the charm to prove it</p>

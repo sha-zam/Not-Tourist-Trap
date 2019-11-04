@@ -31,7 +31,7 @@ class GuideController
         }
     }
 
-    //function to check from
+    //function to check form
     public function validateData()
     {
         //Check if any form is left empty
@@ -49,6 +49,7 @@ class GuideController
             return $check;
         }   
     }
+
     
 }
 
