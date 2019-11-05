@@ -19,7 +19,7 @@ class User
     private $password;
     private $dbname;
 
-    protected function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
+    public function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         $this->email = $email;
         $this->pwd = $pwd;
@@ -103,7 +103,7 @@ class User
     }
 
     //Login function
-    protected function checkLogin()
+    public function checkLogin()
     {
         echo "<script type='text/javascript'>alert('checking $this->email and $this->pwd')</script>";
 
@@ -184,7 +184,7 @@ class User
     }
 
     //Register function (echoes to be removed later)
-    protected function Regist()
+    public function Regist()
     {
         echo "<script type='text/javascript'>alert('regist $this->email and $this->pwd')</script>";
 

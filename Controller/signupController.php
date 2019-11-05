@@ -35,8 +35,8 @@
             }
             else
             {
-                $this->user = new Tourist($this->email, $this->pwd, $this->fName, $this->lName, $this->profileImg, $this->lang);
-                $checkRegist = $this->user->touristSignUp();
+                $this->user = new User($this->email, $this->pwd, $this->fName, $this->lName, $this->profileImg, $this->lang);
+                $checkRegist = $this->user->Regist();
 
                 return ($checkRegist);
             }         
