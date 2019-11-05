@@ -44,8 +44,6 @@ if($result->num_rows > 0)
     }
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -172,7 +170,7 @@ LOGGEDNAV;
                                 <a class="nav-link" href="./login.php" style="color : white">Log In</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../signup.php" style="color : white">Sign Up</a>
+                                <a class="nav-link" href="./signup.php" style="color : white">Sign Up</a>
                             </li>
                         </ul>
 
@@ -258,7 +256,6 @@ GENERALNAV;
                             //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
 
                             $guideDetails[2] = "../Uploaded_Images/".$guideDetails[2];
-                        
                         ?>
 
                         <div class="col-3">
@@ -267,7 +264,9 @@ GENERALNAV;
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $x['Name']?></h5>
                                     <p class="card-text">By : <?php echo $guideDetails[0].' '. $guideDetails[1] ?></p>
-                                    <a href="./tourView.php"><button type="button" class="btn btn-primary">Click Here for More Details</button></a>
+                                    <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[0].' '. $guideDetails[1] ?>&bgImg=<?php echo $imageSrc[2]?>">
+                                        <button type="button" class="btn btn-primary">Click Here for More Details</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
