@@ -14,9 +14,9 @@ class tourController
     // private $tourSD;
     // private $tourED;
  
-    public static function fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDescription, $tourPrice, $tourStartDate, $tourEndDate)
+    public static function fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDescription, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
-        $temp = new Tour($tourName, $tourGuideID, $country, $state, $tourDescription, ' ', $tourPrice, $tourStartDate, $tourEndDate);
+        $temp = new Tour($tourName, $tourGuideID, $country, $state, $tourDescription, ' ', $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
         $tourImg = $temp->getImages($tourID, $tourGuideID);
 
         return $tourImg;
@@ -24,7 +24,7 @@ class tourController
 
     public static function fetchTourDetails($tourID)
     {
-        
+
     }
 }
 
