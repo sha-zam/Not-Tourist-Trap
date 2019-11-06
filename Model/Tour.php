@@ -148,6 +148,45 @@ class Tour
     {
         return ($this->tourEndDate);
     }
+
+    public function getImages($tourID, $tourGuideID)
+    {
+        //query for Tour ID
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query
+        $query = "SELECT * FROM tourimage WHERE TourID = '$tourID' AND AddedByUser='$tourGuideID'";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        $images = array();
+
+        if($result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            $i = 0;
+
+            foreach($data as $x)
+            {
+
+                $images[] = $x['Image'];
+                //$i++;
+            }
+
+            return $images;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>

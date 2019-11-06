@@ -23,9 +23,9 @@
 
         public function validateData()
         {
-            $this->user = new Tourist($this->email, $this->pwd, '', '', '', $this->lang); 
+            $this->user = new User($this->email, $this->pwd, '', '', '', $this->lang); 
 
-            $checkData = $this->user->touristLogin();
+            $checkData = $this->user->checkLogin();
             return $checkData;
         }
     }
