@@ -21,6 +21,11 @@ class tourController
 
         return $tourImg;
     }
+
+    public static function fetchTourGuideDetails($tourGuideID)
+    {
+
+    }
 }
 
 ?>
