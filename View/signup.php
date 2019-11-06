@@ -175,7 +175,7 @@ function displayForm()
                                     <label class="form-check-label" for="exampleCheck1">I hereby agree to the terms of privacy and agreement</label>
                                 </div>
         
-                                <button type="submit" class="btn btn-primary" style="margin-top : 10px;">Sign Up</button>
+                                <button type="submit" class="btn btn-dark" style="margin-top : 10px;">Sign Up</button>
                             </form>
                             
                     </div>

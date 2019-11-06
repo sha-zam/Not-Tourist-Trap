@@ -14,11 +14,6 @@ class User
     private $profileImg;
     private $lang = array();
 
-    private $servername;
-    private $username;
-    private $password;
-    private $dbname;
-
     public function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         $this->email = $email;
@@ -27,20 +22,23 @@ class User
         $this->lName = $lName;
         $this->profileImg = $profileImg;
 
-        for($i = 0; $i < count($lang); $i++)
+        if(count($lang) > 0)
         {
-            $this->lang[$i] = $lang[$i];
-        }
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = $lang[$i];
+            }
+        }   
     }
 
-    protected function connect()
+    protected static function connect()
     {
-        $this->servername = "localhost";
-        $this->username = "root";
-        $this->password = "";
-        $this->dbname = "csit314";
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "csit314";
 
-        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
         return $conn;
     }

@@ -33,6 +33,10 @@
             {
                 return false;
             }
+            else if ($this->email == '' || $this->fName == '' || $this->lName == '') //check other things
+            {
+                return false;
+            } 
             else
             {
                 $this->user = new User($this->email, $this->pwd, $this->fName, $this->lName, $this->profileImg, $this->lang);

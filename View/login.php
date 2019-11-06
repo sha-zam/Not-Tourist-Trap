@@ -85,7 +85,7 @@ function displayForm()
                                 <input name="pwd" type="password" class="form-control" id="inputPassword" placeholder="Password">
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="margin-top : 10px;">Log In</button>
+                            <button type="submit" class="btn btn-dark" style="margin-top : 10px;">Log In</button>
                         </form>
                         
                     </div>
