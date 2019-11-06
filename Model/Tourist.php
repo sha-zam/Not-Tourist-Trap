@@ -9,19 +9,23 @@ class Tourist extends User
         parent :: __construct($email, $pwd, $fName, $lName, $profileImg, $lang);
     }
 
-    public function touristLogin()
+    public function insertBooking($tourID, $userID)
     {
-        return ($this->checkLogin());
-    }
+        //DB connection
+        $conn = $this->connect();
 
-    public function touristSignUp()
-    {
-        return ($this->Regist());
-    }
+        //query insert booking
+        $query = "INSERT INTO booking (TourID, UserID) VALUES ('$tourID', '$userID')";
+        $result = $conn->query($query);
 
-    public function insertBooking()
-    {
-
+        if($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function viewBookings()

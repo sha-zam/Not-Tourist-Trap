@@ -27,10 +27,21 @@ class User
         $this->lName = $lName;
         $this->profileImg = $profileImg;
 
-        for($i = 0; $i < count($lang); $i++)
+        if (count($lang) > 0)
         {
-            $this->lang[$i] = $lang[$i];
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = $lang[$i];
+            }
         }
+        else
+        {
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = '';
+            }
+        }
+        
     }
 
     protected function connect()
