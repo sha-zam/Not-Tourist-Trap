@@ -15,6 +15,7 @@ class Tour
     private $tourPrice;
     private $tourStartDate;
     private $tourEndDate;
+    private $tourSize;
 
     //Tour guide
     private $tourGuideID;
@@ -25,7 +26,7 @@ class Tour
     private $password;
     private $dbname;
 
-    public function __construct($tourName, $tourGuideID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate)
+    public function __construct($tourName, $tourGuideID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         $this->tourName = $tourName;
         $this->tourGuideID = $tourGuideID;
@@ -36,6 +37,7 @@ class Tour
         $this->tourPrice = $tourPrice;
         $this->tourStartDate = $tourStartDate;
         $this->tourEndDate = $tourEndDate;
+        $this->tourSize = $tourSize;
     }
 
     //Database connection (private)

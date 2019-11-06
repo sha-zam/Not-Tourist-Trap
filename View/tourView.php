@@ -46,16 +46,17 @@ $tourImg = tourController::fetchTourImages($tourID, $tourName, $tourGuideID, $co
 
 if(isset($_GET['confirm']))
 {
-    $checkBook = bookingController::submitBook($tourID, $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+    $check = bookingController::submitBook($tourID, $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
 
-    if($checkBook)
-    {
-        echo 'success';
-    }
-    else
-    {
-        echo 'fail';
-    }
+    // if($checkBook)
+    // {
+    //     $class = "alert alert-success";
+    //     $msg ="Your Booking has been Succe"
+    // }
+    // else
+    // {
+    //     $class = "alert alert-danger";
+    // }
 }
 
 ?>
@@ -123,6 +124,14 @@ if(isset($_GET['confirm']))
             margin-top : 80px;
             margin-bottom : 40px;
         }
+
+        .alert
+        {
+            width : 70rem;
+            margin : 0 auto;
+            margin-top : 30px;
+            margin-bottom : 30px;
+        }
     </style>
 
 </head>
@@ -189,62 +198,79 @@ GENERALNAV;
         </nav>
         <!--end navigation bar-->
 
-        
-        
-            <div class="card">
-                <div id="carouselImages" class="carousel slide" data-ride="carousel">
+        <!-- Success or Fail Alert -->
+        <?php if(isset($check)) : ?> 
 
-                    <div class="carousel-inner">
+            <?php if ($check) : ?>
 
-                        <?php for($i=0; $i < count($tourImg); $i++) :?>
-                            <?php $src = "../Uploaded_Images/".$tourImg[$i];?>
-                            
-                            <?php if($i == 0) : $class = "carousel-item active"?>
-                                
-                            <?php else : $class="carousel-item"?>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Tour Successfully Booked!</h4>
+                    <hr>
+                    <p>You can View "<?php echo $tourName ?>" in Your List of Bookings</p>
+                </div>
 
-                            <?php endif;?>
+            <?php else : ?>
 
-                            <div class="<?php echo $class ?>">
-                                <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
-                            </div>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Failed to Book Tour</h4>
+                    <hr>
+                    <p></p>
+                </div>
+            <?php endif;?>
 
-                        <?php endfor;?>
+        <?php endif;?>
+        <!-- End Alert -->
+
+        <div class="card">
+            <div id="carouselImages" class="carousel slide" data-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    <?php for($i=0; $i < count($tourImg); $i++) :?>
+                        <?php $src = "../Uploaded_Images/".$tourImg[$i];?>
                         
-                    </div>
+                        <?php if($i == 0) : $class = "carousel-item active"?>
+                            
+                        <?php else : $class="carousel-item"?>
 
-                    <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                        <?php endif;?>
+
+                        <div class="<?php echo $class ?>">
+                            <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                        </div>
+
+                    <?php endfor;?>
+                    
                 </div>
 
-                <div class="card-body text-center">
-                    <h1 class="card-title"><?php echo $tourName?></h1>
-                    <h4 class="card-text">By : <?php echo $tourGuide ?></h4>
-                    <br><br>
-                    <p class="card-text"><?php echo $tourDesc ?></p>
-                </div>
+                <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
 
-                <div class="card-body">
-                    <p class="card-text">Dates : <?php echo date_format($tourSD, "d M Y") ?> - <?php echo date_format($tourED, "d M Y") ?></p>
-                    <p class="card-text">Price : $<?php echo $tourPrice ?></p>
-                </div>
-                
-                <div class="card-body text-center">
-                    <a href="<?php echo $_SERVER['REQUEST_URI'].'&confirm=true'?>"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br>
-                    <p class="card-text">OR</p>
-                    <button type="button" class="btn btn-dark">Contact Tour Guide for More Information</button>
-                </div>
+            <div class="card-body text-center">
+                <h1 class="card-title"><?php echo $tourName?></h1>
+                <h4 class="card-text">By : <?php echo $tourGuide ?></h4>
+                <br><br>
+                <p class="card-text"><?php echo $tourDesc ?></p>
+            </div>
 
+            <div class="card-body">
+                <h5 class="card-text">Dates : <?php echo date_format($tourSD, "d M Y") ?> - <?php echo date_format($tourED, "d M Y") ?></h5>
+                <h5 class="card-text">Price : $<?php echo $tourPrice ?></h5>
+            </div>
             
-        
-        </form>
-        
+            <div class="card-body text-center">
+                <a href="<?php echo $_SERVER['REQUEST_URI'].'&confirm=true'?>"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br>
+                <p class="card-text">OR</p>
+                <button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button>
+            </div>
+        </div>
 
     </header>
 

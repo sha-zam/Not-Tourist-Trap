@@ -23,10 +23,10 @@ class TourGuide extends User
         $this->userID = $userID;
     }
 
-    public function submitTour($name, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate)
+    public function submitTour($name, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         //generate Tour
-        $tour = new Tour($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate);
+        $tour = new Tour($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
         
         //create connection to database
         $conn = $this->connect();
@@ -89,8 +89,8 @@ class TourGuide extends User
         //checkpoint checking
         //echo "<script type='text/javascript'>alert('countryID = $countryID, stateID = $stateID')</script>";
 
-        //insert tour name, description, tourguideid, countryID, stateID, startDate, endDate, price
-        $tourQ = "INSERT INTO tour (Name, Description, TourGuideID, CountryID, StateID, Start_date, End_date, Price) VALUES('$name', '$tourDescription', '$this->userID', '$countryID', '$stateID', '$tourStartDate', '$tourEndDate', '$tourPrice')";
+        //insert tour name, description, tourguideid, countryID, stateID, startDate, endDate, price, size
+        $tourQ = "INSERT INTO tour (Name, Description, TourGuideID, CountryID, StateID, Start_date, End_date, Price, Group_Size) VALUES('$name', '$tourDescription', '$this->userID', '$countryID', '$stateID', '$tourStartDate', '$tourEndDate', '$tourPrice', '$tourSize')";
         $insertTour = $conn->query($tourQ);
 
         //query for tour id

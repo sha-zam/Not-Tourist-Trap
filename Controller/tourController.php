@@ -22,9 +22,9 @@ class tourController
         return $tourImg;
     }
 
-    public static function fetchTourGuideDetails($tourGuideID)
+    public static function fetchTourDetails($tourID)
     {
-
+        
     }
 }
 
