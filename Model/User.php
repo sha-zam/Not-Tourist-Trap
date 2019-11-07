@@ -22,13 +22,21 @@ class User
         $this->lName = $lName;
         $this->profileImg = $profileImg;
 
-        if(count($lang) > 0)
+        if (count($lang) > 0)
         {
             for($i = 0; $i < count($lang); $i++)
             {
                 $this->lang[$i] = $lang[$i];
             }
-        }   
+        }
+        else
+        {
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = '';
+            }
+        }
+        
     }
 
     protected static function connect()

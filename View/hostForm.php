@@ -16,6 +16,7 @@ if (isset($_POST['submit']))
     $tourStartDate = $_POST["startDate"];
     $tourEndDate = $_POST["endDate"];
     $tourPrice = $_POST["tourPrice"];
+    $tourSize = $_POST["tourSize"]
 
     //Array for uploaded images
     $tourImg = array();
@@ -42,7 +43,7 @@ if (isset($_POST['submit']))
     }
 
     //Pass to Controller
-    $guideCtr = new GuideController($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate);
+    $guideCtr = new GuideController($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
     $check = $guideCtr->validateData();
 }
@@ -81,6 +82,10 @@ if (isset($_POST['submit']))
         {
             $( "#datepicker1, #datepicker2" ).datepicker();
         });
+    </script>
+
+    <script>
+        $("input[type='number']").inputSpinner();
     </script>
 
     <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
@@ -327,6 +332,26 @@ if (isset($_POST['submit']))
                                     <span class="input-group-text">$</span>
                                 </div>
                                 <input type="text" name="tourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Size -->
+                <div class="card">
+                    <div class="card-header" id="headingSeven">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                Tour Group Size
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionForm">
+                        <div class="card-body">
+                            <label>Set Maximum Size of Tour Group</label><br>
+                            
+                            <div class="input-group mb-3">
+                                <input type="number" name="tourSize" class="form-control" value="1" min="1" max="50" step="1"/>
                             </div>
                         </div>
                     </div>

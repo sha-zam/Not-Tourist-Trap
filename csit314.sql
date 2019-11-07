@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2019 at 06:39 PM
+-- Generation Time: Nov 06, 2019 at 06:26 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -32,9 +32,7 @@ CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
   `TourID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
-  `Price` decimal(10,0) NOT NULL,
-  `Start_date` date NOT NULL,
-  `End_date` date NOT NULL
+  `Group_Size` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -213,15 +211,16 @@ CREATE TABLE `tour` (
   `StateID` int(11) NOT NULL,
   `Start_date` varchar(100) NOT NULL,
   `End_date` varchar(100) NOT NULL,
-  `Price` decimal(10,0) NOT NULL
+  `Price` decimal(10,0) NOT NULL,
+  `Group_Size` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tour`
 --
 
-INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`) VALUES
-(1, 'Love is in the Air!', 'Romantissimo', 16, 2, 7, '2019-11-03', '2019-11-06', '300');
+INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`) VALUES
+(1, 'Love is in the Air!', 'Romantissimo', 16, 2, 7, '2019-11-03', '2019-11-06', '300', 1);
 
 -- --------------------------------------------------------
 
@@ -360,7 +359,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `country`

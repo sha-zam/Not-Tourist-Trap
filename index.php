@@ -223,7 +223,6 @@ GENERAL;
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupCountry">Number of People</label>
                         </div>
-                        <input type="number" class="form-control" value="1" min="1" max="50" step="1"/>
                     </div>
             
                     <button type="submit" class="btn btn-dark" style="margin-top : 10px;">Submit</button>

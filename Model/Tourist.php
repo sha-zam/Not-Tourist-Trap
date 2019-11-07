@@ -26,25 +26,18 @@ class Tourist extends User
         //$instance = new self();
         parent :: __construct($email, $pwd, $fName, $lName, $profileImg, $lang);
         $this->userID = $userID;
-
-        // return $instance;
     }
 
-    public function setUserID($userID)
+    public function insertBooking($tourID, $userID)
     {
-        $this->userID = $userID;
-    }
+        //DB connection
+        $conn = $this->connect();
 
-    public function insertBooking($tourID)
-    {
-        //database connection
-        $conn = parent::connect();
-
-        //query insert booking to booking table
-        $query = "INSERT INTO booking (TourID, UserID) VALUES ('$tourID', '$this->userID')";
+        //query insert booking
+        $query = "INSERT INTO booking (TourID, UserID) VALUES ('$tourID', '$userID')";
         $result = $conn->query($query);
 
-        if ($result)
+        if($result)
         {
             return true;
         }
@@ -52,7 +45,6 @@ class Tourist extends User
         {
             return false;
         }
-
     }
 
     public function viewBookings()

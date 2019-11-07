@@ -14,8 +14,9 @@ class GuideController
     private $tourPrice;
     private $tourStartDate;
     private $tourEndDate;
+    private $tourSize;
 
-    public function __construct($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate)
+    public function __construct($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         $this->name = $name;
         $this->country = $country;
@@ -24,6 +25,7 @@ class GuideController
         $this->tourPrice = $tourPrice;
         $this->tourStartDate = $tourStartDate;
         $this->tourEndDate = $tourEndDate;
+        $this->tourSize = $tourSize;
 
         for($i = 0; $i < count($tourImg); $i++)
         {
@@ -32,10 +34,10 @@ class GuideController
     }
 
     //function to check form
-    public function validateData()
+    public function submitTourForm()
     {
         //Check if any form is left empty
-        if($this->name == '' || $this->country == '' || $this->state =='' || $this->tourImg == '' || $this->textDescription == '' || $this->tourPrice =='')
+        if($this->name == '' || $this->country == '' || $this->state =='' || $this->tourImg == '' || $this->textDescription == '' || $this->tourPrice =='' || $this->tourSize == '')
         {
             return false;
         }
@@ -44,7 +46,7 @@ class GuideController
             $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
 
             //generate tour
-            $check = $user->submitTour($this->name, $this->country, $this->state, $this->textDescription, $this->tourImg, $this->tourPrice, $this->tourStartDate, $this->tourEndDate);
+            $check = $user->submitTour($this->name, $this->country, $this->state, $this->textDescription, $this->tourImg, $this->tourPrice, $this->tourStartDate, $this->tourEndDate, $this->tourSize);
             
             return $check;
         }   
