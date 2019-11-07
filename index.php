@@ -191,12 +191,6 @@ GENERAL;
                         </select>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">Number of People</label>
-                        </div>
-                    </div>
-            
                     <button type="submit" class="btn btn-dark" style="margin-top : 10px;">Submit</button>
                 </form>
 
@@ -269,6 +263,7 @@ GENERAL;
             </div>
         </div>
     </div>
+    <!-- End Cards of Suggestions -->
 
 </body>
 </html>

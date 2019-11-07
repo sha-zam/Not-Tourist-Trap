@@ -116,12 +116,12 @@ if (isset($_POST['submit']))
         
         <!-- login form -->
         <div class="card" style="width:40rem; margin : 0 auto;">
-
+       
             <div class="card-body">
-
+                
                 <h1 style="margin-top : 10px;">Log In</h1>
-
-                <form action="login.php" method="POST" name="login">
+                
+                <form action="login.php" method="POST" name="login" class="px-4 py-3">
                     <div class="form-group">
                         <label for="inputEmail">Email address</label>
                         <input name="email" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
@@ -134,6 +134,10 @@ if (isset($_POST['submit']))
 
                     <button type="submit" name="submit" class="btn btn-dark" style="margin-top : 10px;">Log In</button>
                 </form>
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="./signup.php">New around here? Sign up</a>
+                <a class="dropdown-item" href="#">Forgot password?</a>
                 
             </div>
 
