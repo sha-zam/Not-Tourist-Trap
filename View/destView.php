@@ -136,50 +136,16 @@ if($result->num_rows > 0)
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
-            <div class="collapse navbar-collapse">
-
-                <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        echo <<< LOGGEDNAV
-
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color : white">View Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
-                                </li>
-                            </ul>
-
-LOGGEDNAV;
-                    }
-                    else
-                    {
-                        echo <<< GENERALNAV
-
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./login.php" style="color : white">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./signup.php" style="color : white">Sign Up</a>
-                            </li>
-                        </ul>
-
-GENERALNAV;
-                    }
-                ?>
-                
-
-            </div>
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    include_once("../constants/loggedNavBar.php");
+                }
+                else
+                {
+                    include_once("../constants/generalNavBar.php");
+                }
+            ?>
 
         </nav>
         <!--end navigation bar-->
