@@ -111,8 +111,6 @@ class User
     //Login function
     public function checkLogin()
     {
-        echo "<script type='text/javascript'>alert('checking $this->email and $this->pwd')</script>";
-
         $conn = $this->connect(); //create connection
 
         //query
@@ -122,8 +120,6 @@ class User
 
         $check = $conn->query($query);
         $count_row = $check->num_rows;
-
-        echo "<script type='text/javascript'>alert('$count_row')</script>";
 
         if($count_row > 0) 
         {
@@ -140,8 +136,6 @@ class User
                 $this->userID = $x['UserID'];
                 $this->profileImg = $x['Profile_Image'];
             }
-
-            echo "<script type='text/javascript'>alert('user full name = $this->fName $this->lName, user id = $this->userID)</script>";
 
             //get language ID
             $langQ = "SELECT LanguageID FROM spokenlanguage WHERE UserID = '$this->userID'";
@@ -192,8 +186,6 @@ class User
     //Register function (echoes to be removed later)
     public function Regist()
     {
-        echo "<script type='text/javascript'>alert('regist $this->email and $this->pwd')</script>";
-
         //create connection
         $conn = $this->connect(); 
 
@@ -201,8 +193,6 @@ class User
 
         $check = $conn->query($query);
         $count_row = $check->num_rows;
-
-        echo "<script type='text/javascript'>alert('$count_row')</script>";
 
         if($count_row == 0)//Check whether user already exists 
         {
@@ -214,8 +204,6 @@ class User
             $insertUser = $conn->query($sql1);
 
             $last_uid = $conn->insert_id;
-
-            echo "<script type='text/javascript'>alert('last id : $last_uid')</script>";
 
             //query for languageID 
             for ($i = 0; $i < 3; $i++)
@@ -235,8 +223,6 @@ class User
                     {
                         $langID = $x['LanguageID'];
                     }
-
-                    echo "<script type='text/javascript'>alert('insert : $temp id $langID')</script>";
 
                     //insert into spoken language
                     $spkQ = $conn->query("INSERT INTO spokenlanguage (UserID, LanguageID) VALUES ('$last_uid', '$langID')");

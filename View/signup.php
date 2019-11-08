@@ -126,7 +126,7 @@ if (isset($_POST['submit']))
 
             <?php if ($check) : ?>
 
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-success" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
                     <h4 class="alert-heading">Account Successfully Created!</h4>
                     <hr>
                     <p>You can now login using the registered email and password!</p>
@@ -134,7 +134,7 @@ if (isset($_POST['submit']))
 
             <?php else : ?>
 
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
                     <h4 class="alert-heading">Failed to Create Account</h4>
                     <hr>
                     <p>Invalid Information Provided! Please Enter the Correct Informations</p>

@@ -103,7 +103,7 @@ if (isset($_POST['submit']))
 
             <?php if (!$check) : ?>
 
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
                     <h4 class="alert-heading">Invalid Information!</h4>
                     <hr>
                     <p>Please Enter the Correct Email or Password!</p>
