@@ -2,6 +2,8 @@
 
 include_once('User.php');
 
+session_start();
+
 class Tourist extends User
 {
     private $userID;
@@ -28,13 +30,13 @@ class Tourist extends User
         $this->userID = $userID;
     }
 
-    public function insertBooking($tourID, $userID)
+    public function insertBooking($tourID, $tourSize)
     {
         //DB connection
         $conn = $this->connect();
 
         //query insert booking
-        $query = "INSERT INTO booking (TourID, UserID) VALUES ('$tourID', '$userID')";
+        $query = "INSERT INTO booking (TourID, UserID, Group_Size) VALUES ('$tourID', '$this->userID', '$tourSize')";
         $result = $conn->query($query);
 
         if($result)
@@ -49,7 +51,22 @@ class Tourist extends User
 
     public function viewBookings()
     {
+        //DB connection
+        $conn = $this->connect();
 
+        //query to retrieve bookings
+        $query = "SELECT * FROM booking WHERE UserID = '$this->userID'";
+        $result = $conn->query($query);
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+ 
     }
 
     public function bookTour()

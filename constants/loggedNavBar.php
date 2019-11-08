@@ -8,7 +8,7 @@
                 View Tours
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">View Bookings as Tourist</a>
+                <a class="dropdown-item" href="http://localhost/Not-Tourist-Trap/View/touristView.php">View Bookings as Tourist</a>
                 <a class="dropdown-item" href="#">View Tours You Create</a>
             </div>
         </li>

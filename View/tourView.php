@@ -6,7 +6,8 @@ include '../Controller/destController.php';
 include '../Controller/bookingController.php';
 
 //start session
-session_start();
+if(!isset($_SESSION))
+    session_start();
 
 //get params
 $country = $_GET['country'];
@@ -51,7 +52,7 @@ $tourImg = tourController::fetchTourImages($tourID, $tourName, $tourGuideID, $co
 
 if(isset($_GET['tourSize']))
 {
-    $check = bookingController::submitBook($tourID, $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+    $check = bookingController::submitBook($tourID, $_GET['tourSize'], $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
 }
 
 ?>
@@ -168,7 +169,7 @@ if(isset($_GET['tourSize']))
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("./constants/loggedNavBar.php");
+                    include_once("../constants/loggedNavBar.php");
                 }
                 else
                 {
