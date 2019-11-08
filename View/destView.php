@@ -2,6 +2,7 @@
 
 //Controller include
 include '../Controller/destController.php';
+include '../Controller/tourController.php';
 include '../Controller/guideController.php';
 
 //Ask the controller for the necessary information
@@ -12,37 +13,27 @@ $state = $_GET['state'];
 if(!isset($_SESSION))
     session_start();
 
-$destCtr = new destController($country, $state);
-
 //Fetch the destination images
-$imgArr = $destCtr->fetchImages();
+$imgArr = destController::fetchImages($country, $state);
 
 //Fetch the descriptions
-$descArr = $destCtr->fetchDesc();
+$descArr = destController::fetchDesc($country, $state);
 
 //Fetch the image titles
-$titleArr = $destCtr->fetchTitles();
+$titleArr = destController::fetchTitles($country, $state);
 
 $imageSrc = array();
 $descSrc = array();
 $tours = array();
 
-//Assign them to arrays for display
+//Assign images to arrays for display
 for ($i = 0 ; $i < count($imgArr); $i++)
 {
     $imageSrc[$i] = "../Images/".$imgArr[$i];
 }
 
 //Ask destController to fetch number of tours available
-$result = $destCtr->fetchTours();
-
-if($result->num_rows > 0)
-{
-    while($row = $result->fetch_assoc())
-    {
-        $tours[] = $row; //tour rows
-    }
-}
+$tours = destController::fetchTours($country, $state);
 
 ?>
 
@@ -218,19 +209,19 @@ if($result->num_rows > 0)
                             $guideDetails = array();
 
                             //Ask guideCtr for tourguide name and profileImg
-                            $guideDetails= $destCtr->fetchTourGuideDetails($x['TourGuideID']);
+                            $guideDetails= tourController::fetchTourGuideDetails($x['TourGuideID']);
                             //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
 
-                            $guideDetails[2] = "../Uploaded_Images/".$guideDetails[2];
+                            $guideDetails[3] = "../Uploaded_Images/".$guideDetails[3];
                         ?>
 
                         <div class="col-3">
                             <div class="card card-block text-center">
-                                <img class="card-img-top" src="<?php echo $guideDetails[2] ?>" alt="tourguide" style="width:500px; height:400px">
+                                <img class="card-img-top" src="<?php echo $guideDetails[3] ?>" alt="tourguide" style="width:500px; height:400px">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $x['Name']?></h5>
-                                    <p class="card-text">By : <?php echo $guideDetails[0].' '. $guideDetails[1] ?></p>
-                                    <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[0].' '. $guideDetails[1] ?>&bgImg=<?php echo $imageSrc[2]?>">
+                                    <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
+                                    <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
                                         <button type="button" class="btn btn-primary">Click Here for More Details</button>
                                     </a>
                                 </div>

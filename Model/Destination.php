@@ -10,7 +10,6 @@ class Destination
 
     private $tours = array();
 
-
     //Database Variables
     private $servername;
     private $username;
@@ -55,6 +54,8 @@ class Destination
         }
 
         $conn->close();
+
+        return $instance;
     }
 
     //Constructor with ID
@@ -73,7 +74,7 @@ class Destination
         $stateQuery = "SELECT * FROM state WHERE StateID = '$stateID'";
         $result = $conn->query($stateQuery);
 
-        if(!(empty($result) && $result->num_rows > 0) //if state exists
+        if(!(empty($result)) && ($result->num_rows > 0))//if state exists
         {
             while($row = $result->fetch_assoc())
             {
@@ -92,7 +93,7 @@ class Destination
         $countryQuery = "SELECT * FROM country WHERE CountryID = '$countryID'";
         $result1 = $conn->query($countryQuery);
 
-        if(!(empty($result) && $result1->num_rows > 0) //if country exists
+        if(!(empty($result)) && $result1->num_rows > 0) //if country exists
         {
             while($row1 = $result1->fetch_assoc())
             {
@@ -108,6 +109,8 @@ class Destination
         }
 
         $conn->close();
+
+        return $instance;
     }
 
     //Database connection (private)
@@ -123,14 +126,62 @@ class Destination
     }
 
     //Accessors
-    public function getCountry()
+    public function getCountry($id)
     {
-        return $this->country;
+        if(isset($country))
+            return $this->country;
+        else
+        {
+            //query country name by ID
+            $conn = $this->connect();
+            $result = $conn->query("SELECT * FROM country WHERE CountryID = '$id' ");
+
+            if(!empty($result) && $result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                foreach($data as $x)
+                {
+                    return $x['Name'];
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
-    public function getState()
+    public function getState($id)
     {
-        return $this->state;
+        if(isset($state))
+            return $this->state;
+        else
+        {
+            //query state name by id
+            $conn = $this->connect();
+            $result = $conn->query("SELECT * FROM state WHERE StateID = '$id' ");
+
+            if(!empty($result) && $result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                foreach($data as $x)
+                {
+                    return $x['Name'];
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     public function getCountryID()
@@ -338,10 +389,19 @@ class Destination
 
         $conn->close();
 
-        //return query result
-        return $result;
-    }
+        //if any tours exist
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $tours[] = $row;
+            }
 
+            //return query result
+            return $tours;
+        }
+    }
 
     //Mutators
     public function setCountryName($country)

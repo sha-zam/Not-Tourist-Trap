@@ -22,30 +22,20 @@ if(isset($_SESSION['userID']))
     $userID = $_SESSION['userID'];
 
 //Ask destController to fetch tour details
-$destCtr = new destController($country, $state);
-$result = $destCtr->fetchTours();
+$tours = destController::fetchTours($country, $state);
 
-if($result->num_rows > 0)
+//get specific tour details matching tour ID
+foreach($tours as $x)
 {
-    while($row = $result->fetch_assoc())
+    if($x['TourID'] == $tourID)
     {
-        $tours[] = $row; //tour rows
-    }
-
-    //get specific tour details matching tour ID
-    foreach($tours as $x)
-    {
-        if($x['TourID'] == $tourID)
-        {
-            $tourDesc = $x['Description'];
-            $tourSD = date_create($x['Start_date']);
-            $tourED = date_create($x['End_date']);
-            $tourPrice = $x['Price'];
-            $tourSize = $x['Group_Size'];
-        }
+        $tourDesc = $x['Description'];
+        $tourSD = date_create($x['Start_date']);
+        $tourED = date_create($x['End_date']);
+        $tourPrice = $x['Price'];
+        $tourSize = $x['Group_Size'];
     }
 }
-
 
 //fetch tour Images (necessary info : TourID and TourGuideID)
 $tourImg = tourController::fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDesc, $tourPrice, $tourSD, $tourED, $tourSize);

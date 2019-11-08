@@ -1,19 +1,9 @@
 <?php 
 
-include '../Model/Tour.php';
+include_once('../Model/Tour.php');
 
 class tourController
 {
-    // private $tourID;
-    // private $tourGuideID;
-    // private $tourName;
-    // private $country;
-    // private $state;
-    // private $tourDesc;
-    // private $tourPrice;
-    // private $tourSD;
-    // private $tourED;
- 
     public static function fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDescription, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         $temp = Tour::dataConstruct($tourName, $tourGuideID, $country, $state, $tourDescription, ' ', $tourPrice, $tourStartDate, $tourEndDate, $tourSize);

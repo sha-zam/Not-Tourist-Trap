@@ -3,11 +3,11 @@
 //include controller
 include '../Controller/bookingController.php';
 include '../Controller/tourController.php';
-include '../Controller/destController.php'
+include '../Controller/destController.php';
 
 //session start 
 if (!isset($_SESSION))
-session_start();
+    session_start();
 
 //ask controller to fetch bookings to display in cards
 $bookings = bookingController::retrieveBooking('tourist', $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
@@ -122,21 +122,25 @@ if($bookings != false)
 
                             foreach($tourDetails as $data2)
                             {
+                                $tourName = $data2['Name'];
+
                                 //query for tour guide name
                                 $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
 
-                                //query for state name
-                                $stateDetails = destController::
+                                //query for state and country name
+                                $country = destController::fetchCountry($data2['CountryID']);
+                                $state = destController::fetchState($data2['StateID']);
                             }
                             
                         ?>
 
                         <div class="col-3">
                             <div class="card card-block">
-                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $guideDetails[3] ?>" alt="labuan bajo cap" style="width:500px; height:400px">
-                                <div class="card-body">
-                                    <h5 class="card-title">Flores, Indonesia</h5>
-                                    <p class="card-text">Love the beach? Love nature? Love being in unspoilt territory? Then Labuan Bajo is next on your list. If you’ve never heard of this Asian paradise in Flores, Indonesia, it’s not too late to book a tour there now</p>
+                                <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="labuan bajo cap" style="width:500px; height:400px">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title"><?php echo $state.', '.$country ?></h4>
+                                    <h5 class="card-title"><?php echo $tourName ?></h5>
+                                    <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
                                 </div>
                             </div>
                         </div>
@@ -144,39 +148,6 @@ if($bookings != false)
                     <?php endforeach; ?>
 
                 <?php endif; ?>
-
-
-                <!-- <div class="col-3">
-                    <div class="card card-block">
-                        <img class="card-img-top" src="Images/prague.jpg" alt="prague cap" style="width:500px; height:400px">
-                        <a href="View/destView.php?country=Czech Republic&state=Prague">
-                            <div class="card-body">
-                                <h5 class="card-title">Prague, Czech Republic</h5>
-                                <p class="card-text">Prague is one of those places that seems like it was pulled straight from a fairy tale. Head to Prague Castle, specifically, and you'll see what we mean. The complex of castles have been around since the 9th century, and they've got the charm to prove it</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="card card-block">
-                        <img class="card-img-top" src="Images/nyc.jpeg" alt="new york city cap" style="width:500px; height:400px">
-                            <div class="card-body">
-                                <h5 class="card-title">New York City, USA</h5>
-                                <p class="card-text">Discover why so many people love New York City. There's plenty of events, attractions and restaurants to experience. Let the experienced tour guides help you plan your NYC adventure</p>
-                            </div>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="card card-block">
-                        <img class="card-img-top" src="Images/seoul.jpeg" alt="seoul cap" style="width:500px; height:400px">
-                            <div class="card-body">
-                                <h5 class="card-title">Seoul, South Korea</h5>
-                                <p class="card-text">Fashion- and technology-forward but also deeply traditional, this dynamic city mashes up palaces, temples, cutting-edge design and mountain trails, all to a nonstop K-Pop beat</p>
-                            </div>
-                    </div>
-                </div> -->
 
             </div>
        </div>

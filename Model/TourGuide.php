@@ -1,7 +1,7 @@
 <?php
 
 include_once('User.php');
-include 'Tour.php';
+include_once('Tour.php');
 
 class TourGuide extends User
 {

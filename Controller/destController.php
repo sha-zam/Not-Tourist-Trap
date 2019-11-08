@@ -1,7 +1,7 @@
 <?php
 
 //Entity Class
-include '../Model/Destination.php';
+include_once('../Model/Destination.php');
 
 class destController
 {
@@ -49,6 +49,25 @@ class destController
         $tours = $destination->getTours();
         return $tours;
     }
+
+    public function fetchCountry($countryID)
+    {
+        $destination = new Destination();
+
+        $country = $destination->getCountry($countryID);
+
+        return $country;
+    }
+
+    public function fetchState($stateID)
+    {
+        $destination = new Destination();
+
+        $state = $destination->getState($stateID);
+
+        return $state;
+    }
+
 }
 
 ?>
