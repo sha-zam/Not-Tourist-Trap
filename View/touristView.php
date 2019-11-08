@@ -3,6 +3,7 @@
 //include controller
 include '../Controller/bookingController.php';
 include '../Controller/tourController.php';
+include '../Controller/destController.php'
 
 //session start 
 if (!isset($_SESSION))
@@ -49,41 +50,6 @@ if($bookings != false)
 
     <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
     
-    <script>
-        $(document).ready(function() 
-        {
-            $("#myCarousel").on("slide.bs.carousel", function(e) 
-            {
-                var $e = $(e.relatedTarget);
-                var idx = $e.index();
-                var itemsPerSlide = 3;
-                var totalItems = $(".carousel-item").length;
-
-                if (idx >= totalItems - (itemsPerSlide - 1)) 
-                {
-                    var it = itemsPerSlide - (totalItems - idx);
-                    for (var i = 0; i < it; i++) 
-                    {
-                        // append slides to end
-                        if (e.direction == "left") 
-                        {
-                            $(".carousel-item")
-                                .eq(i)
-                                .appendTo(".carousel-inner");
-                        } 
-                        else 
-                        {
-                            $(".carousel-item")
-                                .eq(0)
-                                .appendTo($(this).find(".carousel-inner"));
-                        }
-                    }
-                }
-            });
-        });
-
-    </script>
-
     <style>
 
     .jumbotron
@@ -156,8 +122,11 @@ if($bookings != false)
 
                             foreach($tourDetails as $data2)
                             {
-                                //query for state image
+                                //query for tour guide name
                                 $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
+
+                                //query for state name
+                                $stateDetails = destController::
                             }
                             
                         ?>

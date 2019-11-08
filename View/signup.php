@@ -26,6 +26,11 @@ if (isset($_POST['submit']))
     $signUpCtr = new signupController($email, $fName, $lName, $pwd, $profileImg, $primeLang, $secondLang, $thirdLang);
 
     $check = $signUpCtr -> validateData();
+
+    if($check)
+    {
+        header("Location:./login.php?regist=true");
+    }
 }
 
 ?>
@@ -82,10 +87,10 @@ if (isset($_POST['submit']))
         #profileDisplay
         {
             display : block;
-            height : 400px;
-            width : 60%;
+            height : 500px;
+            width : 80%;
             margin : 10px auto;
-            border-radius : 50%;
+            border-radius : 60%;
         }
 
     </style>
@@ -107,16 +112,7 @@ if (isset($_POST['submit']))
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
             <!-- nav list -->
-            <?php
-                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                {
-                    include_once("../constants/loggedNavBar.php");
-                }
-                else
-                {
-                    include_once("../constants/generalNavBar.php");
-                }
-            ?>
+            <?php include("../constants/generalNavBar.php"); ?>
 
         </nav>
         <!-- end nav bar -->
@@ -139,6 +135,7 @@ if (isset($_POST['submit']))
                     <hr>
                     <p>Invalid Information Provided! Please Enter the Correct Informations</p>
                 </div>
+                
             <?php endif;?>
 
         <?php endif;?>

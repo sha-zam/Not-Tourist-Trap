@@ -2,6 +2,11 @@
 
 include '../Controller/loginController.php';
 
+if(isset($_GET['regist']))
+{
+    $regist = true;
+}
+
 if (isset($_POST['submit']))
 {
     //get necessary data
@@ -97,6 +102,18 @@ if (isset($_POST['submit']))
 
         </nav>
         <!-- end nav bar -->
+
+        <!-- Regist Alert (if user just signed up) -->
+        <?php if(isset($regist)) : ?> 
+
+            <div class="alert alert-success" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                <h4 class="alert-heading">Account Successfully Created!</h4>
+                <hr>
+                <p>You can now login using the registered email and password!</p>
+            </div>
+
+        <?php endif;?>
+        <!-- End Regist Alert -->
 
         <!-- Fail Alert -->
         <?php if(isset($check)) : ?> 

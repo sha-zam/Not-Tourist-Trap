@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2019 at 06:26 PM
+-- Generation Time: Nov 08, 2019 at 06:58 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -34,6 +34,13 @@ CREATE TABLE `booking` (
   `UserID` int(11) NOT NULL,
   `Group_Size` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`BookingID`, `TourID`, `UserID`, `Group_Size`) VALUES
+(1, 1, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -167,7 +174,10 @@ INSERT INTO `spokenlanguage` (`UserID`, `LanguageID`) VALUES
 (15, 15),
 (15, 20),
 (16, 17),
-(16, 11);
+(16, 11),
+(17, 17),
+(17, 62),
+(17, 3);
 
 -- --------------------------------------------------------
 
@@ -279,7 +289,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, `Profile_Image`) VALUES
 (15, 'System', 'Admin', 'system@gmail.com', 'a9a9e9dcb45962970eac445259464b3f', ''),
-(16, 'Russell', 'Leong', 'rleong@gmail.com', 'af96cfbbb950a4123e0d08cfac0baf55', '1572777080_y.jpeg');
+(16, 'Russell', 'Leong', 'rleong@gmail.com', 'af96cfbbb950a4123e0d08cfac0baf55', '1572777080_y.jpeg'),
+(17, 'Huzair', 'Yazid', 'hyazid@gmail.com', '3108cae1a923b08a630ebaf0b5c5cc30', '1573219768_h.jpeg'),
+(20, 'Saitama', 'Senpai', '1punchman@gmail.com', '1ffd79c6e792072fd11dc8c63d2add5d', '1573220563_a.PNG');
 
 --
 -- Indexes for dumped tables
@@ -359,7 +371,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -401,7 +413,7 @@ ALTER TABLE `tourreview`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
