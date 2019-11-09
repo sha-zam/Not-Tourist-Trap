@@ -22,6 +22,8 @@ $descArr = destController::fetchDesc($country, $state);
 //Fetch the image titles
 $titleArr = destController::fetchTitles($country, $state);
 
+$textColor = destController::fetchtextColor($country, $state);
+
 $imageSrc = array();
 $descSrc = array();
 $tours = array();
@@ -150,9 +152,9 @@ $tours = destController::fetchTours($country, $state);
             text-align:center;"
         >
                     
-            <h1 class="display-4" style="font-size: 100px;"><?php echo $state ?></h1>
-            <hr class="my-4">
-            <p class="lead" style="font-size: 50px;"><?php echo $country?></p>
+            <h1 class="display-4" style="font-size: 100px; color:<?php echo $textColor ?>"><?php echo $state ?></h1>
+            <hr class="my-4" style="border-color:<?php echo $textColor ?>">
+            <p class="lead" style="font-size: 50px; color:<?php echo $textColor ?>"><?php echo $country?></p>
             
         </div>
         

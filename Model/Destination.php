@@ -126,7 +126,7 @@ class Destination
     }
 
     //Accessors
-    public function getCountry($id)
+    public function getCountryDetails($id)
     {
         if(isset($country))
             return $this->country;
@@ -143,10 +143,7 @@ class Destination
                     $data[] = $row;
                 }
 
-                foreach($data as $x)
-                {
-                    return $x['Name'];
-                }
+                return $data;
             }
             else
             {
@@ -155,7 +152,7 @@ class Destination
         }
     }
 
-    public function getState($id)
+    public function getStateDetails($id)
     {
         if(isset($state))
             return $this->state;
@@ -172,10 +169,7 @@ class Destination
                     $data[] = $row;
                 }
 
-                foreach($data as $x)
-                {
-                    return $x['Name'];
-                }
+                return $data;
             }
             else
             {
@@ -374,6 +368,32 @@ class Destination
             foreach($data as $x)
             {
                 return $x['Title_2'];
+            }
+        }
+    }
+
+    public function getTextColor()
+    {
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query
+        $query = "SELECT * FROM state WHERE Name = '$this->state'";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        if($result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                return $x['BG_Text_Color'];
             }
         }
     }

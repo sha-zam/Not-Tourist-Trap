@@ -43,9 +43,9 @@ if (isset($_POST['submit']))
     }
 
     //Pass to Controller
-    $guideCtr = new GuideController($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
+    $check = GuideController::submitTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
-    $check = $guideCtr->validateData();
+    //$check = $guideCtr->validateData();
 }
 
 //End Form Process
@@ -145,7 +145,7 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check) : ?>
+            <?php if ($check != false) : ?>
 
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Tour Successfully Created!</h4>

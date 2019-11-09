@@ -26,7 +26,7 @@ class TourGuide extends User
     public function submitTour($name, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         //generate Tour
-        $tour = new Tour($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
+        $tour = Tour::dataConstruct($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
         
         //create connection to database
         $conn = $this->connect();
@@ -96,43 +96,39 @@ class TourGuide extends User
         //query for tour id
         $tourID = $conn->insert_id;
 
-        //checkpoint checking
-        //echo "<script type='text/javascript'>alert('$name, $tourDescription, $this->userID, $countryID, $stateID, $tourStartDate, $tourEndDate, $tourPrice')</script>";
-        //echo "<script type='text/javascript'>alert('tourID = $tourID')</script>";
-
-
         //insert images, userid, and tour id into tourimage table 
         for($i = 0; $i < count($tourImg); $i++)
         {
             $imgQ = "INSERT INTO tourimage (TourID, AddedByUser, Image) VALUES ('$tourID', '$this->userID', '$tourImg[$i]')";
             $insertImage = $conn->query($imgQ);
-        }
-
-        //checkpoint
-        //echo "<script type='text/javascript'>alert('tourimageID = $conn->insert_id')</script>";
-
-        //image display attempt
-        // $testQ = "SELECT * FROM tourimage WHERE TourImgID = '$conn->insert_id'";
-        // $testResult = $conn->query($testQ);
-
-        // if ($testResult->num_rows > 0)
-        // {
-        //     while($testRow = $testResult->fetch_assoc())
-        //     {
-        //         $testData[] = $testRow;
-        //     }
-
-        //     foreach($testData as $z)
-        //     {
-        //         $img = $z['Image'];
-        //         echo '<img src="../Uploaded_Images/'.$img.'"/>';
-        //     }
-
-            
-        // }
-        
+        } 
 
         return true;
+    }
+
+    public function getTours()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM tour WHERE TourGuideID = '$this->userID'");
+
+        //check if any tours exists, else return false
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
 }

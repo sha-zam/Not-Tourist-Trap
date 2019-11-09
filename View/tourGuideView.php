@@ -1,40 +1,25 @@
 <?php
 
-//include controller
-include '../Controller/bookingController.php';
+//Controllers
+include '../Controller/guideController.php';
 include '../Controller/tourController.php';
 include '../Controller/destController.php';
 
-//session start 
-if (!isset($_SESSION))
+if(!isset($_SESSION))
     session_start();
 
-//ask controller to fetch bookings to display in cards
-$bookings = bookingController::retrieveBooking('tourist', $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
-
-//data to be displayed : country, state, tour name, tour guide
-
-//check if any bookings exist
-if($bookings != false)
-{
-    if ($bookings->num_rows > 0)
-    {
-        //populate tour details
-        while($row = $bookings->fetch_assoc())
-        {
-            $bookingData[]=$row;
-        }
-    }
-}
+//fetch tours using user ID
+$tours = guideController::fetchTours();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bookings</title>
+    <title>Tours</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -54,7 +39,7 @@ if($bookings != false)
 
     .jumbotron
     {
-        background-image:url("../Images/hk_night.jpg");
+        background-image:url("../Images/bali.jpg");
     }
 
     .container-fluid 
@@ -73,8 +58,7 @@ if($bookings != false)
 
 </head>
 <body>
-    
-    <!-- jumbotron header -->
+
     <header class="jumbotron jumbotron-fluid">
 
         <!--navigation bar-->
@@ -105,42 +89,32 @@ if($bookings != false)
 
         <div class="container-fluid">
 
-            <h1 class="display-4" style="color:white;"><b>Your Bookings</b></h1>
+            <h1 class="display-4" style="color:white;"><b>Your Tours</b></h1>
 
             <div class="row flex-row flex-nowrap">
 
-                <?php if(!$bookings) :?>
+                <?php if(!$tours) :?>
 
-                    <p class="lead" style="color:white; margin-left:20px;"><b>No Bookings Available</b></p>
+                    <p class="lead" style="color:white; margin-left:20px;"><b>No Tours Created Yet</b></p>
                 
                 <?php else :?>
 
-                    <?php foreach($bookingData as $data) :?>
+                    <?php foreach($tours as $data) :?>
 
-                        <?php 
-                            $tourDetails = tourController::fetchTourDetails($data['TourID']);
+                        <?php     
+                            $tourName = $data['Name'];
 
-                            foreach($tourDetails as $data2)
-                            {
-                                $tourName = $data2['Name'];
-
-                                //query for tour guide name
-                                $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
-
-                                //query for state and country name
-                                $country = destController::fetchCountry($data2['CountryID']);
-                                $state = destController::fetchState($data2['StateID']);
-                            }
-                            
+                            //query for state and country name
+                            $country = destController::fetchCountryDetails($data['CountryID']);
+                            $state = destController::fetchStateDetails($data['StateID']);                      
                         ?>
 
                         <div class="col-3">
                             <div class="card card-block">
-                                <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="labuan bajo cap" style="width:500px; height:400px">
+                                <img class="card-img-top" src="../Images/<?php echo $state[0]['Image_3']?>" alt="labuan bajo cap" style="width:500px; height:400px">
                                 <div class="card-body text-center">
-                                    <h4 class="card-title"><?php echo $state.', '.$country ?></h4>
+                                    <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
                                     <h5 class="card-title"><?php echo $tourName ?></h5>
-                                    <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
                                 </div>
                             </div>
                         </div>
@@ -150,10 +124,9 @@ if($bookings != false)
                 <?php endif; ?>
 
             </div>
-       </div>
+        </div>
 
     </header>
-    <!-- end jumbotron header -->
 
 </body>
 </html>

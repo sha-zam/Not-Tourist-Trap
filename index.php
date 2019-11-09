@@ -221,10 +221,12 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/labuan_bajo.jpg" alt="labuan bajo cap" style="width:500px; height:400px">
-                        <div class="card-body">
-                            <h5 class="card-title">Flores, Indonesia</h5>
-                            <p class="card-text">Love the beach? Love nature? Love being in unspoilt territory? Then Labuan Bajo is next on your list. If you’ve never heard of this Asian paradise in Flores, Indonesia, it’s not too late to book a tour there now</p>
-                        </div>
+                        <a href="View/destView.php?country=Indonesia&state=Flores">
+                            <div class="card-body">
+                                <h5 class="card-title">Flores, Indonesia</h5>
+                                <p class="card-text">Love the beach? Love nature? Love being in unspoilt territory? Then Labuan Bajo is next on your list. If you’ve never heard of this Asian paradise in Flores, Indonesia, it’s not too late to book a tour there now</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
 

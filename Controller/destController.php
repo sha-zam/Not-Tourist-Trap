@@ -30,7 +30,7 @@ class destController
         return $desc;
     }
 
-    public function fetchTitles($country, $state)
+    public static function fetchTitles($country, $state)
     {
         $destination = Destination::NameConstruct($country, $state);
 
@@ -42,7 +42,7 @@ class destController
         return $titles;
     }
 
-    public function fetchTours($country, $state)
+    public static function fetchTours($country, $state)
     {
         $destination = Destination::NameConstruct($country, $state);
 
@@ -50,20 +50,29 @@ class destController
         return $tours;
     }
 
-    public function fetchCountry($countryID)
+    public static function fetchCountryDetails($countryID)
     {
         $destination = new Destination();
 
-        $country = $destination->getCountry($countryID);
+        $country = $destination->getCountryDetails($countryID);
 
         return $country;
     }
 
-    public function fetchState($stateID)
+    public static function fetchtextColor($country, $state)
+    {
+        $destination = Destination::NameConstruct($country, $state);
+
+        $color = $destination->getTextColor();
+
+        return $color;
+    }
+
+    public static function fetchStateDetails($stateID)
     {
         $destination = new Destination();
 
-        $state = $destination->getState($stateID);
+        $state = $destination->getStateDetails($stateID);
 
         return $state;
     }
