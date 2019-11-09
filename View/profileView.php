@@ -59,7 +59,7 @@
             </button>
 
             <!--Home hyperlink-->
-            <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
+            <a class="navbar-brand" href="../../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
             <!-- nav bar -->
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
@@ -67,17 +67,18 @@
             <?php
             if(isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
             {
+                $userID = $_SESSION['userID'];
                 echo <<< LOGGEDNAV
 
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="../host.php" style="color : white">Host an Experience</a>
+                        <a class="nav-link" href="../../host.php" style="color : white">Host an Experience</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./profile.php/?user=12" style="color : white">View Profile</a>
+                        <a class="nav-link" href='../profileView.php/?user=$userID' style="color : white">View Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
+                        <a class="nav-link" href="../../logout.php" style="color : white">Log Out</a>
                     </li>
                 </ul>
 LOGGEDNAV;
@@ -193,7 +194,7 @@ LANGUAGES;
                     echo "<p class='card-text'>\"$comment\"</p>";
                     echo "<p class='card-text'>Rating: $rating ⭐</p>";
                     echo "<div class='card-footer bg-transparent border-success'>"
-                    . "<a href ='../profile.php/?user=$reviewerID'>$reviewerName</a></div>";
+                    . "<a href ='../profileView.php/?user=$reviewerID'>$reviewerName</a></div>";
                 echo "</div>";
             }
         }
