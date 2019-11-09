@@ -13,22 +13,18 @@
     if(isset($_POST['input_fName'])){
         $firstName = $_POST['input_fName'];
         $settingsCtr -> updateFName($firstName);
-        echo "<script type='text/javascript'>alert('$firstName . 123')</script>";
     }
     else if(isset($_POST['input_lName'])){
         $lastName = $_POST['input_lName'];
         $settingsCtr -> updateLName($lastName);
-        echo "<script type='text/javascript'>alert('$lastName . 123')</script>";
     }
     else if(isset($_POST['input_email'])){
         $email = $_POST['input_email'];
         $settingsCtr -> updateEmail($email);
-        echo "<script type='text/javascript'>alert('$email . 123')</script>";
     }
     else if(isset($_POST['input_password'])){
         $password = $_POST['input_password'];
         $settingsCtr -> updatePassword($password);
-        echo "<script type='text/javascript'>alert('$password . 123')</script>";
     }
     else if(isset($_FILES['input_profilePic'])){
         //Get profile image
@@ -42,7 +38,6 @@
         
         $settingsCtr -> updateProfilePic($profilePic);
         chdir("View");
-        echo "<script type='text/javascript'>alert('$profilePic . 123')</script>"; 
     }
     else if((isset($_POST['primeLang'])) || (isset($_POST['secondLang'])) || (isset($_POST['thirdLang']))){
         $lang = array();
@@ -52,11 +47,6 @@
         $lang[2] = $_POST['thirdLang'];
         
         $settingsCtr -> updateLanguages($lang);
-        echo "<script type='text/javascript'>alert('$lang[0] . $lang[1] . $lang[2] . 123')</script>";
-    }
-    else
-    {
-        echo "<script type='text/javascript'>alert('FAIL')</script>";
     }
 
 ?> 
