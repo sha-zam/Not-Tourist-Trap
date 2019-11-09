@@ -135,14 +135,16 @@ if($bookings != false)
                         ?>
 
                         <div class="col-3">
-                            <div class="card card-block">
-                                <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="labuan bajo cap" style="width:500px; height:400px">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title"><?php echo $state.', '.$country ?></h4>
-                                    <h5 class="card-title"><?php echo $tourName ?></h5>
-                                    <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
+                            <a href="./updateTour.php?tourID=<?php echo $data['TourID']?>">
+                                <div class="card card-block">
+                                    <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="tour" style="width:500px; height:400px">
+                                    <div class="card-body text-center">
+                                        <h4 class="card-title"><?php echo $state.', '.$country ?></h4>
+                                        <h5 class="card-title"><?php echo $tourName ?></h5>
+                                        <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                     <?php endforeach; ?>

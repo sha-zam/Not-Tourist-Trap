@@ -145,14 +145,8 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check != false) : ?>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Tour Successfully Created!</h4>
-                    <hr>
-                    <p>"<?php echo $name ?>" Has been Inserted to Your List of Tours</p>
-                </div>
-
+            <?php if ($check != false) : header("Location:../host.php?alert=true") ?>
+            
             <?php else : ?>
 
                 <div class="alert alert-danger" role="alert">

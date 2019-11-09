@@ -103,6 +103,7 @@ $tours = guideController::fetchTours();
 
                         <?php     
                             $tourName = $data['Name'];
+                            $tourID = $data['TourID'];
 
                             //query for state and country name
                             $country = destController::fetchCountryDetails($data['CountryID']);
@@ -112,10 +113,13 @@ $tours = guideController::fetchTours();
                         <div class="col-3">
                             <div class="card card-block">
                                 <img class="card-img-top" src="../Images/<?php echo $state[0]['Image_3']?>" alt="labuan bajo cap" style="width:500px; height:400px">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
-                                    <h5 class="card-title"><?php echo $tourName ?></h5>
-                                </div>
+                                <a href="./updateTour.php?tourID=<?php echo $tourID?>">
+                                    <div class="card-body text-center">
+                                        <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
+                                        <h5 class="card-title"><?php echo $tourName ?></h5>
+                                    </div>
+                                </a>
+                                
                             </div>
                         </div>
 

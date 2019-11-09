@@ -4,10 +4,12 @@ include_once('../Model/Tour.php');
 
 class tourController
 {
-    public static function fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDescription, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
+    public static function fetchTourImages($tourID)
     {
-        $temp = Tour::dataConstruct($tourName, $tourGuideID, $country, $state, $tourDescription, ' ', $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
-        $tourImg = $temp->getImages($tourID, $tourGuideID);
+        $tour = new Tour();
+        $tour->setTourID($tourID);
+
+        $tourImg = $tour->getImages();
 
         return $tourImg;
     }

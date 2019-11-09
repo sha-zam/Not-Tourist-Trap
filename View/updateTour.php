@@ -1,49 +1,18 @@
 <?php
 
-//include controllers
+//controller includes
 include '../Controller/tourController.php';
-include '../Controller/destController.php';
-include '../Controller/bookingController.php';
 
-//start session
+//session check 
 if(!isset($_SESSION))
     session_start();
 
-//get params
-$country = $_GET['country'];
-$state = $_GET['state'];
+//get tour ID
 $tourID = $_GET['tourID'];
-$tourName = str_replace("%20", " ", $_GET['tourName']);
-$tourGuide = str_replace("%20", " ", $_GET['tourGuide']);
-$bgImg = $_GET['bgImg'];
-$tourGuideID = $_GET['tourGuideID'];
 
-if(isset($_SESSION['userID']))
-    $userID = $_SESSION['userID'];
-
-//Ask destController to fetch tour details
-$tours = destController::fetchTours($country, $state);
-
-//get specific tour details matching tour ID
-foreach($tours as $x)
-{
-    if($x['TourID'] == $tourID)
-    {
-        $tourDesc = $x['Description'];
-        $tourSD = date_create($x['Start_date']);
-        $tourED = date_create($x['End_date']);
-        $tourPrice = $x['Price'];
-        $tourSize = $x['Group_Size'];
-    }
-}
-
-//fetch tour Images (necessary info : TourID and TourGuideID)
-$tourImg = tourController::fetchTourImages($tourID);
-
-if(isset($_GET['tourSize']))
-{
-    $check = bookingController::submitBook($tourID, $_GET['tourSize'], $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
-}
+//fetch tour details and images
+$tourImages = tourController::fetchTourImages($tourID);
+$tourDetails = tourController::fetchTourDetails($tourID);
 
 ?>
 
@@ -53,7 +22,7 @@ if(isset($_GET['tourSize']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $tourName ?></title>
+    <title><?php echo $tourDetails[0]['Name']?></title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -78,23 +47,7 @@ if(isset($_GET['tourSize']))
         });
     </script>
 
-    <script>
-        $("input[type='number']").inputSpinner();
-    </script>
-
     <script type="text/javascript">
-
-        function clicked() 
-        {
-            if (confirm('Do you want to submit?')) 
-            {
-                bookForm.submit();
-            } 
-            else 
-            {
-                return false;
-            }
-        }
 
         function showInput() 
         {
@@ -117,7 +70,7 @@ if(isset($_GET['tourSize']))
     <style>
         .jumbotron 
         {
-            background-image : url("<?php echo $bgImg?>");
+            background-image : url("../Images/bali.jpg");
             height : 100%;
         }
 
@@ -193,14 +146,14 @@ if(isset($_GET['tourSize']))
         <?php endif;?>
         <!-- End Alert -->
         
-        <!-- Tour Card / Booking Form -->
+        <!-- Tour Card -->
         <div class="card">
             <div id="carouselImages" class="carousel slide" data-ride="carousel">
 
                 <div class="carousel-inner">
 
-                        <?php for($i=0; $i < count($tourImg); $i++) :?>
-                            <?php $src = "../Uploaded_Images/".$tourImg[$i];?>
+                        <?php for($i=0; $i < count($tourImages); $i++) :?>
+                            <?php $src = "../Uploaded_Images/".$tourImages[$i];?>
                             
                             <?php if($i == 0) : $class = "carousel-item active"?>
                                 
@@ -227,44 +180,34 @@ if(isset($_GET['tourSize']))
                 </div>
 
                 <div class="card-body text-center">
-                    <h1 class="card-title"><?php echo $tourName?></h1>
-                    <h4 class="card-text">By : <?php echo $tourGuide ?></h4>
+                    <h1 class="card-title"><?php echo $tourDetails[0]['Name']?></h1>
                     <br><br>
-                    <p class="card-text"><?php echo $tourDesc ?></p>
+                    <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
                 </div>
 
             <div class="card-body">
-                <h5 class="card-text">Dates : <?php echo date_format($tourSD, "d M Y") ?> - <?php echo date_format($tourED, "d M Y") ?></h5>
-                <h5 class="card-text">Price : $<?php echo $tourPrice ?></h5>
-                <h5 class="card-text">Max Tour Size : <?php echo $tourSize ?> people</h5>
+                <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
+                <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
+                <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
             </div>
 
-            <div class="card-body" id="inputSize" style="display:none;">
-                <label>How Many People Will be Joining You?</label><br>
-                            
-                <div class="input-group mb-3">
-                    <input type="number" id="tourSize" name="tourSize" class="form-control" value="1" min="1" max="<?php echo $tourSize?>" step="1"/>
-                </div>
-            </div>
-            
             <div class="card-body text-center">
-                <!-- <a href="<?php echo $_SERVER['REQUEST_URI'].'&confirm=true'?>"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br> -->
 
                 <!-- first group of buttons -->
                 <div id="buttonGroup1">
-                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button></a><br><br>
-                    <button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button>
+                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Update Tour</button></a><br><br>
+                    <button type="button" class="btn btn-dark">Cancel Tour</button>
                 </div>
                 
                 <!--second group of buttons-->
                 <div id="buttonGroup2" style="display:none;">
-                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Booking</button></a><br><br>
+                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Cancellation</button></a><br><br>
                     <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
 
             </div>
         </div>
-        <!-- End Tour Card / Booking Form -->
+        <!-- End Tour Card -->
 
     </header>
 

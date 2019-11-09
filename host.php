@@ -72,6 +72,16 @@ session_start();
             ?>
 
         </nav>
+
+        <?php if(isset($_GET['alert'])?>
+        
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Tour Successfully Created!</h4>
+                <hr>
+                <p>"<?php echo $name ?>" Has been Inserted to Your List of Tours</p>
+            </div>
+
+        <?endif;?>
         
         <!--Welcome text-->
         <?php

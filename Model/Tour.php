@@ -171,14 +171,14 @@ class Tour
         return ($this->tourEndDate);
     }
 
-    public function getImages($tourID, $tourGuideID)
+    public function getImages()
     {
         //query for Tour ID
         //create connection to DB
         $conn = $this->connect();
 
         //query
-        $query = "SELECT * FROM tourimage WHERE TourID = '$tourID' AND AddedByUser='$tourGuideID'";
+        $query = "SELECT * FROM tourimage WHERE TourID = '$this->tourID'";
         $result = $conn->query($query);
 
         $conn->close();
