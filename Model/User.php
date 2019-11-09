@@ -14,6 +14,7 @@ class User
     private $profileImg;
     private $lang = array();
 
+    
     public function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         $this->email = $email;
@@ -37,6 +38,19 @@ class User
             }
         }
         
+    }
+    
+    //construct using only userID
+    public function withID($id)
+    {
+        $user = new self('','','','','',array());
+        $user->loadByID($id);
+        return $user;   
+    }
+    
+    public function loadByID($id)
+    {
+        $this->userID = $id;
     }
 
     protected static function connect()
@@ -170,12 +184,8 @@ class User
 
                     $i++;
                 }
-
             }
-            
-
             return $this;
-
         }
         else
         {
@@ -242,7 +252,84 @@ class User
             return false;
         }
     }
+    
+    public function updateFName($fName)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set FirstName = '$fName' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateLName($lName)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set LastName = '$lName' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateEmail($email)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Email = '$email' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updatePassword($password)
+    {
+        $pwd = md5($password);
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Password = '$pwd' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateProfilePic($profilePic)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Profile_Image = '$profilePic' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
 
+    public function updateLanguages($lang)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "delete from SPOKENLANGUAGE where UserID = $this->userID";
+        
+        $conn -> query($query);
+        
+        for ($i = 0; $i < 3; $i++)
+        {
+            $temp = $lang[$i];
+
+            if ($temp != "none") //If user does not leave language blank 
+            {
+                $langQ = $conn->query("SELECT LanguageID FROM language WHERE Name='$temp'");
+
+                while($row = $langQ->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                foreach($data as $x)
+                {
+                    $langID = $x['LanguageID'];
+                }
+
+                //insert into spoken language
+                $spkQ = $conn->query("INSERT INTO spokenlanguage (UserID, LanguageID) VALUES ('$this->userID', '$langID')");
+            }
+        }
+    }
 }
 
 ?>
