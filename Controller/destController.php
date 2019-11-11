@@ -76,7 +76,15 @@ class destController
 
         return $state;
     }
-
+    
+    public static function searchCountry($searchEntry)
+    {
+        $destination = new Destination();
+        
+        $tours = $destination->searchCountry($searchEntry);
+        
+        return $tours;
+    }
 }
 
 ?>
