@@ -49,16 +49,40 @@ $tourDetails = tourController::fetchTourDetails($tourID);
 
     <script type="text/javascript">
 
-        function showInput() 
+        function showUpdateButtons() 
         {
-            document.getElementById('inputSize').style.display = "block";
             document.getElementById('buttonGroup2').style.display = "block";
             document.getElementById('buttonGroup1').style.display = "none";
         }
 
+        function showUpdate(field)
+        {
+            document.getElementById('buttonGroup2').style.display = "none";
+
+            if (field === 'name')
+            {
+                document.getElementById('updateName').style.display = "block";
+            }
+            else if (field === 'desc')
+            {
+                document.getElementById('updateDesc').style.display = "block";
+            }
+            else if (field === 'img')
+            {
+                document.getElementById('updateImages').style.display = "block";
+            }
+            else if (field === 'dates')
+            {
+                document.getElementById('updateDates').style.display = "block";
+            }
+            else
+            {
+                document.getElementById('updatePrice').style.display = "block";
+            }
+        }
+
         function closeInput()
         {
-            document.getElementById('inputSize').style.display = "none";
             document.getElementById('buttonGroup2').style.display = "none";
             document.getElementById('buttonGroup1').style.display = "block";
         }
@@ -192,36 +216,129 @@ $tourDetails = tourController::fetchTourDetails($tourID);
                 <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
             </div>
             <!-- end div -->
-
-            <div class="card-body">
+            
+            <!-- name update -->
+            <div id="updateName" class="card-body" style="display:none;">
                 <div class="form-group">
                     <label for="inputTourName">Select Tour Name</label>
-                    <input name="tourName" type="text" class="form-control" id="inputTourName" placeholder="e.g. Experience the local cuisine of Paris, France!" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tourDesc">Describe your Tour for the Tourists to See</label>
-                    <textarea class="form-control" id="tourDesc" rows="5" name="tourDescription"></textarea>
+                    <input name="tourName" id ="updtTourName" type="text" class="form-control" id="inputTourName" placeholder="e.g. Experience the local cuisine of Paris, France!" required>
+                    <br>
+                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourName='+document.getElementById('updtTourName').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
             </div>
+            
+            <!-- desc update -->
+            <div id="updateDesc" class="card-body" style="display:none;">
+                <div class="form-group">
+                    <label for="tourDesc">Describe your Tour for the Tourists to See</label>
+                    <textarea class="form-control" id="updtTourDesc" rows="5" name="tourDescription"></textarea>
+                    <br>
+                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourDesc='+document.getElementById('updtTourDesc').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                </div>
+            </div>
+            
+            <!-- Images update -->
+            <div id="updateImages" class="card-body" style="display:none;">
+                <label>Upload Images of Your Tour Destination for the Tourists</label><br>
+                            
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="updtTourImg" name="tourImg[]" aria-describedby="inputGroupFileAddon01"  multiple accept=".jpg, .png, .jpeg"/>
+                        <label class="custom-file-label" for="tourImg">Choose file</label>
 
+                        <script>
+                            $('#tourImg').on('change',function(){
+                                //get the file name
+                                var files = $(this)[0].files;
+
+                                //display how many files were selected
+                                $(this).next('.custom-file-label').html(this.files.length + " file(s) selected");
+                            })
+                        </script>
+                        <br>
+                        <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourImg='+document.getElementById('updtTourImg').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                        <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- dates update -->
+            <div id="updateDates" class="card-body" style="display:none;">
+                <label>Set Your Tour Start Date</label><br>
+                            
+                <div class="col-sm-6">
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="date" name="startDate" id="updtTourSD" class="form-control" id="datepicker1">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <label>Set Your Tour End Date</label><br>
+                
+                <div class="col-sm-6">
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="date" name="endDate" id="updtTourED" class="form-control" id="datepicker2">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSD='+document.getElementById('updtTourSD').value+'&tourED='+document.getElementById('updtTourED').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+            </div>
+            
+            <!-- price update -->
+            <div id="updatePrice" class="card-body" style="display:none;">
+                <label>Set Price for your Tour</label><br>
+                            
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="tourPrice" id="updtTourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                </div>
+                <br>
+                <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourPrice='+document.getElementById('updtTourPrice').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+
+            </div>
+        
+            <!-- button groups -->
             <div class="card-body text-center">
 
                 <!-- first group of buttons -->
                 <div id="buttonGroup1">
-                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Update Tour</button></a><br><br>
+                    <button type="button" name="update" class="btn btn-dark" onclick="showUpdateButtons()">Update Tour</button><br><br>
                     <button type="button" class="btn btn-dark">Cancel Tour</button>
                 </div>
                 <!-- end group 1 -->
                 
-                <!--second group of buttons-->
+                <!-- 2nd group of buttons (update buttons) -->
                 <div id="buttonGroup2" style="display:none;">
-                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Cancellation</button></a><br><br>
-                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                    <button type="button" name = "updateName" class="btn btn-dark" onclick="showUpdate('name')">Update Tour Name</button>
+                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('desc')">Update Description</button>
+                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('img')">Update Tour Images</button>
+                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('dates')">Update Tour Dates</button>
+                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('price')">Update Tour Price</button><br><br>
+                    <button type="button" name = "cancel" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
                 <!-- end group 2 -->
+                
+                <!-- 3rd group of buttons -->
+                <!-- <div id="buttonGroup3" style="display:none;">
+                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Cancellation</button></a><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                </div> -->
+                <!-- end group 3 -->
 
             </div>
+            <!-- end button groups -->
+
         </div>
         <!-- End Tour Card -->
 

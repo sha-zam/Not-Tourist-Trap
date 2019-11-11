@@ -145,7 +145,7 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check != false) : header("Location:../host.php?alert=true") ?>
+            <?php if ($check != false) : header("Location:../host.php?tourName=".$name) ?>
             
             <?php else : ?>
 

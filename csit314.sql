@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2019 at 09:39 AM
+-- Generation Time: Nov 11, 2019 at 10:02 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.32
 
@@ -62,7 +62,8 @@ INSERT INTO `country` (`CountryID`, `Name`) VALUES
 (6, 'USA'),
 (7, 'Indonesia'),
 (8, 'South Korea'),
-(9, 'Czech Republic');
+(9, 'Czech Republic'),
+(10, 'Afghanistan');
 
 -- --------------------------------------------------------
 
@@ -206,7 +207,8 @@ CREATE TABLE `state` (
 INSERT INTO `state` (`StateID`, `CountryID`, `Name`, `Description_1`, `Description_2`, `Image_1`, `Image_2`, `Image_3`, `Title_1`, `Title_2`, `BG_Text_Color`) VALUES
 (7, 2, 'Paris', 'The Champs-Elysees is a truly lovely avenue: a picture postcard scene. Nearly 2 kilometres in length, this historic thoroughfare runs from Place de la Concorde to the majestic Arc de Triomphe. But though it has since become the world\'s most beautiful avenue, the Champs-Elysees was once a swamp. The avenue has only become more beautiful with every passing decade.', 'Set in the heart of Paris, the former French royal palace today is home to one of the largest and most renowned art collections in the world. Home to Leonardo da Vinci\'s Mona Lisa, the Louvre is considered the world\'s greatest art museum, with an unparalleled collection of items covering the full spectrum of art through the ages', 'champs_elysees.jpg', 'louvre.jpg', 'paris.jpg', 'The Champs-Elysees, past and present', 'The Musee du Louvre', 'black\r\n'),
 (9, 9, 'Prague', 'Prague Castle is a castle complex in Prague, Czech Republic, built in the 9th century. It is the official office of the President of the Czech Republic. The castle was a seat of power for kings of Bohemia, Holy Roman emperors, and presidents of Czechoslovakia.', 'Connecting the Old town with Lesser Town, this popular pedestrian bridge is filled with musicians, painters, vendors and tourists during the summertime.', 'prague_castle.jpg', 'Charles_bridge.jpg', 'prague.jpg', 'Prague Castle', 'Charles Bridge', 'white'),
-(10, 7, 'Flores', 'These paradise islands with gorgeous scenery, pretty pink sand beaches and crystal clear waters form part of Flores, which is just an hour’s flight from Bali. While every inch of Bali’s popular beaches is often crowded with tourists, these relatively untouched tropical islands guarantee you more privacy with ravishing lagoons and even greater outdoors and sceneries.', 'Sand is sand, right? Wrong. From black and green to orange and pink hues, coastlines of the world offer an array of colorful sand options. Remember, as you check off your rainbow-beach bucket list, please take only photographs, not sand. While tempting, removing sand from the beach dilutes the color and ruins the experience for future generations.', 'komodo_dragons.jpg', 'pink_beach.jpg', 'labuan_bajo.jpg', 'Komodo Island', 'Tangsi Beach (Pink Beach)', 'white');
+(10, 7, 'Flores', 'These paradise islands with gorgeous scenery, pretty pink sand beaches and crystal clear waters form part of Flores, which is just an hour’s flight from Bali. While every inch of Bali’s popular beaches is often crowded with tourists, these relatively untouched tropical islands guarantee you more privacy with ravishing lagoons and even greater outdoors and sceneries.', 'Sand is sand, right? Wrong. From black and green to orange and pink hues, coastlines of the world offer an array of colorful sand options. Remember, as you check off your rainbow-beach bucket list, please take only photographs, not sand. While tempting, removing sand from the beach dilutes the color and ruins the experience for future generations.', 'komodo_dragons.jpg', 'pink_beach.jpg', 'labuan_bajo.jpg', 'Komodo Island', 'Tangsi Beach (Pink Beach)', 'white'),
+(11, 10, 'afghan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,9 @@ CREATE TABLE `tour` (
 
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`) VALUES
 (1, 'Love is in the Air!', 'Romantissimo', 16, 2, 7, '2019-11-03', '2019-11-06', '300', 1),
-(4, 'Komodo Bitch!', 'A trip to Flores and the nearby islands combines magnificent landscapes of nature with antique traditions that still thrives today. From Labuan Bajo, you can enjoy a half day up to a full week Komodo cruise to enjoy the tropical waters, pristine islands, and welcoming local people.', 16, 7, 10, '11/21/2019', '11/24/2019', '350', 5);
+(4, 'Komodo Bitch!', 'A trip to Flores and the nearby islands combines magnificent landscapes of nature with antique traditions that still thrives today. From Labuan Bajo, you can enjoy a half day up to a full week Komodo cruise to enjoy the tropical waters, pristine islands, and welcoming local people.', 16, 7, 10, '11/21/2019', '11/24/2019', '350', 5),
+(5, 'text', 'ahahahaha', 16, 10, 11, '11/06/2019', '11/26/2019', '100', 1),
+(6, 'Check1', 'hshahaa', 16, 10, 11, '11/09/2019', '11/12/2019', '300', 2);
 
 -- --------------------------------------------------------
 
@@ -257,7 +261,11 @@ INSERT INTO `tourimage` (`TourImgID`, `TourID`, `AddedByUser`, `Image`) VALUES
 (2, 1, 16, '1572778650_untitled.png'),
 (9, 4, 16, '1573284013_06cfcdd0-223a7696-750x536.jpg'),
 (10, 4, 16, '1573284013_Fight-komodo-dragons.jpg'),
-(11, 4, 16, '1573284013_Trip-to-Komodo-Island-27-1024x768.jpg');
+(11, 4, 16, '1573284013_Trip-to-Komodo-Island-27-1024x768.jpg'),
+(12, 5, 16, '1573462317_S4PfgIZYQmmXexm0LzR7HQ.jpg'),
+(13, 5, 16, '1573462317_jl36yAWZTjigisF1vKlBFw.jpg'),
+(14, 6, 16, '1573462902_S4PfgIZYQmmXexm0LzR7HQ.jpg'),
+(15, 6, 16, '1573462902_jl36yAWZTjigisF1vKlBFw.jpg');
 
 -- --------------------------------------------------------
 
@@ -382,7 +390,7 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
-  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -394,19 +402,19 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tourimage`
 --
 ALTER TABLE `tourimage`
-  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tourreview`
