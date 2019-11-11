@@ -156,46 +156,18 @@ GENERAL;
 
     <!--where-to form-->
     <div class="whereToForm" id="whereTo">
-        
         <div class="card" style="width:40rem; margin : 0 auto;">
-
             <div class="card-body">
-
-                <h1 style="margin-top : 10px;">Where to Next ?</h1>
-
-                <form>
-
+                <h1 style="margin-top : 10px;">Where to next?</h1>
+                <form id="search_form" action="View/searchView.php" method="GET" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">Country</label>
+                        <input type="text" name="search_country" class="form-control" placeholder="Search for tours by country" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
                         </div>
-                        <select class="custom-select" id="inputGroupCountry">
-                            <option selected>Choose Available Countries</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="United States of America">United States of America</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Korea">Korea</option>
-                        </select>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">City</label>
-                        </div>
-                        <select class="custom-select" id="inputGroupCountry">
-                            <option selected>Choose Available Cities</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="United States of America">United States of America</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Korea">Korea</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-dark" style="margin-top : 10px;">Submit</button>
                 </form>
-
             </div>
-
         </div>
     </div>
     <!-- End Where To Form -->

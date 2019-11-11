@@ -133,25 +133,6 @@
             </div>
         </nav>
 
-        <!-- Success or Fail Alert -->
-        <?php if(isset($check)) : ?> 
-            <?php if ($check) : ?>
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Account successfully updated!</h4>
-                    <hr>
-                    <p>"<?php echo $name ?>" Has been Inserted to Your List of Tours</p>
-                </div>
-
-            <?php else : ?>
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Failed to Create Tour</h4>
-                    <hr>
-                    <p>Invalid Information Provided! Please Enter the Correct Informations</p>
-                </div>
-            <?php endif;?>
-        <?php endif;?>
-        <!-- End Alert -->
-        
         <!--Change Account Form-->
         <div class="accordion" id="accordionForm">
                 <!--First Name-->

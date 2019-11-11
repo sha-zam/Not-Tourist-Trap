@@ -422,6 +422,34 @@ class Destination
             return $tours;
         }
     }
+    
+    public function searchCountry($searchEntry)
+    {
+        $conn = $this->connect();
+        
+        //query for all tours with country name similar to search entry
+        $query = "SELECT * FROM tour WHERE CountryID IN (SELECT CountryID FROM country WHERE Name LIKE '%$searchEntry%')";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        //if any tours exist
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $tours[] = $row;
+            }
+
+            //return query result
+            return $tours;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     //Mutators
     public function setCountryName($country)
@@ -433,7 +461,7 @@ class Destination
     {
         $this->state = $state;
     }
-
+    
 }
 
 ?>
