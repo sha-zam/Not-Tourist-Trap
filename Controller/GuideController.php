@@ -1,5 +1,6 @@
 <?php
 
+//Entity 
 include '../Model/TourGuide.php';
 
 class GuideController

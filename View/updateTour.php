@@ -152,43 +152,57 @@ $tourDetails = tourController::fetchTourDetails($tourID);
 
                 <div class="carousel-inner">
 
-                        <?php for($i=0; $i < count($tourImages); $i++) :?>
-                            <?php $src = "../Uploaded_Images/".$tourImages[$i];?>
-                            
-                            <?php if($i == 0) : $class = "carousel-item active"?>
-                                
-                            <?php else : $class="carousel-item"?>
-
-                            <?php endif;?>
-
-                            <div class="<?php echo $class ?>">
-                                <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
-                            </div>
-
-                        <?php endfor;?>
+                    <?php for($i=0; $i < count($tourImages); $i++) :?>
+                        <?php $src = "../Uploaded_Images/".$tourImages[$i];?>
                         
-                    </div>
+                        <?php if($i == 0) : $class = "carousel-item active"?>
+                            
+                        <?php else : $class="carousel-item"?>
 
-                    <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                        <?php endif;?>
+
+                        <div class="<?php echo $class ?>">
+                            <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                        </div>
+
+                    <?php endfor;?>
+                    
                 </div>
 
-                <div class="card-body text-center">
-                    <h1 class="card-title"><?php echo $tourDetails[0]['Name']?></h1>
-                    <br><br>
-                    <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
-                </div>
+                <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            
+            <!-- replaced with tour update details if user click -->
+            <div id="tourHeader" class="card-body text-center">
+                <h1 class="card-title"><?php echo $tourDetails[0]['Name']?></h1>
+                <br><br>
+                <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
+            </div>
 
-            <div class="card-body">
+            <div id="touHeader" class="card-body">
                 <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
                 <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
                 <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
+            </div>
+            <!-- end div -->
+
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="inputTourName">Select Tour Name</label>
+                    <input name="tourName" type="text" class="form-control" id="inputTourName" placeholder="e.g. Experience the local cuisine of Paris, France!" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tourDesc">Describe your Tour for the Tourists to See</label>
+                    <textarea class="form-control" id="tourDesc" rows="5" name="tourDescription"></textarea>
+                </div>
             </div>
 
             <div class="card-body text-center">
@@ -198,12 +212,14 @@ $tourDetails = tourController::fetchTourDetails($tourID);
                     <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Update Tour</button></a><br><br>
                     <button type="button" class="btn btn-dark">Cancel Tour</button>
                 </div>
+                <!-- end group 1 -->
                 
                 <!--second group of buttons-->
                 <div id="buttonGroup2" style="display:none;">
                     <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Cancellation</button></a><br><br>
                     <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
+                <!-- end group 2 -->
 
             </div>
         </div>
