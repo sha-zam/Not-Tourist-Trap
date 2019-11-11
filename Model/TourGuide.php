@@ -131,6 +131,106 @@ class TourGuide extends User
 
     }
 
+    public function updateTourName($tourID, $name)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Name = '$name' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourDesc($tourID, $desc)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Description = '$desc' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourImg($tourID, $tourImg)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //insert images, userid, and tour id into tourimage table 
+        for($i = 0; $i < count($tourImg); $i++)
+        {
+            $imgQ = "UPDATE tourimage SET Image = '$tourImg[$i]' WHERE TourID = '$tourID' AND AddedByUser = '$this->userID'";
+            $updateImage = $conn->query($imgQ);
+        } 
+
+        if($updateImage)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourDates($tourID, $sd, $ed)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Start_date = '$sd', End_date = '$ed' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourPrice($tourID, $price)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Price = '$price' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function cancelTour($tourID)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("DELETE FROM tour WHERE TourID = '$tourID'");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
 }
 
 ?>

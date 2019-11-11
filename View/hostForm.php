@@ -8,10 +8,11 @@ session_start();
 
 if (isset($_POST['submit']))
 {
-    $name = $_POST['tourName'];
+    $name1 = $_POST['tourName'];
+    $name = addslashes($name1);
     $country = $_POST["country"];
-    $state = $_POST["state"];
-    $textDescription = $_POST["tourDescription"];
+    $state = addslashes($_POST["state"]);
+    $textDescription = addslashes($_POST["tourDescription"]);
     
     $tourStartDate = $_POST["startDate"];
     $tourEndDate = $_POST["endDate"];
@@ -33,8 +34,8 @@ if (isset($_POST['submit']))
     }
 
     //checking
-    echo "<script type='text/javascript'>alert('$name, $country, $state, $textDescription, $tourStartDate, $tourEndDate,$tourPrice')</script>";
-    echo "<script type='text/javascript'>alert('$x')</script>";
+    // echo "<script type='text/javascript'>alert('$name, $country, $state, $textDescription, $tourStartDate, $tourEndDate,$tourPrice')</script>";
+    // echo "<script type='text/javascript'>alert('$x')</script>";
 
     //move uploaded images
     for($i = 0; $i < count($tourImg); $i++)
@@ -94,7 +95,8 @@ if (isset($_POST['submit']))
 
         .jumbotron
         {
-            background-image: url("../Images/bali.jpg"); 
+            background-image: url("../Images/bali.jpg");
+            height:100%; 
         }
 
         .accordion, .alert
@@ -145,7 +147,7 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check != false) : header("Location:../host.php?tourName=".$name) ?>
+            <?php if ($check != false) : header("Location:../host.php?tourName=".$name1) ?>
             
             <?php else : ?>
 

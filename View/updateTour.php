@@ -2,6 +2,7 @@
 
 //controller includes
 include '../Controller/tourController.php';
+include '../Controller/GuideController.php';
 
 //session check 
 if(!isset($_SESSION))
@@ -14,6 +15,121 @@ $tourID = $_GET['tourID'];
 $tourImages = tourController::fetchTourImages($tourID);
 $tourDetails = tourController::fetchTourDetails($tourID);
 
+//update tour detail
+if(isset($_POST['updateNameBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //get tour Name
+    $tourName = $_POST['tourName'];
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourName, ' ', 'name');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+
+}
+else if(isset($_POST['updateDescBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //get tour Name
+    $tourDesc = $_POST['tourDescription'];
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourDesc, ' ', 'desc');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+
+}
+else if(isset($_POST['updateImgBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    $tourImg = array();
+    $target = array();
+
+    chdir('../');
+    $x = getCwd();
+
+    for($i = 0; $i < count($_FILES['tourImg']['tmp_name']); $i++)
+    {
+        //Purpose of time() is to avoid naming conflicts
+        $tourImg[$i] = time() . '_' . $_FILES['tourImg']['name'][$i];
+        $target[$i] = $x . '/Uploaded_Images/' . $tourImg[$i];
+    }
+
+    //move uploaded images
+    for($i = 0; $i < count($tourImg); $i++)
+    {
+        move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
+    }
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourImg, ' ', 'img');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+
+}
+else if(isset($_POST['updateDatesBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //get tour Dates
+    $tourSD = $_POST['startDate'];
+    $tourED = $_POST['endDate'];
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourSD, $tourED, 'dates');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+
+}
+else if(isset($_POST['updatePriceBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //get Tour Price
+    $tourPrice = $_POST['tourPrice'];
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourPrice, ' ', 'price');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+}
+else if(isset($_POST['cancelSubmit']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //ask controller to update
+    $check = GuideController::cancelTour($tourID);
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +138,7 @@ $tourDetails = tourController::fetchTourDetails($tourID);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $tourDetails[0]['Name']?></title>
+    <title>Update Tour</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -45,6 +161,18 @@ $tourDetails = tourController::fetchTourDetails($tourID);
         }
 
         });
+
+        function confirmCancel()
+        {
+            if(confirm("Do You Want to Cancel This Tour?"))
+            {
+                cancelForm.submit();
+            }
+            else
+            {
+                return false;
+            }
+        }
     </script>
 
     <script type="text/javascript">
@@ -83,8 +211,16 @@ $tourDetails = tourController::fetchTourDetails($tourID);
 
         function closeInput()
         {
-            document.getElementById('buttonGroup2').style.display = "none";
+
             document.getElementById('buttonGroup1').style.display = "block";
+            document.getElementById('buttonGroup2').style.display = "none";
+
+            document.getElementById('updateName').style.display = "none";
+            document.getElementById('updateDesc').style.display = "none";
+
+            document.getElementById('updateImages').style.display = "none";
+            document.getElementById('updateDates').style.display = "none";
+            document.getElementById('updatePrice').style.display = "none";
         }
 
     </script>
@@ -147,24 +283,15 @@ $tourDetails = tourController::fetchTourDetails($tourID);
         </nav>
         <!--end navigation bar-->
         
-        <!-- Success or Fail Alert -->
+        <!-- Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check) : ?>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Tour Successfully Booked!</h4>
-                    <hr>
-                    <p>You can View "<?php echo $tourName ?>" in Your List of Bookings</p>
-                </div>
-
-            <?php else : ?>
+            <?php if(!$check) : ?>
 
                 <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Failed to Book Tour</h4>
-                    <hr>
-                    <p></p>
+                    <h4 class="alert-heading">Failed to Update Tour</h4>
                 </div>
+
             <?php endif;?>
 
         <?php endif;?>
@@ -218,103 +345,116 @@ $tourDetails = tourController::fetchTourDetails($tourID);
             <!-- end div -->
             
             <!-- name update -->
-            <div id="updateName" class="card-body" style="display:none;">
-                <div class="form-group">
-                    <label for="inputTourName">Select Tour Name</label>
-                    <input name="tourName" id ="updtTourName" type="text" class="form-control" id="inputTourName" placeholder="e.g. Experience the local cuisine of Paris, France!" required>
-                    <br>
-                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourName='+document.getElementById('updtTourName').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
-                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
-                </div>
-            </div>
-            
-            <!-- desc update -->
-            <div id="updateDesc" class="card-body" style="display:none;">
-                <div class="form-group">
-                    <label for="tourDesc">Describe your Tour for the Tourists to See</label>
-                    <textarea class="form-control" id="updtTourDesc" rows="5" name="tourDescription"></textarea>
-                    <br>
-                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourDesc='+document.getElementById('updtTourDesc').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
-                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
-                </div>
-            </div>
-            
-            <!-- Images update -->
-            <div id="updateImages" class="card-body" style="display:none;">
-                <label>Upload Images of Your Tour Destination for the Tourists</label><br>
-                            
-                <div class="input-group mb-3">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="updtTourImg" name="tourImg[]" aria-describedby="inputGroupFileAddon01"  multiple accept=".jpg, .png, .jpeg"/>
-                        <label class="custom-file-label" for="tourImg">Choose file</label>
-
-                        <script>
-                            $('#tourImg').on('change',function(){
-                                //get the file name
-                                var files = $(this)[0].files;
-
-                                //display how many files were selected
-                                $(this).next('.custom-file-label').html(this.files.length + " file(s) selected");
-                            })
-                        </script>
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post">
+                <div id="updateName" class="card-body" style="display:none;text-align:center;">
+                    <div class="form-group">
+                        <label for="inputTourName">Select Tour Name</label>
+                        <input name="tourName" id ="updtTourName" type="text" class="form-control" id="inputTourName" placeholder="e.g. Experience the local cuisine of Paris, France!" required>
                         <br>
-                        <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourImg='+document.getElementById('updtTourImg').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
+                        <button type="submit" name="updateNameBtn" class="btn btn-dark">Confirm</button><br><br>
                         <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                     </div>
                 </div>
-            </div>
+            </form>
+            
+            <!-- desc update -->
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post">
+                <div id="updateDesc" class="card-body" style="display:none;text-align:center;">
+                    <div class="form-group">
+                        <label for="tourDesc">Describe your Tour for the Tourists to See</label>
+                        <textarea class="form-control" id="updtTourDesc" rows="5" name="tourDescription"></textarea>
+                        <br>
+                        <button type="submit" name="updateDescBtn" class="btn btn-dark">Confirm</button><br><br>
+                        <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Images update -->
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post" enctype="multipart/form-data">
+                <div id="updateImages" class="card-body" style="display:none;text-align:center;">
+                    <label>Upload Images of Your Tour Destination for the Tourists</label><br>
+                                
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="updtTourImg" name="tourImg[]" aria-describedby="inputGroupFileAddon01"  multiple accept=".jpg, .png, .jpeg"/>
+                            <label class="custom-file-label" for="tourImg">Choose file</label>
+                            
+                            <script>
+                                $('#tourImg').on('change',function(){
+                                    //get the file name
+                                    var files = $(this)[0].files;
+
+                                    //display how many files were selected
+                                    $(this).next('.custom-file-label').html(this.files.length + " file(s) selected");
+                                })
+                            </script>
+                            
+                        </div>
+                        <br><br>
+                        <button type="submit" name="updateImgBtn" class="btn btn-dark">Confirm</button><br><br>
+                        <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                    </div>
+                </div>
+            </form>
             
             <!-- dates update -->
-            <div id="updateDates" class="card-body" style="display:none;">
-                <label>Set Your Tour Start Date</label><br>
-                            
-                <div class="col-sm-6">
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="date" name="startDate" id="updtTourSD" class="form-control" id="datepicker1">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post">
+                <div id="updateDates" class="card-body" style="display:none;text-align:center;">
+                    <label>Set Your Tour Start Date</label><br>
+                                
+                    <div class="col-sm-6">
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="date" name="startDate" id="updtTourSD" class="form-control" id="datepicker1">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <label>Set Your Tour End Date</label><br>
-                
-                <div class="col-sm-6">
-                    <div class="input-group date" data-provide="datepicker">
-                        <input type="date" name="endDate" id="updtTourED" class="form-control" id="datepicker2">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
+                    <label>Set Your Tour End Date</label><br>
+                    
+                    <div class="col-sm-6">
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="date" name="endDate" id="updtTourED" class="form-control" id="datepicker2">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
                         </div>
                     </div>
+                    <br>
+                    <button type="submit" name="updateDatesBtn" class="btn btn-dark">Confirm</button><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
-                <br>
-                <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSD='+document.getElementById('updtTourSD').value+'&tourED='+document.getElementById('updtTourED').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
-                <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
-            </div>
+            </form>
             
             <!-- price update -->
-            <div id="updatePrice" class="card-body" style="display:none;">
-                <label>Set Price for your Tour</label><br>
-                            
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post">
+                <div id="updatePrice" class="card-body" style="display:none;text-align:center;">
+                    <label>Set Price for your Tour</label><br>
+                                
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" name="tourPrice" id="updtTourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
                     </div>
-                    <input type="text" name="tourPrice" id="updtTourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                    <br>
+                    <button type="submit" name="updatePriceBtn" class="btn btn-dark">Confirm</button></a><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
-                <br>
-                <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourPrice='+document.getElementById('updtTourPrice').value"><button type="button" name="update" class="btn btn-dark">Confirm</button></a><br><br>
-                <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
-
-            </div>
-        
+            </form>
+            
             <!-- button groups -->
             <div class="card-body text-center">
 
                 <!-- first group of buttons -->
                 <div id="buttonGroup1">
                     <button type="button" name="update" class="btn btn-dark" onclick="showUpdateButtons()">Update Tour</button><br><br>
-                    <button type="button" class="btn btn-dark">Cancel Tour</button>
+                    
+                    <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post" name="cancelForm">
+                        <button type="submit" name="cancelSubmit" class="btn btn-dark" onclick="confirmCancel()">Cancel Tour</button>
+                    </form>
                 </div>
                 <!-- end group 1 -->
                 

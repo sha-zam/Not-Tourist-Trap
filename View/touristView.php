@@ -55,6 +55,7 @@ if($bookings != false)
     .jumbotron
     {
         background-image:url("../Images/hk_night.jpg");
+        height:100vh;
     }
 
     .container-fluid 
@@ -128,8 +129,8 @@ if($bookings != false)
                                 $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
 
                                 //query for state and country name
-                                $country = destController::fetchCountry($data2['CountryID']);
-                                $state = destController::fetchState($data2['StateID']);
+                                $country = destController::fetchCountryDetails($data2['CountryID']);
+                                $state = destController::fetchStateDetails($data2['StateID']);
                             }
                             
                         ?>
@@ -139,7 +140,7 @@ if($bookings != false)
                                 <div class="card card-block">
                                     <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="tour" style="width:500px; height:400px">
                                     <div class="card-body text-center">
-                                        <h4 class="card-title"><?php echo $state.', '.$country ?></h4>
+                                        <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
                                         <h5 class="card-title"><?php echo $tourName ?></h5>
                                         <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
                                     </div>

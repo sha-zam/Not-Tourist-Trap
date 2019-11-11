@@ -37,15 +37,25 @@ $tours = guideController::fetchTours();
     
     <style>
 
-    .jumbotron
+    body
     {
         background-image:url("../Images/bali.jpg");
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 0;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
     }
 
     .container-fluid 
     {
         overflow-x : auto;
     }
+
+    .container-fluid::-webkit-scrollbar 
+    { 
+        display: none; 
+    } 
 
     .card-img-top 
     {
@@ -59,7 +69,7 @@ $tours = guideController::fetchTours();
 </head>
 <body>
 
-    <header class="jumbotron jumbotron-fluid">
+    <!-- <header class="jumbotron jumbotron-fluid"> -->
 
         <!--navigation bar-->
         <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
@@ -86,10 +96,20 @@ $tours = guideController::fetchTours();
 
         </nav>
         <!--end navigation bar-->
+        
+        <h1 class="display-4" style="color:white;margin-left:30px;margin-top:5%;"><b>Your Tours</b></h1>
+        
+        <?php if (isset($_GET['alert'])) :?>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Tour Successfully Updated!</h4>
+                <hr>
+                <p>Your Tour has been Successfully Updated!</p>
+            </div>
+
+        <?php endif; ?>
 
         <div class="container-fluid">
-
-            <h1 class="display-4" style="color:white;"><b>Your Tours</b></h1>
 
             <div class="row flex-row flex-nowrap">
 
@@ -107,12 +127,15 @@ $tours = guideController::fetchTours();
 
                             //query for state and country name
                             $country = destController::fetchCountryDetails($data['CountryID']);
-                            $state = destController::fetchStateDetails($data['StateID']);                      
+                            $state = destController::fetchStateDetails($data['StateID']);       
+                            
+                            //query for tour images
+                            $images = tourController::fetchTourImages($tourID)
                         ?>
 
                         <div class="col-3">
                             <div class="card card-block">
-                                <img class="card-img-top" src="../Images/<?php echo $state[0]['Image_3']?>" alt="labuan bajo cap" style="width:500px; height:400px">
+                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="labuan bajo cap" style="width:500px; height:400px">
                                 <a href="./updateTour.php?tourID=<?php echo $tourID?>">
                                     <div class="card-body text-center">
                                         <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
@@ -130,7 +153,7 @@ $tours = guideController::fetchTours();
             </div>
         </div>
 
-    </header>
+    <!-- </header> -->
 
 </body>
 </html>

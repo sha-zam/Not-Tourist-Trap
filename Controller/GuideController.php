@@ -34,6 +34,51 @@ class GuideController
         return $tours;
     }
 
+    public static function updateTour($tourID, $data, $data2, $toUpdate)
+    {
+        $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+
+        if($toUpdate == 'name')
+        {
+            $check = $user->updateTourName($tourID, $data);
+
+            return $check;
+        }
+        else if($toUpdate == 'desc')
+        {
+            $check = $user->updateTourDesc($tourID, $data);
+
+            return $check;
+        }
+        else if($toUpdate == 'img')
+        {
+            $check = $user->updateTourImg($tourID, $data);
+
+            return $check;
+        }
+        else if($toUpdate == 'dates')
+        {
+            $check = $user->updateTourDates($tourID, $data, $data2);
+
+            return $check;
+        }
+        else
+        {
+            $check = $user->updateTourPrice($tourID, $data);
+
+            return $check;
+        }
+    }
+
+    public static function cancelTour($tourID)
+    {
+        $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+
+        $check = $user->cancelTour($tourID);
+
+        return $check;
+    }
+
 }
 
 ?>
