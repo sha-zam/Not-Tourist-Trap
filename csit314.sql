@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2019 at 10:02 AM
+-- Generation Time: Nov 11, 2019 at 10:06 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.32
 
@@ -40,7 +40,8 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `TourID`, `UserID`, `Group_Size`) VALUES
-(15, 1, 15, 1);
+(16, 15, 17, 2),
+(18, 15, 17, 2);
 
 -- --------------------------------------------------------
 
@@ -171,9 +172,6 @@ CREATE TABLE `spokenlanguage` (
 --
 
 INSERT INTO `spokenlanguage` (`UserID`, `LanguageID`) VALUES
-(15, 17),
-(15, 15),
-(15, 20),
 (16, 17),
 (16, 11),
 (17, 0),
@@ -218,7 +216,7 @@ INSERT INTO `state` (`StateID`, `CountryID`, `Name`, `Description_1`, `Descripti
 
 CREATE TABLE `tour` (
   `TourID` int(11) NOT NULL,
-  `Name` varchar(255) NOT NULL,
+  `Name` text NOT NULL,
   `Description` text NOT NULL,
   `TourGuideID` int(11) NOT NULL,
   `CountryID` int(11) NOT NULL,
@@ -234,10 +232,7 @@ CREATE TABLE `tour` (
 --
 
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`) VALUES
-(1, 'Love is in the Air!', 'Romantissimo', 16, 2, 7, '2019-11-03', '2019-11-06', '300', 1),
-(4, 'Komodo Bitch!', 'A trip to Flores and the nearby islands combines magnificent landscapes of nature with antique traditions that still thrives today. From Labuan Bajo, you can enjoy a half day up to a full week Komodo cruise to enjoy the tropical waters, pristine islands, and welcoming local people.', 16, 7, 10, '11/21/2019', '11/24/2019', '350', 5),
-(5, 'text', 'ahahahaha', 16, 10, 11, '11/06/2019', '11/26/2019', '100', 1),
-(6, 'Check1', 'hshahaa', 16, 10, 11, '11/09/2019', '11/12/2019', '300', 2);
+(15, 'sadadsad', 'asdasda', 16, 10, 11, '11/22/2019', '11/23/2019', '20', 20);
 
 -- --------------------------------------------------------
 
@@ -257,15 +252,8 @@ CREATE TABLE `tourimage` (
 --
 
 INSERT INTO `tourimage` (`TourImgID`, `TourID`, `AddedByUser`, `Image`) VALUES
-(1, 1, 16, '1572778650_Chez-Paul-Paris-Alamy.jpg'),
-(2, 1, 16, '1572778650_untitled.png'),
-(9, 4, 16, '1573284013_06cfcdd0-223a7696-750x536.jpg'),
-(10, 4, 16, '1573284013_Fight-komodo-dragons.jpg'),
-(11, 4, 16, '1573284013_Trip-to-Komodo-Island-27-1024x768.jpg'),
-(12, 5, 16, '1573462317_S4PfgIZYQmmXexm0LzR7HQ.jpg'),
-(13, 5, 16, '1573462317_jl36yAWZTjigisF1vKlBFw.jpg'),
-(14, 6, 16, '1573462902_S4PfgIZYQmmXexm0LzR7HQ.jpg'),
-(15, 6, 16, '1573462902_jl36yAWZTjigisF1vKlBFw.jpg');
+(34, 15, 16, 'wqeqeqwe'),
+(36, 15, 16, 'wqeqeqwe');
 
 -- --------------------------------------------------------
 
@@ -294,7 +282,7 @@ CREATE TABLE `user` (
   `LastName` varchar(255) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Password` text NOT NULL,
-  `Profile_Image` varchar(255) NOT NULL
+  `Profile_Image` varchar(255) NOT NULL DEFAULT '1573211573_IMG_0420.JPG'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -302,9 +290,108 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, `Profile_Image`) VALUES
-(15, 'System', 'Admin', 'system@gmail.com', 'a9a9e9dcb45962970eac445259464b3f', ''),
 (16, 'Russell', 'Leong', 'rleong@gmail.com', 'af96cfbbb950a4123e0d08cfac0baf55', '1572777080_y.jpeg'),
-(17, 'System', 'Admin', 'sysadmin@gmail.com', 'a9a9e9dcb45962970eac445259464b3f', '1573211573_IMG_0420.JPG');
+(17, 'System', 'Admin', 'sysadmin@gmail.com', 'a9a9e9dcb45962970eac445259464b3f', '1573211573_IMG_0420.JPG'),
+(19, 'Leo', 'Collier', 'odio@nonhendreritid.edu', 'abnd1234', '1573211573_IMG_0420.JPG'),
+(20, 'Amery', 'Guthrie', 'Curabitur.dictum.Phasellus@mattisCraseget.com', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(21, 'Garrison', 'Hester', 'elit.sed.consequat@Aliquamnec.net', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(22, 'Winifred', 'Richard', 'luctus.ut.pellentesque@velitegestas.org', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(23, 'Ishmael', 'Byers', 'fringilla.Donec@luctus.net', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(24, 'Warren', 'Yates', 'tellus@ipsumdolor.org', 'abld1234', '1573211573_IMG_0420.JPG'),
+(25, 'Ursa', 'Mcgee', 'id.risus@Fusce.ca', 'abqd1234', '1573211573_IMG_0420.JPG'),
+(26, 'Jameson', 'Townsend', 'In.nec.orci@eu.org', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(27, 'Patience', 'Lambert', 'habitant@metusIn.co.uk', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(28, 'Oleg', 'Paul', 'Donec.at@hymenaeosMaurisut.com', 'abfd1234', '1573211573_IMG_0420.JPG'),
+(29, 'Reed', 'Whitney', 'bibendum@vitaeposuere.net', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(30, 'Knox', 'Emerson', 'a@arcu.net', 'abld1234', '1573211573_IMG_0420.JPG'),
+(31, 'Kuame', 'Ashley', 'inceptos.hymenaeos.Mauris@porttitorinterdum.ca', 'abvd1234', '1573211573_IMG_0420.JPG'),
+(32, 'Colt', 'Hammond', 'nec@elitpellentesquea.com', 'abvd1234', '1573211573_IMG_0420.JPG'),
+(33, 'Alfonso', 'Pearson', 'Vestibulum@eudoloregestas.com', 'abdd1234', '1573211573_IMG_0420.JPG'),
+(34, 'Emi', 'Curry', 'Etiam@mauris.co.uk', 'abrd1234', '1573211573_IMG_0420.JPG'),
+(35, 'Hanna', 'Morgan', 'adipiscing@ac.com', 'abyd1234', '1573211573_IMG_0420.JPG'),
+(36, 'Cyrus', 'Preston', 'Aliquam.erat@adlitoratorquent.com', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(37, 'Helen', 'Bell', 'Suspendisse.ac@conguea.edu', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(38, 'Len', 'Davidson', 'dictum.eleifend@turpisNulla.com', 'abcd1234', '1573211573_IMG_0420.JPG'),
+(39, 'Allistair', 'Barnes', 'lobortis.quam@adipiscingMauris.ca', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(40, 'Tad', 'Valentine', 'arcu.Vestibulum@facilisis.net', 'abdd1234', '1573211573_IMG_0420.JPG'),
+(41, 'George', 'Holder', 'libero@litora.com', 'abmd1234', '1573211573_IMG_0420.JPG'),
+(42, 'Xenos', 'Cortez', 'Suspendisse.sed@Vestibulumante.co.uk', 'abdd1234', '1573211573_IMG_0420.JPG'),
+(43, 'Ruth', 'Clay', 'Nunc.laoreet@Aliquam.net', 'abcd1234', '1573211573_IMG_0420.JPG'),
+(44, 'Gannon', 'Cotton', 'mollis.Duis@hendreritneque.org', 'abfd1234', '1573211573_IMG_0420.JPG'),
+(45, 'Xena', 'Vang', 'pede.blandit@idrisus.edu', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(46, 'Tyrone', 'Russell', 'sit.amet@loremfringillaornare.edu', 'abrd1234', '1573211573_IMG_0420.JPG'),
+(47, 'Kendall', 'Gonzales', 'facilisis.lorem@luctusCurabitur.com', 'abjd1234', '1573211573_IMG_0420.JPG'),
+(48, 'Tamara', 'Casey', 'tristique.pharetra@bibendum.ca', 'abnd1234', '1573211573_IMG_0420.JPG'),
+(49, 'Xerxes', 'Estes', 'Sed@cubiliaCurae.ca', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(50, 'Xerxes', 'Greene', 'Duis.dignissim@sociosquadlitora.co.uk', 'abzd1234', '1573211573_IMG_0420.JPG'),
+(51, 'Gil', 'Floyd', 'et.arcu@duinec.co.uk', 'abzd1234', '1573211573_IMG_0420.JPG'),
+(52, 'Asher', 'Knox', 'nisi.sem.semper@conguea.ca', 'abcd1234', '1573211573_IMG_0420.JPG'),
+(53, 'Hayley', 'Ferrell', 'dolor.sit@Fuscemilorem.co.uk', 'abld1234', '1573211573_IMG_0420.JPG'),
+(54, 'Brianna', 'Gould', 'libero@ac.ca', 'abhd1234', '1573211573_IMG_0420.JPG'),
+(55, 'Todd', 'Perez', 'Donec.porttitor.tellus@posuere.edu', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(56, 'Tyler', 'Velazquez', 'diam.Sed.diam@Sedneque.org', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(57, 'Ivor', 'Brennan', 'volutpat.ornare.facilisis@eu.ca', 'abbd1234', '1573211573_IMG_0420.JPG'),
+(58, 'Allen', 'Rodriguez', 'Fusce.aliquam.enim@velitPellentesqueultricies.ca', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(59, 'Cain', 'Green', 'accumsan.interdum@Proin.com', 'abfd1234', '1573211573_IMG_0420.JPG'),
+(60, 'Emmanuel', 'Kim', 'odio@euismod.org', 'abnd1234', '1573211573_IMG_0420.JPG'),
+(61, 'Glenna', 'Walters', 'erat.volutpat@eu.edu', 'abhd1234', '1573211573_IMG_0420.JPG'),
+(62, 'Gwendolyn', 'Odom', 'egestas.ligula.Nullam@tellusjustosit.ca', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(63, 'Hyatt', 'Nieves', 'Aenean.gravida@quisurnaNunc.net', 'abmd1234', '1573211573_IMG_0420.JPG'),
+(64, 'Maxwell', 'Carey', 'erat.nonummy.ultricies@atnisi.co.uk', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(65, 'Asher', 'Richard', 'cubilia.Curae@Donec.org', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(66, 'Felicia', 'Anthony', 'risus.at.fringilla@montesnascetur.com', 'abvd1234', '1573211573_IMG_0420.JPG'),
+(67, 'Lamar', 'Lyons', 'nec.urna@idante.com', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(68, 'Mari', 'Becker', 'semper.et@ligula.net', 'abyd1234', '1573211573_IMG_0420.JPG'),
+(69, 'Dominique', 'Harrell', 'Donec.luctus.aliquet@luctus.org', 'abkd1234', '1573211573_IMG_0420.JPG'),
+(70, 'Rashad', 'Alvarado', 'tristique@elitEtiamlaoreet.com', 'absd1234', '1573211573_IMG_0420.JPG'),
+(71, 'Grant', 'Alford', 'Morbi.accumsan.laoreet@a.edu', 'abjd1234', '1573211573_IMG_0420.JPG'),
+(72, 'Quyn', 'Barnes', 'magna.tellus.faucibus@milorem.edu', 'abhd1234', '1573211573_IMG_0420.JPG'),
+(73, 'Oleg', 'Marks', 'lectus@variusNam.co.uk', 'abld1234', '1573211573_IMG_0420.JPG'),
+(74, 'Vanna', 'Ellis', 'enim.Curabitur@tincidunt.net', 'abtd1234', '1573211573_IMG_0420.JPG'),
+(75, 'Destiny', 'House', 'eleifend.nunc.risus@egetlacus.co.uk', 'abdd1234', '1573211573_IMG_0420.JPG'),
+(76, 'Leroy', 'Parks', 'Duis@PhasellusornareFusce.net', 'abkd1234', '1573211573_IMG_0420.JPG'),
+(77, 'Janna', 'Barrera', 'sit@eratsemper.co.uk', 'abyd1234', '1573211573_IMG_0420.JPG'),
+(78, 'Rhea', 'Nolan', 'nec@tempusrisusDonec.com', 'abhd1234', '1573211573_IMG_0420.JPG'),
+(79, 'Daphne', 'Grant', 'adipiscing@congue.net', 'abld1234', '1573211573_IMG_0420.JPG'),
+(80, 'Rinah', 'Frye', 'at@nondui.edu', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(81, 'Christen', 'Vaughan', 'vitae@ornare.ca', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(82, 'Uriah', 'Massey', 'molestie@Morbi.ca', 'abjd1234', '1573211573_IMG_0420.JPG'),
+(83, 'Deirdre', 'Velez', 'magna.Lorem@turpisegestas.edu', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(84, 'Lynn', 'Jacobson', 'ac.nulla.In@interdum.co.uk', 'abld1234', '1573211573_IMG_0420.JPG'),
+(85, 'Blake', 'Erickson', 'placerat.velit@risusodio.net', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(86, 'Talon', 'Browning', 'dictum.ultricies@vel.net', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(87, 'Alexander', 'Roth', 'placerat@nisl.edu', 'abmd1234', '1573211573_IMG_0420.JPG'),
+(88, 'Ruth', 'Coleman', 'erat.eget@faucibusorci.ca', 'abrd1234', '1573211573_IMG_0420.JPG'),
+(89, 'Forrest', 'Craig', 'auctor.velit@afacilisis.co.uk', 'abhd1234', '1573211573_IMG_0420.JPG'),
+(90, 'Aimee', 'Mcdonald', 'sit.amet@in.org', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(91, 'Wylie', 'Gilbert', 'aliquam@PhasellusornareFusce.edu', 'abcd1234', '1573211573_IMG_0420.JPG'),
+(92, 'Leo', 'Short', 'dictum.Phasellus.in@orciquislectus.co.uk', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(93, 'Kenneth', 'Gross', 'adipiscing@loremipsumsodales.co.uk', 'abkd1234', '1573211573_IMG_0420.JPG'),
+(94, 'Hayden', 'Mclean', 'Fusce@eueuismod.edu', 'abqd1234', '1573211573_IMG_0420.JPG'),
+(95, 'Florence', 'Horton', 'vel.pede@velitegestaslacinia.edu', 'abvd1234', '1573211573_IMG_0420.JPG'),
+(96, 'Kai', 'Fowler', 'egestas@Phaselluslibero.org', 'abrd1234', '1573211573_IMG_0420.JPG'),
+(97, 'Belle', 'Terrell', 'parturient@Suspendissenonleo.net', 'abrd1234', '1573211573_IMG_0420.JPG'),
+(98, 'Alexis', 'Boyd', 'velit.Pellentesque@nonarcu.ca', 'abmd1234', '1573211573_IMG_0420.JPG'),
+(99, 'May', 'Morin', 'conubia@fermentumconvallisligula.ca', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(100, 'Tucker', 'Cleveland', 'gravida@dignissimMaecenasornare.org', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(101, 'Rylee', 'Mccormick', 'lacus.Aliquam@habitant.org', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(102, 'Anastasia', 'Owen', 'Aenean.egestas.hendrerit@libero.co.uk', 'abjd1234', '1573211573_IMG_0420.JPG'),
+(103, 'Adara', 'Moon', 'arcu@sitametconsectetuer.org', 'abzd1234', '1573211573_IMG_0420.JPG'),
+(104, 'Howard', 'Lindsay', 'elit.pretium.et@augue.edu', 'abtd1234', '1573211573_IMG_0420.JPG'),
+(105, 'Damon', 'Lynch', 'blandit@Donecnonjusto.net', 'abgd1234', '1573211573_IMG_0420.JPG'),
+(106, 'Mark', 'Mcknight', 'Sed.auctor@sapienCras.com', 'abkd1234', '1573211573_IMG_0420.JPG'),
+(107, 'Mollie', 'Ray', 'dictum.augue.malesuada@vitaesemper.co.uk', 'abwd1234', '1573211573_IMG_0420.JPG'),
+(108, 'Elijah', 'Wolf', 'ornare.In.faucibus@fermentumarcu.edu', 'abnd1234', '1573211573_IMG_0420.JPG'),
+(109, 'Flynn', 'Holden', 'nunc.ac@risusodioauctor.org', 'abvd1234', '1573211573_IMG_0420.JPG'),
+(110, 'Tyrone', 'Adkins', 'nunc.interdum@nuncidenim.edu', 'abld1234', '1573211573_IMG_0420.JPG'),
+(111, 'Karina', 'Wooten', 'Curabitur.ut@parturient.net', 'abtd1234', '1573211573_IMG_0420.JPG'),
+(112, 'Jack', 'Frost', 'nunc.sed.libero@miloremvehicula.co.uk', 'abkd1234', '1573211573_IMG_0420.JPG'),
+(113, 'Gage', 'Dotson', 'senectus.et.netus@tellusjusto.org', 'abpd1234', '1573211573_IMG_0420.JPG'),
+(114, 'Justina', 'Mcknight', 'hendrerit.a@ligulaNullamenim.edu', 'abyd1234', '1573211573_IMG_0420.JPG'),
+(115, 'Zane', 'Mccormick', 'quam.a.felis@malesuada.edu', 'abxd1234', '1573211573_IMG_0420.JPG'),
+(116, 'Kevin', 'Joyner', 'fringilla.cursus.purus@ipsumnonarcu.org', 'abzd1234', '1573211573_IMG_0420.JPG'),
+(117, 'Chantale', 'Powell', 'sapien@ametfaucibus.edu', 'abbd1234', '1573211573_IMG_0420.JPG'),
+(118, 'Tanner', 'Barrera', 'Proin.dolor@ametante.ca', 'abjd1234', '1573211573_IMG_0420.JPG');
 
 --
 -- Indexes for dumped tables
@@ -384,7 +471,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -408,13 +495,13 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tourimage`
 --
 ALTER TABLE `tourimage`
-  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `tourreview`
@@ -426,7 +513,7 @@ ALTER TABLE `tourreview`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- Constraints for dumped tables
@@ -466,7 +553,7 @@ ALTER TABLE `tour`
 --
 ALTER TABLE `tourimage`
   ADD CONSTRAINT `tourimage_ibfk_1` FOREIGN KEY (`TourID`) REFERENCES `tour` (`TourID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tourimage_ibfk_2` FOREIGN KEY (`AddedByUser`) REFERENCES `tour` (`TourGuideID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `tourimage_ibfk_2` FOREIGN KEY (`AddedByUser`) REFERENCES `user` (`UserID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tourreview`
