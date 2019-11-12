@@ -83,7 +83,7 @@
 
         .jumbotron
         {
-            background-image: url("../Images/nyc.jpeg"); 
+            background-image: url("../Images/New-York-City-Night-Cityscape.jpg"); 
         }
 
         .accordion, .alert

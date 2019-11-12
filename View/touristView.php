@@ -142,8 +142,9 @@ if($bookings != false)
 
                         <?php 
                             $tourID = $data['TourID'];
-                            $tourDetails = tourController::fetchTourDetails($tourID);
                             $bookingID = $data['BookingID'];
+
+                            $tourDetails = tourController::fetchTourDetails($tourID);
 
                             //query for tour images
                             $images = tourController::fetchTourImages($tourID);
@@ -165,7 +166,7 @@ if($bookings != false)
                         <div class="col-3">
                             <a href="./updateBooking.php?bookingID=<?php echo $bookingID?>&tourID=<?php echo $tourID?>">
                                 <div class="card card-block">
-                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $image[0]?>.jpg" alt="tour" style="width:500px; height:400px">
+                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="tour image" style="width:500px; height:400px">
                                     <div class="card-body text-center">
                                         <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
                                         <h5 class="card-title"><?php echo $tourName ?></h5>

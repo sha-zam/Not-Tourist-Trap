@@ -64,7 +64,7 @@ class User
 
         return $conn;
     }
-    
+
     //Accessors (to be added later)
     public function getUserID()
     {
@@ -106,8 +106,8 @@ class User
     {
         $conn = $this->connect(); //create connection
 
-        //query
-        $this->pwd = md5($this->pwd);
+        //query md5
+        //$this->pwd = md5($this->pwd);
 
         $query = "SELECT * from user WHERE Email='$this->email' and Password='$this->pwd'";
 
@@ -186,7 +186,7 @@ class User
         if($count_row == 0)//Check whether user already exists 
         {
             //md5 pwd
-            $this->pwd = md5($this->pwd);
+            //$this->pwd = md5($this->pwd);
 
             //query to insert user 
             $sql1 = "INSERT INTO user (FirstName,LastName,Email,Password,Profile_Image) VALUES ('$this->fName','$this->lName','$this->email','$this->pwd','$this->profileImg')"; 

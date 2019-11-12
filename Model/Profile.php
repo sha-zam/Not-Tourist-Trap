@@ -107,24 +107,25 @@ class Profile
             $bookingQ = "select BookingID from BOOKING where TourID in (SELECT TourID from TOUR where TourGuideID = $this->userID)";
             $bookingQ_result = $conn->query($bookingQ);
             
-            if($bookingQ_result->num_rows > 0)
+            if(!empty($bookingQ_result) && $bookingQ_result->num_rows > 0)
             {
                 while($booking_row = $bookingQ_result->fetch_assoc())
                 {
                     $this->bookingID[] = $booking_row["BookingID"];
                 }
+
+                foreach($this->bookingID as $key => $value)
+                {
+                    $tourReview = new TourReview($value);
+                    $this->tourReview[$key] = $tourReview->getTourReview();
+                    // $comment = $this->tourReview[$key]->getComment();   
+                    // $rating = $this->tourReview[$key]->getRating();
+                    // $tourname = $this->tourReview[$key]->getTourName();
+                    // $reviewerName = $this->tourReview[$key]->getReviewerName();
+                    
+                }
             }
             
-            foreach($this->bookingID as $key => $value)
-            {
-                $tourReview = new TourReview($value);
-                $this->tourReview[$key] = $tourReview->getTourReview();
-                $comment = $this->tourReview[$key]->getComment();   
-                $rating = $this->tourReview[$key]->getRating();
-                $tourname = $this->tourReview[$key]->getTourName();
-                $reviewerName = $this->tourReview[$key]->getReviewerName();
-                
-            }
             $conn->close();
             return $this;
         }

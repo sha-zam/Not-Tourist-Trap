@@ -132,7 +132,7 @@ $tours = guideController::fetchTours();
                             $state = destController::fetchStateDetails($data['StateID']);       
                             
                             //query for tour images
-                            $images = tourController::fetchTourImages($tourID)
+                            $images = tourController::fetchTourImages($tourID);
                         ?>
 
                         <div class="col-3">

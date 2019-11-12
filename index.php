@@ -217,7 +217,7 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/nyc.jpeg" alt="new york city cap" style="width:500px; height:400px">
-                        <a href="View/destView.php?country=USA&state=New York City">
+                        <a href="View/destView.php?country=United States of America&state=New York City">
                             <div class="card-body">
                                 <h5 class="card-title">New York City, USA</h5>
                                 <p class="card-text">Discover why so many people love New York City. There's plenty of events, attractions and restaurants to experience. Let the experienced tour guides help you plan your NYC adventure</p>

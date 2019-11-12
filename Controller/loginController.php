@@ -1,6 +1,6 @@
 <?php
 
-    include '../Model/Tourist.php';
+    include '../Model/User.php';
 
     class loginController 
     {
