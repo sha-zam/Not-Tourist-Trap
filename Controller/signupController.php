@@ -31,12 +31,20 @@
             //check password length
             if (strlen($this->pwd) < 8)
             {
-                return false;
+                return 'Password';
             }
-            else if ($this->email == '' || $this->fName == '' || $this->lName == '') //check other things
+            else if ($this->email == '') //check other things
             {
-                return false;
+                return 'Email';
             } 
+            else if ($this->fName == '' || $this->lName == '')
+            {
+                return 'Name';
+            }
+            else if ($this->profileImg == '')
+            {
+                return 'Profile Image';
+            }
             else
             {
                 $this->user = new User($this->email, $this->pwd, $this->fName, $this->lName, $this->profileImg, $this->lang);

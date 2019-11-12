@@ -2,8 +2,12 @@
 
 include '../Controller/signupController.php';
 
+$navBar= file_get_contents("../constants/generalNavBar.php");
+
 if (isset($_POST['submit']))
 {
+    $navBar= file_get_contents("../constants/generalNavBar.php");
+
     //Get user details
     $email = $_POST["email"];
     $pwd = $_POST["pwd"];
@@ -27,7 +31,7 @@ if (isset($_POST['submit']))
 
     $check = $signUpCtr -> validateData();
 
-    if($check)
+    if($check != 'name' && $check != 'password' && $check != 'email' && $check != 'profile image')
     {
         header("Location:./login.php?regist=true");
     }
@@ -72,6 +76,24 @@ if (isset($_POST['submit']))
             }
         }
 
+        function validateForm() 
+        {
+            var profileImage = document.forms["signup"]["profileImage"].value;
+
+            if (profileImage == "") 
+            {
+                alert("Please set a Profile Image!");
+                return false;
+            }
+            
+            if( document.getElementById("termCheck").checked == false)
+            {
+                alert("Please Agree to the Terms of Privacy!");
+                return false;
+            }
+
+        }
+
     </script>
 
     <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
@@ -112,7 +134,7 @@ if (isset($_POST['submit']))
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
             <!-- nav list -->
-            <?php include("../constants/generalNavBar.php"); ?>
+            <?php echo $navBar; ?>
 
         </nav>
         <!-- end nav bar -->
@@ -120,24 +142,12 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check) : ?>
-
-                <div class="alert alert-success" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
-                    <h4 class="alert-heading">Account Successfully Created!</h4>
-                    <hr>
-                    <p>You can now login using the registered email and password!</p>
-                </div>
-
-            <?php else : ?>
-
-                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
-                    <h4 class="alert-heading">Failed to Create Account</h4>
-                    <hr>
-                    <p>Invalid Information Provided! Please Enter the Correct Informations</p>
-                </div>
+            <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                <h4 class="alert-heading">Failed to Create Account</h4>
+                <hr>
+                <p>Invalid <?php echo $check ?> Provided! Please Enter the Correct Informations</p>
+            </div>
                 
-            <?php endif;?>
-
         <?php endif;?>
         <!-- End Alert -->
 
@@ -149,11 +159,11 @@ if (isset($_POST['submit']))
 
                 <h1 style="margin-top : 10px;">Sign Up</h1>
 
-                    <form action="signup.php" method="POST" name="signup" enctype="multipart/form-data">
+                    <form action="signup.php" method="POST" name="signup" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <div class="form-group text-center">
                             <img src="../Images/placeholder.jpg" onclick="triggerClick()" id="profileDisplay"/>
                             <label for="profileImage">Profile Image</label>
-                            <input name="profileImage" type="file" onchange="displayImage(this)" class="form-control" id="profileImage" style="display:none;" required>
+                            <input name="profileImage" type="file" onchange="displayImage(this)" class="form-control" id="profileImage" style="display:none;">
                         </div>
 
                         <div class="form-group">
@@ -211,8 +221,8 @@ if (isset($_POST['submit']))
                         </div>
 
                         <div class="form-check">
-                            <input name="termsCheckbox" type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">I hereby agree to the terms of privacy and agreement</label>
+                            <input name="termsCheckbox" type="checkbox" class="form-check-input" id="termsCheck">
+                            <label class="form-check-label" for="termsCheck">I hereby agree to the terms of privacy and agreement</label>
                         </div>
 
                         <button type="submit" name="submit" class="btn btn-dark" style="margin-top : 10px;">Sign Up</button>

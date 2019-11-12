@@ -217,20 +217,24 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/nyc.jpeg" alt="new york city cap" style="width:500px; height:400px">
+                        <a href="View/destView.php?country=USA&state=New York City">
                             <div class="card-body">
                                 <h5 class="card-title">New York City, USA</h5>
                                 <p class="card-text">Discover why so many people love New York City. There's plenty of events, attractions and restaurants to experience. Let the experienced tour guides help you plan your NYC adventure</p>
                             </div>
+                        </a>
                     </div>
                 </div>
 
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/seoul.jpeg" alt="seoul cap" style="width:500px; height:400px">
+                        <a href="View/destView.php?country=South Korea&state=Seoul">
                             <div class="card-body">
                                 <h5 class="card-title">Seoul, South Korea</h5>
                                 <p class="card-text">Fashion- and technology-forward but also deeply traditional, this dynamic city mashes up palaces, temples, cutting-edge design and mountain trails, all to a nonstop K-Pop beat</p>
                             </div>
+                        </a>
                     </div>
                 </div>
 

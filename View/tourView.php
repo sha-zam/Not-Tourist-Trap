@@ -240,8 +240,8 @@ if(isset($_GET['tourSize']))
 
                 <!-- first group of buttons -->
                 <div id="buttonGroup1">
-                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button></a><br><br>
-                    <button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button>
+                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button><br><br>
+                    <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
                 </div>
                 
                 <!--second group of buttons-->

@@ -223,7 +223,7 @@ $tours = destController::fetchTours($country, $state);
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo $x['Name']?></h5>
                                         <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
-                                        <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
+                                        <a href="./tourView.php?state=<?php echo $state?>&country=<?php echo $country?>&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
                                             <button type="button" class="btn btn-primary">Click Here for More Details</button>
                                         </a>
                                     </div>

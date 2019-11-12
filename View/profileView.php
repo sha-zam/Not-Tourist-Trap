@@ -32,7 +32,7 @@
         
         .jumbotron 
         {
-            background-image : url("../../Images/bridge_night.jpg");
+            background-image : url("../Images/hk_night.jpg");
             background-size : cover;
             background-position : center center; 
             height : 100vh;
@@ -50,8 +50,8 @@
     <!--jumbotron header-->
     <header class="jumbotron jumbotron-fluid">
         
-        <!--navigation bar-->
-        <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
+            <!--navigation bar-->
+            <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
 
             <!--toggler for small windows-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,48 +59,23 @@
             </button>
 
             <!--Home hyperlink-->
-            <a class="navbar-brand" href="../../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
+            <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!-- nav bar -->
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-
+            <!--nav list-->
             <?php
-            if(isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-            {
-                $userID = $_SESSION['userID'];
-                echo <<< LOGGEDNAV
-
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../host.php" style="color : white">Host an Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href='../profileView.php/?user=$userID' style="color : white">View Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../logout.php" style="color : white">Log Out</a>
-                    </li>
-                </ul>
-LOGGEDNAV;
-            }
-            else
-            {
-                echo <<< GENERALNAV
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../host.php" style="color : white">Host an Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php" style="color : white">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="signup.php" style="color : white">Sign Up</a>
-                    </li>
-                </ul>
-GENERALNAV;
-            }
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    include_once("../constants/loggedNavBar.php");
+                }
+                else
+                {
+                    include_once("../constants/generalNavBar.php");
+                }
             ?>
-            </div>
+
+            </nav>
+            <!--end navigation bar-->
+            
         </nav>
         <?php 
             $method = $_SERVER["REQUEST_METHOD"];

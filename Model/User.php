@@ -64,28 +64,7 @@ class User
 
         return $conn;
     }
-
-    //Mutators (to be added later , possibly in a different entity)
-    // public function setEmail($email)
-    // {
-    //     $this->email = $email;
-    // }
-
-    // public function setPwd($pwd)
-    // {
-    //     $this->pwd = md5($pwd);
-    // }
-
-    // public function setFName($fName)
-    // {
-    //     $this->fName = $fName;
-    // }
-
-    // public function setLName($lName)
-    // {
-    //     $this->lName = $lName;
-    // }
-
+    
     //Accessors (to be added later)
     public function getUserID()
     {

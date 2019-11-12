@@ -40,30 +40,55 @@ class GuideController
 
         if($toUpdate == 'name')
         {
+            if($data == '')
+            {
+                return false;
+            }
+
             $check = $user->updateTourName($tourID, $data);
 
             return $check;
         }
         else if($toUpdate == 'desc')
         {
+            if($data == '')
+            {
+                return false;
+            }
+
             $check = $user->updateTourDesc($tourID, $data);
 
             return $check;
         }
         else if($toUpdate == 'img')
         {
+            if($data == '')
+            {
+                return false;
+            }
+
             $check = $user->updateTourImg($tourID, $data);
 
             return $check;
         }
         else if($toUpdate == 'dates')
         {
+            if($data == '' || $data2 == '')
+            {
+                return false;
+            }
+
             $check = $user->updateTourDates($tourID, $data, $data2);
 
             return $check;
         }
         else
         {
+            if($data == '')
+            {
+                return false;
+            }
+            
             $check = $user->updateTourPrice($tourID, $data);
 
             return $check;
