@@ -20,7 +20,7 @@ class TourReview
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "csit314";
+        $dbname = "csit3142";
         
         $conn = new mysqli($servername, $username, $password, $dbname);
         
