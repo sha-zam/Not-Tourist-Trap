@@ -8,21 +8,6 @@ class Tourist extends User
 {
     private $userID;
 
-    // public function __contruct()
-    // {
-
-    // }
-
-    // public static function idConstruct($userID)
-    // {
-    //     $instance = new self();
-    //     $instance->setUserID($userID);
-
-    //     echo "<script type='text/javascript'>alert('$userID')</script>";
-
-    //     return $instance;
-    // }
-
     public function __construct ($userID, $email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         //$instance = new self();
@@ -69,9 +54,37 @@ class Tourist extends User
  
     }
 
-    public function bookTour()
+    public function updateBooking($bookingID, $tourID, $tourSize)
     {
+        //db connection
+        $conn = $this->connect();
 
+        //query
+        $result = $conn->query("UPDATE booking SET Group_Size = '$tourSize' WHERE BookingID = '$bookingID' AND TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function cancelBooking($bookingID, $tourID)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("DELETE FROM booking WHERE BookingID = '$bookingID'");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    
     }
 }
 

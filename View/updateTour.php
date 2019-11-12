@@ -164,7 +164,7 @@ else if(isset($_POST['cancelSubmit']))
 
         function confirmCancel()
         {
-            if(confirm("Do You Want to Cancel This Tour?"))
+            if(confirm("Are You Sure You Want to Cancel This Tour?"))
             {
                 cancelForm.submit();
             }
@@ -337,7 +337,7 @@ else if(isset($_POST['cancelSubmit']))
                 <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
             </div>
 
-            <div id="touHeader" class="card-body">
+            <div id="tourHeader" class="card-body">
                 <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
                 <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
                 <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
@@ -376,12 +376,13 @@ else if(isset($_POST['cancelSubmit']))
                     <label>Upload Images of Your Tour Destination for the Tourists</label><br>
                                 
                     <div class="input-group mb-3">
+
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="updtTourImg" name="tourImg[]" aria-describedby="inputGroupFileAddon01"  multiple accept=".jpg, .png, .jpeg"/>
                             <label class="custom-file-label" for="tourImg">Choose file</label>
                             
                             <script>
-                                $('#tourImg').on('change',function(){
+                                $('#updtTourImg').on('change',function(){
                                     //get the file name
                                     var files = $(this)[0].files;
 
@@ -391,10 +392,11 @@ else if(isset($_POST['cancelSubmit']))
                             </script>
                             
                         </div>
-                        <br><br>
-                        <button type="submit" name="updateImgBtn" class="btn btn-dark">Confirm</button><br><br>
-                        <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                     </div>
+
+                    <br><br>
+                    <button type="submit" name="updateImgBtn" class="btn btn-dark">Confirm</button><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
             </form>
             
@@ -403,7 +405,7 @@ else if(isset($_POST['cancelSubmit']))
                 <div id="updateDates" class="card-body" style="display:none;text-align:center;">
                     <label>Set Your Tour Start Date</label><br>
                                 
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="margin:0 auto;">
                         <div class="input-group date" data-provide="datepicker">
                             <input type="date" name="startDate" id="updtTourSD" class="form-control" id="datepicker1">
                             <div class="input-group-addon">
@@ -411,10 +413,10 @@ else if(isset($_POST['cancelSubmit']))
                             </div>
                         </div>
                     </div>
-
+                    <br><br>
                     <label>Set Your Tour End Date</label><br>
                     
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="margin:0 auto;">
                         <div class="input-group date" data-provide="datepicker">
                             <input type="date" name="endDate" id="updtTourED" class="form-control" id="datepicker2">
                             <div class="input-group-addon">
@@ -452,8 +454,8 @@ else if(isset($_POST['cancelSubmit']))
                 <div id="buttonGroup1">
                     <button type="button" name="update" class="btn btn-dark" onclick="showUpdateButtons()">Update Tour</button><br><br>
                     
-                    <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post" name="cancelForm">
-                        <button type="submit" name="cancelSubmit" class="btn btn-dark" onclick="confirmCancel()">Cancel Tour</button>
+                    <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post" name="cancelForm" onsubmit="return confirm('Do you really want to cancel the tour?');">
+                        <button type="submit" name="cancelSubmit" class="btn btn-dark">Cancel Tour</button>
                     </form>
                 </div>
                 <!-- end group 1 -->

@@ -84,18 +84,6 @@ if(isset($_GET['tourSize']))
 
     <script type="text/javascript">
 
-        function clicked() 
-        {
-            if (confirm('Do you want to submit?')) 
-            {
-                bookForm.submit();
-            } 
-            else 
-            {
-                return false;
-            }
-        }
-
         function showInput() 
         {
             document.getElementById('inputSize').style.display = "block";

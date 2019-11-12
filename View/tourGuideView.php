@@ -97,8 +97,9 @@ $tours = guideController::fetchTours();
         </nav>
         <!--end navigation bar-->
         
-        <h1 class="display-4" style="color:white;margin-left:30px;margin-top:5%;"><b>Your Tours</b></h1>
+        <h1 class="display-4" style="color:white;margin-left:20px;margin-top:5%;"><b>Your Tours</b></h1>
         
+        <!-- alert section -->
         <?php if (isset($_GET['alert'])) :?>
 
             <div class="alert alert-success" role="alert">
@@ -108,6 +109,7 @@ $tours = guideController::fetchTours();
             </div>
 
         <?php endif; ?>
+        <!-- end alert section -->
 
         <div class="container-fluid">
 
@@ -115,7 +117,7 @@ $tours = guideController::fetchTours();
 
                 <?php if(!$tours) :?>
 
-                    <p class="lead" style="color:white; margin-left:20px;"><b>No Tours Created Yet</b></p>
+                    <p class="lead" style="color:white; margin-left:30px;"><b>No Tours Created Yet</b></p>
                 
                 <?php else :?>
 
@@ -135,7 +137,7 @@ $tours = guideController::fetchTours();
 
                         <div class="col-3">
                             <div class="card card-block">
-                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="labuan bajo cap" style="width:500px; height:400px">
+                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="tour image" style="width:500px; height:400px">
                                 <a href="./updateTour.php?tourID=<?php echo $tourID?>">
                                     <div class="card-body text-center">
                                         <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>

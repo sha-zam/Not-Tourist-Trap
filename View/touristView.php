@@ -52,16 +52,26 @@ if($bookings != false)
     
     <style>
 
-    .jumbotron
+    body
     {
         background-image:url("../Images/hk_night.jpg");
-        height:100vh;
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 0;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
     }
+
 
     .container-fluid 
     {
         overflow-x : auto;
     }
+
+    .container-fluid::-webkit-scrollbar 
+    { 
+        display: none; 
+    } 
 
     .card-img-top 
     {
@@ -76,7 +86,7 @@ if($bookings != false)
 <body>
     
     <!-- jumbotron header -->
-    <header class="jumbotron jumbotron-fluid">
+    <!-- <header class="jumbotron jumbotron-fluid"> -->
 
         <!--navigation bar-->
         <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
@@ -104,22 +114,39 @@ if($bookings != false)
         </nav>
         <!--end navigation bar-->
 
-        <div class="container-fluid">
+        <h1 class="display-4" style="color:white;margin-left:20px;margin-top:5%;"><b>Your Bookings</b></h1>
 
-            <h1 class="display-4" style="color:white;"><b>Your Bookings</b></h1>
+        <!-- alert section -->
+        <?php if (isset($_GET['alert'])) :?>
+
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Booking Successfully Updated!</h4>
+                <hr>
+                <p>Your Booking has been Successfully Updated!</p>
+            </div>
+
+        <?php endif; ?>
+        <!-- end alert section -->
+
+        <div class="container-fluid">
 
             <div class="row flex-row flex-nowrap">
 
                 <?php if(!$bookings) :?>
 
-                    <p class="lead" style="color:white; margin-left:20px;"><b>No Bookings Available</b></p>
+                    <p class="lead" style="color:white; margin-left:30px;"><b>No Bookings Available</b></p>
                 
                 <?php else :?>
 
                     <?php foreach($bookingData as $data) :?>
 
                         <?php 
-                            $tourDetails = tourController::fetchTourDetails($data['TourID']);
+                            $tourID = $data['TourID'];
+                            $tourDetails = tourController::fetchTourDetails($tourID);
+                            $bookingID = $data['BookingID'];
+
+                            //query for tour images
+                            $images = tourController::fetchTourImages($tourID);
 
                             foreach($tourDetails as $data2)
                             {
@@ -136,9 +163,9 @@ if($bookings != false)
                         ?>
 
                         <div class="col-3">
-                            <a href="./updateTour.php?tourID=<?php echo $data['TourID']?>">
+                            <a href="./updateBooking.php?bookingID=<?php echo $bookingID?>&tourID=<?php echo $tourID?>">
                                 <div class="card card-block">
-                                    <img class="card-img-top" src="../Images/<?php echo $state?>.jpg" alt="tour" style="width:500px; height:400px">
+                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $image[0]?>.jpg" alt="tour" style="width:500px; height:400px">
                                     <div class="card-body text-center">
                                         <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
                                         <h5 class="card-title"><?php echo $tourName ?></h5>
@@ -155,7 +182,7 @@ if($bookings != false)
             </div>
        </div>
 
-    </header>
+    <!-- </header> -->
     <!-- end jumbotron header -->
 
 </body>

@@ -25,6 +25,24 @@ class bookingController
         }
 
     }
+
+    public static function cancelBooking($bookingID, $tourID)
+    {
+        $user = new Tourist($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+
+        $check = $user->cancelBooking($bookingID, $tourID);
+
+        return $check;
+    }
+
+    public static function updateBooking($bookingID, $tourID, $tourSize)
+    {
+        $user = new Tourist($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+
+        $check = $user->updateBooking($bookingID, $tourID, $tourSize);
+
+        return $check;
+    }
 }
 
 ?>

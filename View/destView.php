@@ -205,30 +205,31 @@ $tours = destController::fetchTours($country, $state);
                 <?php if(count($tours) > 0) : ?>
 
                     <?php foreach($tours as $x) : ?>
+                        <?php if($x['Status'] == 'YTS') :?>
+                            <?php 
 
-                        <?php 
+                                $guideDetails = array();
 
-                            $guideDetails = array();
+                                //Ask guideCtr for tourguide name and profileImg
+                                $guideDetails= tourController::fetchTourGuideDetails($x['TourGuideID']);
+                                //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
 
-                            //Ask guideCtr for tourguide name and profileImg
-                            $guideDetails= tourController::fetchTourGuideDetails($x['TourGuideID']);
-                            //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
+                                $guideDetails[3] = "../Uploaded_Images/".$guideDetails[3];
+                            ?>
 
-                            $guideDetails[3] = "../Uploaded_Images/".$guideDetails[3];
-                        ?>
-
-                        <div class="col-3">
-                            <div class="card card-block text-center">
-                                <img class="card-img-top" src="<?php echo $guideDetails[3] ?>" alt="tourguide" style="width:500px; height:400px">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $x['Name']?></h5>
-                                    <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
-                                    <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
-                                        <button type="button" class="btn btn-primary">Click Here for More Details</button>
-                                    </a>
+                            <div class="col-3">
+                                <div class="card card-block text-center">
+                                    <img class="card-img-top" src="<?php echo $guideDetails[3] ?>" alt="tourguide" style="width:500px; height:400px">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo $x['Name']?></h5>
+                                        <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
+                                        <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
+                                            <button type="button" class="btn btn-primary">Click Here for More Details</button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif;?>
 
                     <?php endforeach; ?>
 

@@ -44,7 +44,7 @@ if (isset($_POST['submit']))
     }
 
     //Pass to Controller
-    $check = GuideController::submitTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
+    $check = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
     //$check = $guideCtr->validateData();
 }
@@ -78,12 +78,12 @@ if (isset($_POST['submit']))
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
-    <script>
+    <!-- <script>
         $( function() 
         {
             $( "#datepicker1, #datepicker2" ).datepicker();
         });
-    </script>
+    </script> -->
 
     <script>
         $("input[type='number']").inputSpinner();

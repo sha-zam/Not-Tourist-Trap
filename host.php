@@ -95,7 +95,7 @@ session_start();
                         <h1 class="display-4"><b>Welcome to Not-Tourist-Trap <br> Experiences</b>, $ufName</h1>
                         <p class="lead"><b>Start a personalised tour of your own and <br> earn money</b></p>
                         <hr class="my-4">
-                        <a class="btn btn-primary btn-light" id="startBtn" href="./View/hostForm.php" role="button">Let's Start!</a>
+                        <a class="btn btn-primary btn-light" id="startBtn" href="./View/createTour.php" role="button">Let's Start!</a>
                     </div>
 
 GENERALWELCOME;
