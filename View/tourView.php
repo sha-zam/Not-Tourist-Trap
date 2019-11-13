@@ -43,7 +43,7 @@ $tourImg = tourController::fetchTourImages($tourID);
 if(isset($_GET['tourSize']))
 {
     //check size
-    if ($_GET['tourSize'] == 0)
+    if ($_GET['tourSize'] == 0 || $_GET['tourSize'] > $tourSize)
     {
         $check = 'size';
     }

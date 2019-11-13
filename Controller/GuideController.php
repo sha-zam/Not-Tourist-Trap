@@ -10,7 +10,7 @@ class GuideController
     public static function validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         //Check if any form is left empty
-        if($name == '' || $country == '' || $state =='' || count($tourImg) == 0 || $textDescription == '' || $tourPrice =='' || $tourSize == '')
+        if($name == '' || $country == '' || $state =='' || count($tourImg) == 0 || $textDescription == '' || $tourPrice =='' || $tourPrice < 0 || $tourSize == '')
         {
             return false;
         }

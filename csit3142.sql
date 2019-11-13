@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2019 at 11:01 PM
+-- Generation Time: Nov 13, 2019 at 12:41 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.32
 
@@ -40,7 +40,6 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`BookingID`, `TourID`, `UserID`, `Group_Size`) VALUES
-(1, 1, 768, 34),
 (2, 2, 112, 47),
 (3, 3, 440, 34),
 (4, 4, 938, 15),
@@ -1251,7 +1250,8 @@ INSERT INTO `country` (`CountryID`, `Name`) VALUES
 (192, 'Dominica'),
 (193, 'Pitcairn Islands'),
 (194, 'Bahamas'),
-(195, 'Belgium');
+(195, 'Belgium'),
+(196, 'India');
 
 -- --------------------------------------------------------
 
@@ -2358,7 +2358,11 @@ INSERT INTO `spokenlanguage` (`UserID`, `LanguageID`) VALUES
 (997, 49),
 (998, 50),
 (999, 51),
-(1000, 52);
+(1000, 52),
+(1003, 17),
+(1003, 11),
+(1004, 17),
+(1004, 62);
 
 -- --------------------------------------------------------
 
@@ -2590,7 +2594,9 @@ INSERT INTO `state` (`StateID`, `CountryID`, `Name`, `Description_1`, `Descripti
 (202, 173, 'Prague', 'Prague Castle is a castle complex in Prague, Czech Republic, built in the 9th century. It is the official office of the President of the Czech Republic. The castle was a seat of power for kings of Bohemia, Holy Roman emperors, and presidents of Czechoslovakia.', 'Connecting the Old town with Lesser Town, this popular pedestrian bridge is filled with musicians, painters, vendors and tourists during the summertime.', 'prague_castle.jpg', 'Charles_bridge.jpg', 'prague.jpg', 'Prague Castle', 'Charles Bridge', 'white'),
 (204, 34, 'Flores', 'These paradise islands with gorgeous scenery, pretty pink sand beaches and crystal clear waters form part of Flores, which is just an hour’s flight from Bali. While every inch of Bali’s popular beaches is often crowded with tourists, these relatively untouched tropical islands guarantee you more privacy with ravishing lagoons and even greater outdoors and sceneries.', 'Sand is sand, right? Wrong. From black and green to orange and pink hues, coastlines of the world offer an array of colorful sand options. Remember, as you check off your rainbow-beach bucket list, please take only photographs, not sand. While tempting, removing sand from the beach dilutes the color and ruins the experience for future generations.', 'komodo_dragons.jpg', 'pink_beach.jpg', 'labuan_bajo.jpg', 'Komodo Island', 'Tangsi Beach (Pink Beach)', 'white'),
 (206, 41, 'New York City', 'Times Square is one of New York City\'s most popular tourist attractions, as it\'s the epicenter for all things media and a famous New Year\'s Eve venue. A stroll through the area—with its bright lights and skyscrapers plastered with digital billboards—is pretty impressive. And as you walk the streets looking up and taking on the ambiance, you don\'t have to worry about stepping in the way of an oncoming cab. New York City reduced the amount of vehicle traffic through the Times Square area, making it a more pleasant place to linger and people watch. While here, catch a Broadway show, hang out in Bryant Park, or book a luxury suite at a historical city hotel.', 'Located on the 12-acre Liberty Island in New York Harbor, The Statue of Liberty was dedicated on October 28, 1886 and was designated a National Monument on October 15, 1924. The Statue was extensively restored in time for her spectacular centennial on July 4, 1986.', 'nyc.jpeg', 'liberty.jpg', 'New-York-City-Night-Cityscape.jpg', 'Times Square', 'Statue of Liberty', 'white'),
-(208, 150, 'Seoul', 'Gyeongbokgung Palace arguably the most beautiful and remains the grandest of all five palaces is also called “Northern Palace” because it is the furthest north when compared to the neighbouring palaces of Changdeokgung (Eastern Palace) and Gyeongheegung (Western Palace).', 'Situated between by two palaces, Gyeongbokgung to the west and Changdeokgung to the east, this village has the largest cluster of privately owned traditional Korean wooden homes or hanok in Seoul.\r\n\r\nThe Bukchon area is a traditional residential area in Seoul that boasts 600 years of history. Its location reflects the views of neo-Confucianism, regarding the world and nature, during the Joseon Dynasty.\r\n\r\nHanok architecture places great emphasis on the topographical features of the land on which it is built. Structural arrangements, layouts, and other spatial aesthetics are major concerns here, as are the styles of the buildings themselves.', 'seoul.jpeg', 'bukchon_hanok.jpg', '6249.jpg', 'Gyeongbokgung Palace', 'Bukchon Hanok Village', 'white');
+(208, 150, 'Seoul', 'Gyeongbokgung Palace arguably the most beautiful and remains the grandest of all five palaces is also called “Northern Palace” because it is the furthest north when compared to the neighbouring palaces of Changdeokgung (Eastern Palace) and Gyeongheegung (Western Palace).', 'Situated between by two palaces, Gyeongbokgung to the west and Changdeokgung to the east, this village has the largest cluster of privately owned traditional Korean wooden homes or hanok in Seoul.\r\n\r\nThe Bukchon area is a traditional residential area in Seoul that boasts 600 years of history. Its location reflects the views of neo-Confucianism, regarding the world and nature, during the Joseon Dynasty.\r\n\r\nHanok architecture places great emphasis on the topographical features of the land on which it is built. Structural arrangements, layouts, and other spatial aesthetics are major concerns here, as are the styles of the buildings themselves.', 'seoul.jpeg', 'bukchon_hanok.jpg', '6249.jpg', 'Gyeongbokgung Palace', 'Bukchon Hanok Village', 'white'),
+(210, 196, 'New Delhi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(211, 120, 'Afghan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2617,7 +2623,6 @@ CREATE TABLE `tour` (
 --
 
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`, `Status`) VALUES
-(1, 'In et voluptatem quam rerum quam est quod.', 'Quia omnis neque doloremque ex voluptatem. Et provident sint qui reiciendis accusamus iusto. Eius quidem numquam vel ratione.', 1, 49, 201, '10/30/1985', '09/21/2008', '860', 22, 'YTS'),
 (2, 'Consequatur dolore quibusdam omnis omnis.', 'Qui nihil nisi id nam eveniet possimus. Qui molestias explicabo amet sed eos temporibus. Aut eveniet labore quibusdam autem expedita minus. Dolorem enim omnis non at consequatur voluptatem illo. Enim maxime sapiente sit.', 2, 150, 208, '11/01/2001', '02/07/1978', '227', 38, 'YTS'),
 (3, 'Et cupiditate recusandae voluptatem perspiciatis amet beatae a id.', 'Veniam delectus voluptatem repellendus facilis officia. In consequatur et tempora. Velit minima modi dolorem aperiam vel qui. Sit quia cum ea veritatis. Laborum deleniti nihil aliquid accusamus nemo laudantium et deleniti.', 3, 173, 202, '07/11/1977', '03/09/1985', '83', 1, 'YTS'),
 (4, 'Dolore delectus quas est eligendi.', 'Occaecati est et vitae. Aut eius at sed.', 4, 34, 204, '12/27/1993', '03/13/1973', '52', 19, 'YTS'),
@@ -2801,9 +2806,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (182, 'Vitae distinctio odit autem non dolor quia iure.', 'Laborum tenetur qui consequatur rerum sed consequuntur. Sit ipsa officiis porro mollitia ad qui reprehenderit. Eveniet sunt exercitationem et molestiae aperiam. Ut excepturi suscipit repellat est sunt.', 182, 182, 182, '01/20/1983', '07/13/2008', '506', 42, 'YTS'),
 (183, 'Voluptatem libero quia temporibus consequatur.', 'Repudiandae cumque sint dolorem error suscipit sint vel. Omnis fugiat facere dolorum porro ea. Aliquid corporis voluptatum ea voluptates. Ab minus placeat perspiciatis asperiores vitae.', 183, 183, 183, '04/13/2018', '09/27/2013', '979', 3, 'YTS'),
 (184, 'Maiores at non rerum quia.', 'Id ullam culpa adipisci facere. Rerum molestiae dolor eum asperiores. Voluptatem voluptas consectetur recusandae consequatur.', 184, 184, 184, '08/30/1996', '01/16/1983', '861', 28, 'YTS'),
-(185, 'Architecto eaque aut harum quia.', 'Laborum omnis reprehenderit accusantium et tempore cupiditate. Earum excepturi rem sequi iusto quibusdam et. Et nemo sint qui accusamus. A blanditiis beatae commodi repellendus et iusto.', 185, 185, 185, '07/29/1982', '06/03/1987', '179', 36, 'YTS');
+(185, 'Architecto eaque aut harum quia.', 'Laborum omnis reprehenderit accusantium et tempore cupiditate. Earum excepturi rem sequi iusto quibusdam et. Et nemo sint qui accusamus. A blanditiis beatae commodi repellendus et iusto.', 185, 185, 185, '07/29/1982', '06/03/1987', '179', 36, 'YTS'),
+(186, 'Asperiores ipsa incidunt cum sunt omnis a voluptatem.', 'Ut iusto error deserunt vel dolore sed. Beatae aut minima dolorem architecto.', 186, 186, 186, '08/15/2009', '08/14/1986', '152', 33, 'YTS');
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`, `Status`) VALUES
-(186, 'Asperiores ipsa incidunt cum sunt omnis a voluptatem.', 'Ut iusto error deserunt vel dolore sed. Beatae aut minima dolorem architecto.', 186, 186, 186, '08/15/2009', '08/14/1986', '152', 33, 'YTS'),
 (187, 'Voluptatem molestiae dolor dolorem laudantium.', 'Aut itaque repellendus vel esse adipisci id non. Rem aliquam aperiam quis iusto. A dolorum laudantium quod deleniti.', 187, 187, 187, '05/29/2019', '10/27/1996', '860', 5, 'YTS'),
 (188, 'Qui a quia ea rerum autem tenetur vel architecto.', 'Dolores vel vel laudantium perspiciatis voluptatum quam. Dolorem inventore optio qui inventore impedit itaque quis ipsum. Non libero adipisci nisi soluta possimus. Quis reiciendis laudantium vero sit.', 188, 188, 188, '02/02/2005', '10/31/2004', '66', 30, 'YTS'),
 (189, 'Nam ut nostrum quod provident at.', 'Et enim cupiditate expedita sapiente sit illum. Quia ad a quas fugiat aut amet molestiae at. Sint iure ut laborum occaecati quos necessitatibus.', 189, 189, 189, '07/13/1980', '01/12/1997', '668', 45, 'YTS'),
@@ -2985,9 +2990,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (365, 'Voluptas ut voluptas est doloribus.', 'Voluptatem nam unde et sint qui. Qui voluptas velit enim quia fugit. Culpa voluptatem possimus molestias odio quis odit.', 365, 170, 164, '05/17/1992', '01/16/1976', '229', 47, 'YTS'),
 (366, 'Nostrum pariatur et rerum fugit eius.', 'Ipsa laboriosam quisquam optio consequatur. Quae mollitia temporibus libero architecto cum voluptates totam sed. Earum quisquam consequatur quia quia. Quam sint doloremque qui nulla.', 366, 171, 165, '03/31/1988', '05/11/1991', '251', 9, 'YTS'),
 (367, 'Earum alias ea aspernatur et explicabo nemo aut.', 'Deleniti quo in quisquam qui. Unde aut non atque et ratione velit. Beatae possimus sit consequatur porro laboriosam. Officia velit porro doloremque.', 367, 172, 166, '07/29/1984', '12/28/2018', '235', 4, 'YTS'),
-(368, 'Quisquam ab nostrum et fugiat delectus quidem.', 'Iusto quam dicta et impedit et eveniet provident. Aspernatur error repellendus quibusdam possimus. Non nobis est dolores at illo ut amet. Ipsam qui eius officiis reiciendis. Ut esse optio minima quidem.', 368, 173, 167, '03/09/2017', '01/12/1974', '602', 27, 'YTS');
+(368, 'Quisquam ab nostrum et fugiat delectus quidem.', 'Iusto quam dicta et impedit et eveniet provident. Aspernatur error repellendus quibusdam possimus. Non nobis est dolores at illo ut amet. Ipsam qui eius officiis reiciendis. Ut esse optio minima quidem.', 368, 173, 167, '03/09/2017', '01/12/1974', '602', 27, 'YTS'),
+(369, 'Impedit sit cupiditate reprehenderit minus.', 'Quidem sed molestiae ipsam nulla est. Labore esse quas repellat. Molestiae vero dolores culpa placeat nostrum vel omnis. Qui iusto esse et omnis corrupti ut. Ea adipisci minima quaerat iste et expedita unde.', 369, 174, 168, '01/06/1988', '11/06/2002', '426', 21, 'YTS');
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`, `Status`) VALUES
-(369, 'Impedit sit cupiditate reprehenderit minus.', 'Quidem sed molestiae ipsam nulla est. Labore esse quas repellat. Molestiae vero dolores culpa placeat nostrum vel omnis. Qui iusto esse et omnis corrupti ut. Ea adipisci minima quaerat iste et expedita unde.', 369, 174, 168, '01/06/1988', '11/06/2002', '426', 21, 'YTS'),
 (370, 'Odio quo fugit quia deserunt neque vero libero.', 'Sapiente eaque natus occaecati molestiae praesentium repudiandae. Minima molestiae maiores dolores voluptas vel est non. Aliquam alias ut illo est et dolor qui.', 370, 175, 169, '11/02/1980', '08/01/1983', '978', 16, 'YTS'),
 (371, 'Provident quidem quo quia sed facilis sunt.', 'Unde nulla nemo sequi temporibus culpa praesentium. In earum incidunt eos. Magni quos sunt quam animi exercitationem. Quisquam ad vero sed et veritatis doloremque officiis.', 371, 176, 170, '09/22/1971', '10/26/1974', '648', 21, 'YTS'),
 (372, 'Nam enim est omnis suscipit quo deleniti.', 'Consequatur officiis aut laboriosam est. Similique earum deserunt aut sunt minus doloremque mollitia veniam. Numquam libero amet molestias delectus assumenda.', 372, 177, 171, '08/10/1976', '03/22/2002', '404', 7, 'YTS'),
@@ -3168,9 +3173,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (547, 'Est cum et eaque deserunt repudiandae perspiciatis.', 'Quo et sit sequi modi eius totam. Et possimus consectetur aliquid quia reiciendis. Qui ratione aut magnam eum qui.', 547, 157, 145, '07/05/2006', '08/27/1980', '249', 10, 'YTS'),
 (548, 'Ut id dicta tenetur vel.', 'Nesciunt ut possimus culpa dolores asperiores. Corrupti fugiat consequatur nesciunt et. Ipsum doloribus quo occaecati maiores officiis asperiores. Odio quod fuga nihil ab incidunt cum quis.', 548, 158, 146, '07/22/1995', '01/01/2012', '396', 34, 'YTS'),
 (549, 'Consequatur accusamus voluptas omnis excepturi et nam.', 'Quo temporibus eos qui sit. Quod rerum aliquam corrupti eum soluta. Deserunt saepe dolores dolorum laboriosam adipisci ullam rerum. Qui minus ipsum consequuntur distinctio quia.', 549, 159, 147, '01/05/2014', '11/05/1977', '140', 46, 'YTS'),
-(550, 'Laudantium porro nulla minus sint consectetur veritatis dolorem.', 'Dolores soluta dignissimos perferendis qui placeat quia libero. Ratione ullam nulla quis nesciunt nobis consequatur odio reiciendis. Recusandae quia officiis illo ut suscipit cupiditate.', 550, 160, 148, '01/09/2016', '12/07/2013', '835', 50, 'YTS');
+(550, 'Laudantium porro nulla minus sint consectetur veritatis dolorem.', 'Dolores soluta dignissimos perferendis qui placeat quia libero. Ratione ullam nulla quis nesciunt nobis consequatur odio reiciendis. Recusandae quia officiis illo ut suscipit cupiditate.', 550, 160, 148, '01/09/2016', '12/07/2013', '835', 50, 'YTS'),
+(551, 'Exercitationem eius est sapiente ab itaque mollitia.', 'Voluptatem aut sed ut reprehenderit explicabo et qui amet. Et in molestias corporis nihil et laudantium aut. Voluptas illum non est sit. Et alias qui enim aut rerum vero.', 551, 161, 149, '01/14/2007', '04/17/1992', '909', 5, 'YTS');
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`, `Status`) VALUES
-(551, 'Exercitationem eius est sapiente ab itaque mollitia.', 'Voluptatem aut sed ut reprehenderit explicabo et qui amet. Et in molestias corporis nihil et laudantium aut. Voluptas illum non est sit. Et alias qui enim aut rerum vero.', 551, 161, 149, '01/14/2007', '04/17/1992', '909', 5, 'YTS'),
 (552, 'Eius voluptatum illum error harum natus sit.', 'Veritatis voluptas ut odio illo voluptas. Quam animi ipsa corporis suscipit quia.', 552, 162, 150, '08/20/2019', '10/27/1992', '75', 1, 'YTS'),
 (553, 'Nostrum omnis similique quasi accusamus.', 'Sint sunt dolorum molestiae soluta ut non. Voluptas et sed ut qui ex et. Suscipit quo eum hic. Nam ut corporis ex.', 553, 163, 151, '01/27/1970', '06/19/1989', '447', 20, 'YTS'),
 (554, 'Iusto voluptatem facilis harum ea porro.', 'Aut dignissimos autem quia voluptas odit et. Perferendis dolore perspiciatis aliquid ratione. Reprehenderit qui totam est sed ut. Eum laboriosam vel quidem earum.', 554, 164, 152, '01/18/1987', '10/30/2010', '295', 44, 'YTS'),
@@ -3351,9 +3356,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (729, 'Ratione deleniti voluptatem quos vel.', 'Deserunt aut neque voluptatem quibusdam. Quod laboriosam officiis quo illum repellat cupiditate. Molestiae ab nobis sunt rerum odio inventore magnam.', 729, 144, 126, '04/05/1995', '01/18/2014', '477', 41, 'YTS'),
 (730, 'Dolore debitis voluptatem sint non autem enim quo est.', 'Nesciunt quae et maiores dolorem id nulla. Harum animi aut voluptatum.', 730, 145, 127, '08/21/1988', '11/09/1991', '362', 9, 'YTS'),
 (731, 'Ipsa et tempora voluptas adipisci ea.', 'Pariatur tempore temporibus assumenda vel ut deserunt voluptatem. Labore aut facilis enim qui quo. Vel rerum voluptatum illum. A autem nobis eum vel sit architecto.', 731, 146, 128, '12/03/1975', '06/14/1978', '484', 6, 'YTS'),
-(732, 'Quisquam tempora velit perspiciatis aut.', 'Fugiat voluptas dolor qui. Deleniti commodi a optio non quos. Culpa rerum est blanditiis distinctio eum numquam voluptates perferendis.', 732, 147, 129, '11/29/1988', '05/24/1975', '713', 32, 'YTS');
+(732, 'Quisquam tempora velit perspiciatis aut.', 'Fugiat voluptas dolor qui. Deleniti commodi a optio non quos. Culpa rerum est blanditiis distinctio eum numquam voluptates perferendis.', 732, 147, 129, '11/29/1988', '05/24/1975', '713', 32, 'YTS'),
+(733, 'Facilis neque quia et amet consequatur harum.', 'Iusto culpa velit qui aliquid nostrum ut. Perspiciatis consequatur veniam iure.', 733, 148, 130, '03/28/2012', '11/15/1972', '742', 44, 'YTS');
 INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`, `StateID`, `Start_date`, `End_date`, `Price`, `Group_Size`, `Status`) VALUES
-(733, 'Facilis neque quia et amet consequatur harum.', 'Iusto culpa velit qui aliquid nostrum ut. Perspiciatis consequatur veniam iure.', 733, 148, 130, '03/28/2012', '11/15/1972', '742', 44, 'YTS'),
 (734, 'Non voluptatibus voluptatum fugit sit aut libero.', 'Accusantium porro aut quasi doloribus. Sed ducimus et illum sint fugit sit. Aliquid distinctio esse sed qui aperiam et. Placeat modi et vel qui suscipit sunt.', 734, 149, 131, '07/06/1985', '04/03/1998', '304', 3, 'YTS'),
 (735, 'Dicta soluta rerum voluptas voluptate nihil dolor provident.', 'Enim enim quod veniam. Dignissimos necessitatibus dolorem quaerat est. Et dolor optio non eum. Corrupti veritatis consectetur et voluptas.', 735, 150, 132, '10/09/1983', '08/02/1981', '849', 34, 'YTS'),
 (736, 'Ut sed voluptatem provident corrupti consequatur molestiae recusandae.', 'Odio ut vitae enim omnis deleniti quae. Repudiandae alias qui error veniam soluta in. Enim consectetur et laborum voluptas. Quia hic eaque quo assumenda id voluptas sed.', 736, 151, 133, '10/28/1999', '04/03/2005', '825', 42, 'YTS'),
@@ -3621,7 +3626,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (997, 'Fugit nam illo laudantium necessitatibus fugiat provident cumque.', 'Tempore aut eum et non. Cumque nobis quibusdam quisquam. Et quod qui eaque odio.', 997, 22, 193, '12/04/2013', '10/20/1992', '98', 47, 'YTS'),
 (998, 'Tempora aut quia doloribus voluptatem temporibus a quasi dolore.', 'Iste non impedit eaque enim sint suscipit. Quia voluptate ab et unde quia nemo non et. Est dolorum commodi fugiat nihil delectus fuga ipsum. Reiciendis nisi perspiciatis eveniet. Doloribus excepturi nostrum at aspernatur id.', 998, 23, 194, '11/11/2017', '09/22/1980', '718', 4, 'YTS'),
 (999, 'Qui aliquid totam modi corporis voluptatem incidunt.', 'Voluptatem nulla fugiat dolor nisi. Totam et perferendis dolores nesciunt. Enim rerum deleniti ut consequatur dolor quasi. Assumenda eligendi non aut reprehenderit molestiae.', 999, 24, 195, '10/22/2007', '11/09/1984', '831', 29, 'YTS'),
-(1000, 'Rerum sequi sequi necessitatibus quidem nostrum consequuntur.', 'Non voluptatem voluptatum error. Dolorum necessitatibus voluptates cum molestiae sunt unde.', 1000, 25, 196, '02/12/1977', '10/06/2012', '983', 9, 'YTS');
+(1000, 'Rerum sequi sequi necessitatibus quidem nostrum consequuntur.', 'Non voluptatem voluptatum error. Dolorum necessitatibus voluptates cum molestiae sunt unde.', 1000, 25, 196, '02/12/1977', '10/06/2012', '983', 9, 'YTS'),
+(1003, 'sdadasdasd', 'sdadsada', 1004, 49, 201, '2019-11-22', '2019-11-29', '200', 1, 'YTS'),
+(1004, 'dasdsda', 'sdadsaasd', 1004, 49, 201, '2019-11-22', '2019-11-27', '200', 1, 'YTS');
 
 -- --------------------------------------------------------
 
@@ -3640,7 +3647,6 @@ CREATE TABLE `tourimage` (
 --
 
 INSERT INTO `tourimage` (`TourImgID`, `TourID`, `Image`) VALUES
-(1, 1, '1573284013_Fight-komodo-dragons.jpg'),
 (2, 2, '1573284013_Fight-komodo-dragons.jpg'),
 (3, 3, '1573284013_Fight-komodo-dragons.jpg'),
 (4, 4, '1573284013_Fight-komodo-dragons.jpg'),
@@ -4639,7 +4645,8 @@ INSERT INTO `tourimage` (`TourImgID`, `TourID`, `Image`) VALUES
 (997, 997, '1573284013_Fight-komodo-dragons.jpg'),
 (998, 998, '1573284013_Fight-komodo-dragons.jpg'),
 (999, 999, '1573284013_Fight-komodo-dragons.jpg'),
-(1000, 1000, '1573284013_Fight-komodo-dragons.jpg');
+(1000, 1000, '1573284013_Fight-komodo-dragons.jpg'),
+(1001, 1004, '1573631684_New-York-City-Night-Cityscape.jpg');
 
 -- --------------------------------------------------------
 
@@ -4759,8 +4766,7 @@ INSERT INTO `tourreview` (`TourReviewID`, `ReviewByUser`, `BookingID`, `Comment`
 (97, 5, 920, 'Quia eos tenetur quisquam occaecati similique rerum labore. Hic enim omnis molestias est accusantium. Quo ut hic rem esse occaecati officia placeat. Ut consequatur in quis error quod magnam.', '5'),
 (98, 5, 610, 'Accusamus ut ad magnam voluptatum dolorem alias ea. Beatae quia qui autem fugit saepe eaque repellendus. Est ab ducimus eius quia et impedit.', '1'),
 (99, 1, 118, 'Nemo molestiae in incidunt asperiores odit sed. Tenetur iste possimus praesentium quo. Quo tempore consequatur in culpa perspiciatis dolorem praesentium. Dolorem recusandae dolores asperiores non explicabo.', '1'),
-(100, 4, 942, 'Iure consequatur non odit ipsa optio similique quae. Porro assumenda eligendi perferendis corporis qui. In molestiae quidem ducimus et molestiae ducimus sed.', '2'),
-(101, 7, 1, 'Very Good!', '5');
+(100, 4, 942, 'Iure consequatur non odit ipsa optio similique quae. Porro assumenda eligendi perferendis corporis qui. In molestiae quidem ducimus et molestiae ducimus sed.', '2');
 
 -- --------------------------------------------------------
 
@@ -5785,7 +5791,9 @@ INSERT INTO `user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, `Pro
 (998, 'Alec', 'Funk', 'cmarvin@example.org', '2c414dcf0d887579706218dea2367308', '1573219768_h.jpeg', 'User'),
 (999, 'Arthur', 'Treutel', 'lshields@example.org', '10ab33f50f1f6534de5435b9f3b73930', '1573219768_h.jpeg', 'User'),
 (1000, 'Laurianne', 'Witting', 'mohr.danial@example.com', '5b709bf89589c27b8428169bed664675', '1573219768_h.jpeg', 'User'),
-(1001, 'System', 'Admin', 'sysadmin@gmail.com', 'sysadmin123', '', 'Admin');
+(1001, 'System', 'Admin', 'sysadmin@gmail.com', 'sysadmin123', '', 'Admin'),
+(1003, 'Russell', 'Leong', 'rleong@gmail.com', 'rleong123', '1573627568_1572777080_y.jpeg', 'User'),
+(1004, 'Huzair', 'Yazid', 'hyazid@gmail.com', 'hyazid123', '1573628200_1573219768_h.jpeg', 'User');
 
 --
 -- Indexes for dumped tables
@@ -5863,13 +5871,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
 
 --
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
-  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `CountryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT for table `language`
@@ -5881,19 +5889,19 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
+  MODIFY `StateID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
 
 --
 -- AUTO_INCREMENT for table `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1006;
 
 --
 -- AUTO_INCREMENT for table `tourimage`
 --
 ALTER TABLE `tourimage`
-  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
 
 --
 -- AUTO_INCREMENT for table `tourreview`
@@ -5905,7 +5913,7 @@ ALTER TABLE `tourreview`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
+  MODIFY `UserID` int(16) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
 
 --
 -- Constraints for dumped tables
@@ -5951,7 +5959,7 @@ ALTER TABLE `tourimage`
 --
 ALTER TABLE `tourreview`
   ADD CONSTRAINT `tourreview_ibfk_1` FOREIGN KEY (`ReviewByUser`) REFERENCES `user` (`UserID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `usertour_ibfk_3` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`BookingID`);
+  ADD CONSTRAINT `usertour_ibfk_3` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`BookingID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -236,14 +236,17 @@ class TourGuide extends User
         $conn = $this->connect();
 
         //query
-        $result = $conn->query("DELETE FROM tour WHERE TourID = '$tourID'");
+        $result = $conn->query("DELETE FROM tour WHERE TourID = $tourID AND TourGuideID = $this->userID");
     
-        if($result)
+        if($result === TRUE)
         {
             return true;
         }
         else
+        {
             return false;
+        }
+            
     }
 
 }
