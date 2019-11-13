@@ -158,7 +158,7 @@ if (isset($_POST['submit']))
                     <p>Invalid <?php echo $check ?> Provided! Please Enter the Correct Informations</p>
                 </div>
 
-            <? endif;?>
+            <?php endif;?>
                 
         <?php endif;?>
         <!-- End Alert -->
