@@ -156,18 +156,32 @@ if (isset($_POST['submit']))
         </nav>
         <!-- end nav bar -->
 
-        <!-- Success or Fail Alert -->
+        <!-- Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check == false) :  ?>
-    
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Failed to Create Tour</h4>
-                    <hr>
-                    <p>Invalid Information Provided! Please Enter the Correct Informations</p>
-                </div>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Failed to Create Tour</h4>
+                <hr>
 
-            <?php endif;?>
+                <?php if ($check == 'date') :  ?>
+                    
+                    <p>Invalid Tour Dates Provided! Please Enter the Correct Informations</p>
+                
+                <?php elseif ($check == 'price') : ?>
+
+                    <p>Invalid Tour Price Provided! Please Enter the Correct Informations</p>
+                
+                <?php elseif ($check == 'size') : ?>
+
+                    <p>Invalid Tour Size Provided! Please Enter the Correct Informations</p>
+                
+                <?php else : ?>
+                    
+                    <p>Please Complete the Form Before Submitting!</p>
+
+                <?php endif;?>
+            
+            </div>
 
         <?php endif;?>
         <!-- End Alert -->
