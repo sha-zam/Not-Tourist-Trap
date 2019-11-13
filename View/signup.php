@@ -31,7 +31,7 @@ if (isset($_POST['submit']))
 
     $check = $signUpCtr -> validateData();
 
-    if($check != 'name' && $check != 'password' && $check != 'email' && $check != 'profile image')
+    if(is_bool($check) && ($check))
     {
         header("Location:./login.php?regist=true");
     }
@@ -142,11 +142,23 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
-                <h4 class="alert-heading">Failed to Create Account</h4>
-                <hr>
-                <p>Invalid <?php echo $check ?> Provided! Please Enter the Correct Informations</p>
-            </div>
+            <?php if(is_bool($check) && (!$check)) : ?>
+
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                    <h4 class="alert-heading">Failed to Create Account</h4>
+                    <hr>
+                    <p>User already Exists!</p>
+                </div>
+
+            <?php else : ?>
+
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                    <h4 class="alert-heading">Failed to Create Account</h4>
+                    <hr>
+                    <p>Invalid <?php echo $check ?> Provided! Please Enter the Correct Informations</p>
+                </div>
+
+            <? endif;?>
                 
         <?php endif;?>
         <!-- End Alert -->

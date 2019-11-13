@@ -93,17 +93,32 @@ class TourGuide extends User
         $tourQ = "INSERT INTO tour (Name, Description, TourGuideID, CountryID, StateID, Start_date, End_date, Price, Group_Size) VALUES('$name', '$tourDescription', '$this->userID', '$countryID', '$stateID', '$tourStartDate', '$tourEndDate', '$tourPrice', '$tourSize')";
         $insertTour = $conn->query($tourQ);
 
-        //query for tour id
-        $tourID = $conn->insert_id;
-
-        //insert images, userid, and tour id into tourimage table 
-        for($i = 0; $i < count($tourImg); $i++)
+        if($insertTour)
         {
-            $imgQ = "INSERT INTO tourimage (TourID, AddedByUser, Image) VALUES ('$tourID', '$this->userID', '$tourImg[$i]')";
-            $insertImage = $conn->query($imgQ);
-        } 
+            //query for tour id
+            $tourID = $conn->insert_id;
 
-        return true;
+            //insert images, userid, and tour id into tourimage table 
+            foreach($tourImg as $x)
+            {
+                $imgQ = "INSERT INTO tourimage (TourID, Image) VALUES ('$tourID', '$x')";
+                $insertImage = $conn->query($imgQ);
+            } 
+
+            if($insertImage)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     public function getTours()
@@ -169,9 +184,9 @@ class TourGuide extends User
         $conn = $this->connect();
 
         //insert images, userid, and tour id into tourimage table 
-        for($i = 0; $i < count($tourImg); $i++)
+        foreach($tourImg as $x)
         {
-            $imgQ = "UPDATE tourimage SET Image = '$tourImg[$i]' WHERE TourID = '$tourID' AND AddedByUser = '$this->userID'";
+            $imgQ = "UPDATE tourimage SET Image = '$x' WHERE TourID = '$tourID'";
             $updateImage = $conn->query($imgQ);
         } 
 

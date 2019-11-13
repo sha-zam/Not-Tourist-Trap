@@ -42,7 +42,16 @@ $tourImg = tourController::fetchTourImages($tourID);
 
 if(isset($_GET['tourSize']))
 {
-    $check = bookingController::submitBook($tourID, $_GET['tourSize'], $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+    //check size
+    if ($_GET['tourSize'] == 0)
+    {
+        $check = 'size';
+    }
+    else
+    {   
+        $check = bookingController::submitBook($tourID, $_GET['tourSize'], $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+    }
+    
 }
 
 ?>
@@ -160,22 +169,35 @@ if(isset($_GET['tourSize']))
         
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
+            
+            <?php if (is_bool($check)) : ?>
 
-            <?php if ($check) : ?>
+                <?php if ($check) : ?>
 
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Tour Successfully Booked!</h4>
-                    <hr>
-                    <p>You can View "<?php echo $tourName ?>" in Your List of Bookings</p>
-                </div>
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Tour Successfully Booked!</h4>
+                        <hr>
+                        <p>You can View "<?php echo $tourName ?>" in Your List of Bookings</p>
+                    </div>
+
+                <?php else : ?>
+
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Failed to Book Tour</h4>
+                        <hr>
+                        <p>Booking already exists!</p>
+                    </div>
+
+                <?php endif;?>
 
             <?php else : ?>
 
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Failed to Book Tour</h4>
                     <hr>
-                    <p></p>
+                    <p>Please Enter a Valid Number of People!</p>
                 </div>
+
             <?php endif;?>
 
         <?php endif;?>
@@ -238,12 +260,25 @@ if(isset($_GET['tourSize']))
             <div class="card-body text-center">
                 <!-- <a href="<?php echo $_SERVER['REQUEST_URI'].'&confirm=true'?>"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br> -->
 
-                <!-- first group of buttons -->
-                <div id="buttonGroup1">
-                    <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button><br><br>
-                    <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
-                </div>
-                
+                <!-- check if user has logged in -->
+                <?php if (isset($_SESSION['userID'])) : ?>
+
+                    <!-- first group of buttons -->
+                    <div id="buttonGroup1">
+                        <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button><br><br>
+                        <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
+                    </div>
+
+                <?php else : ?>
+
+                    <!-- first group of buttons -->
+                    <div id="buttonGroup1">
+                        <a href="./login.php"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br>
+                        <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
+                    </div>
+
+                <?php endif;?>
+
                 <!--second group of buttons-->
                 <div id="buttonGroup2" style="display:none;">
                     <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Booking</button></a><br><br>

@@ -20,18 +20,30 @@ class Tourist extends User
         //DB connection
         $conn = $this->connect();
 
-        //query insert booking
-        $query = "INSERT INTO booking (TourID, UserID, Group_Size) VALUES ('$tourID', '$this->userID', '$tourSize')";
-        $result = $conn->query($query);
+        //check first if booking already exists
+        $checkQ = "SELECT * From booking WHERE TourID = '$tourID' AND UserID = '$this->userID' ";
+        $check = $conn->query($checkQ);
 
-        if($result)
-        {
-            return true;
-        }
-        else
+        if(!empty($check) && $check->num_rows > 0)
         {
             return false;
         }
+        else
+        {
+            //query insert booking
+            $query = "INSERT INTO booking (TourID, UserID, Group_Size) VALUES ('$tourID', '$this->userID', '$tourSize')";
+            $result = $conn->query($query);
+
+            if($result)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
     }
 
     public function viewBookings()

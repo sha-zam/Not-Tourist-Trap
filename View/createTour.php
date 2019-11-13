@@ -3,15 +3,22 @@
 //Controller class
 include '../Controller/GuideController.php';
 
+$loggedNavBar = file_get_contents("../constants/loggedNavBar.php");
+$generalNavBar = file_get_contents("../constants/generalNavBar.php");
+
 //Start session
 session_start();
 
 if (isset($_POST['submit']))
 {
+    $loggedNavBar = file_get_contents("../constants/loggedNavBar.php");
+    $generalNavBar = file_get_contents("../constants/generalNavBar.php");
+
     $name1 = $_POST['tourName'];
     $name = addslashes($name1);
     $country = $_POST["country"];
-    $state = addslashes($_POST["state"]);
+    $state = ucwords($_POST["state"]);
+    $state = addslashes($state);
     $textDescription = addslashes($_POST["tourDescription"]);
     
     $tourStartDate = $_POST["startDate"];
@@ -46,6 +53,11 @@ if (isset($_POST['submit']))
     //Pass to Controller
     $check = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
+    if(is_bool($check) && ($check))
+    {
+        header("Location:../host.php?tourName=".$name1);
+    }
+    
     //$check = $guideCtr->validateData();
 }
 
@@ -133,11 +145,11 @@ if (isset($_POST['submit']))
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo $loggedNavBar;
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo $generalNavBar;
                 }
             ?>
 
@@ -147,15 +159,14 @@ if (isset($_POST['submit']))
         <!-- Success or Fail Alert -->
         <?php if(isset($check)) : ?> 
 
-            <?php if ($check != false) : header("Location:../host.php?tourName=".$name1) ?>
-            
-            <?php else : ?>
-
+            <?php if ($check == false) :  ?>
+    
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Failed to Create Tour</h4>
                     <hr>
                     <p>Invalid Information Provided! Please Enter the Correct Informations</p>
                 </div>
+
             <?php endif;?>
 
         <?php endif;?>
@@ -164,7 +175,7 @@ if (isset($_POST['submit']))
         <!--Tour Guide Form-->
         <div class="accordion" id="accordionForm">
             
-            <form action="hostForm.php" method="POST" name="tourForm" enctype="multipart/form-data">
+            <form action="createTour.php" method="POST" name="tourForm" enctype="multipart/form-data">
                 
                 <!--Tour Name-->
                 <div class="card">
