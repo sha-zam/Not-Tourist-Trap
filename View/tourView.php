@@ -5,6 +5,11 @@ include '../Controller/tourController.php';
 include '../Controller/destController.php';
 include '../Controller/bookingController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
+
 //start session
 if(!isset($_SESSION))
     session_start();
@@ -152,15 +157,15 @@ if(isset($_GET['tourSize']))
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
+            <!-- nav list -->
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo displayGeneralNavBar();
                 }
             ?>
 

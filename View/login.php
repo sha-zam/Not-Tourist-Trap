@@ -2,46 +2,119 @@
 
 include '../Controller/loginController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
+//variables for alert displays
+$regist = false;
+$active = true;
+$check = true;
+
 if(isset($_GET['regist']))
 {
-    $regist = true;
+    $GLOBALS['regist'] = true;
 }
 
 if (isset($_POST['submit']))
 {
+    $navBar = file_get_contents("../constants/generalNavBar.php");
+
     //get necessary data
     $email = $_POST["email"];
     $pwd = $_POST["pwd"];
-
-    echo "<script type='text/javascript'>alert('Checking $email and $pwd')</script>";
 
     //Pass to Controller
     $loginCtr = new loginController($email, $pwd);
 
     //Controller validate data 
-    $check = $loginCtr->validateData();
+    $GLOBALS['check'] = $loginCtr->validateData();
 
-    if ($check)
+    if ($GLOBALS['check'])
     {
-        session_start();
+        //if user is active
+        if($GLOBALS['check']->getStatus() == 'Active')
+        {
+            session_start();
 
-        $ufName = $check->getfName();
-        $ulName = $check->getlName();
-        $uLangs = $check->getLangs();
+            $_SESSION['userID'] = $GLOBALS['check']->getUserID();
+            $_SESSION['pwd'] = $GLOBALS['check']->getPwd();
+            $_SESSION['email'] = $GLOBALS['check']->getEmail();
+            $_SESSION['ufName'] = $GLOBALS['check']->getfName();
+            $_SESSION['ulName'] = $GLOBALS['check']->getlName();
+            $_SESSION['uLangs'] = $GLOBALS['check']->getLangs();
+            $_SESSION['profileImg'] = $GLOBALS['check']->getProfileImg();
+            $_SESSION['role'] = $GLOBALS['check']->getRole();
 
-        $_SESSION['userID'] = $check->getUserID();
-        $_SESSION['pwd'] = $check->getPwd();
-        $_SESSION['email'] = $check->getEmail();
-        $_SESSION['ufName'] = $check->getfName();
-        $_SESSION['ulName'] = $check->getlName();
-        $_SESSION['uLangs'] = $check->getLangs();
-        $_SESSION['profileImg'] = $check->getProfileImg();
+            $temp = $_SESSION['profileImg'];
 
-        $temp = $_SESSION['profileImg'];
+            //check user role for appropriate redirection
+            if($_SESSION['role'] == 'User')
+                header("location:../index.php");
+            else //if admin link to sysadmin page
+                header("location:../index.php");
+        }
+        else
+        {
+            $GLOBALS['active'] = false;
+        }
+        
+    }
+}
 
-        //to be changed later, testing only
-        //echo "<script type='text/javascript'>alert('$temp')</script>";
-        header("location:../index.php");
+//function for alert display
+function displayAlerts()
+{
+    global $regist, $active, $check;
+    // global $active;
+    // global $check;
+
+    if(isset($regist))
+    {
+        if(is_bool($regist) && ($regist))
+        {
+            echo <<< REGIST
+
+            <div class="alert alert-success" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                <h4 class="alert-heading">Account Successfully Created!</h4>
+                <hr>
+                <p>You can now login using the registered email and password!</p>
+            </div>
+REGIST;
+        }
+
+    }
+
+    if(isset($check))
+    {
+        if(is_bool($check) && (!$check))
+        {
+            echo <<< FAIL
+
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                    <h4 class="alert-heading">Invalid Information!</h4>
+                    <hr>
+                    <p>Please Enter the Correct Email or Password!</p>
+                </div>
+
+FAIL;
+        }
+    }
+
+    if(isset($active))
+    {
+        if(!$active)
+        {
+            echo <<< SUSPENDED
+
+                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
+                    <h4 class="alert-heading">Invalid Information!</h4>
+                    <hr>
+                    <p>Your Account has been Suspended! Please Enter Another Email and Password!</p>
+                </div>
+            
+SUSPENDED;
+        }
     }
 }
 
@@ -92,44 +165,20 @@ if (isset($_POST['submit']))
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo displayGeneralNavBar();
                 }
             ?>
 
         </nav>
         <!-- end nav bar -->
 
-        <!-- Regist Alert (if user just signed up) -->
-        <?php if(isset($regist)) : ?> 
-
-            <div class="alert alert-success" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
-                <h4 class="alert-heading">Account Successfully Created!</h4>
-                <hr>
-                <p>You can now login using the registered email and password!</p>
-            </div>
-
-        <?php endif;?>
-        <!-- End Regist Alert -->
-
-        <!-- Fail Alert -->
-        <?php if(isset($check)) : ?> 
-
-            <?php if (!$check) : ?>
-
-                <div class="alert alert-danger" role="alert" style="width:40rem; margin : 0 auto; padding-bottom:20px;">
-                    <h4 class="alert-heading">Invalid Information!</h4>
-                    <hr>
-                    <p>Please Enter the Correct Email or Password!</p>
-                </div>
-
-            <?php endif; ?>
-
-        <?php endif;?>
-        <!-- End Alert -->
+        <!-- Alert Section (Display alerts if any) -->
+        <?php echo displayAlerts() ?>
+        <!-- End Alert Section -->
         
         <!-- login form -->
         <div class="card" style="width:40rem; margin : 0 auto;">
@@ -164,5 +213,3 @@ if (isset($_POST['submit']))
 
 </body>
 </html>
-
-

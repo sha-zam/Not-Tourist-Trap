@@ -249,6 +249,58 @@ class TourGuide extends User
             
     }
 
+    public function getBooking($tourID)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM booking WHERE TourID = '$tourID'");
+
+        $resultArr = array();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //if there's any booking, query the user name and user ID
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $userID = $x['UserID'];
+            }
+
+            //query name
+            $nameQ = $conn->query("SELECT * FROM user WHERE UserID = '$userID'");
+
+            if(!empty($nameQ) && $nameQ->num_rows > 0)
+            {
+                while($row2 = $nameQ->fetch_assoc())
+                {
+                    $data2[] = $row2;
+                }
+
+                foreach($data2 as $y)
+                {
+                    $userFName = $y['FirstName'];
+                    $userLName = $y['LastName'];
+
+                    $resultArr[0] = $userID;
+                    $resultArr[1] = $userFName;
+                    $resultArr[2] = $userLName;
+                }
+            }
+            
+            return $resultArr;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }
 
 ?>

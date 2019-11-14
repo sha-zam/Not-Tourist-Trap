@@ -5,6 +5,10 @@ include '../Controller/destController.php';
 include '../Controller/tourController.php';
 include '../Controller/guideController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
 //Ask the controller for the necessary information
 $country = $_GET['country'];
 $state = $_GET['state'];
@@ -129,14 +133,15 @@ $tours = destController::fetchTours($country, $state);
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
+            <!-- nav list -->
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo displayGeneralNavBar();
                 }
             ?>
 
@@ -205,7 +210,8 @@ $tours = destController::fetchTours($country, $state);
                 <?php if(count($tours) > 0) : ?>
 
                     <?php foreach($tours as $x) : ?>
-                        <?php if($x['Status'] == 'YTS') :?>
+
+                        <?php if($x['Status'] == 'YTS') : //if tour is available?> 
                             <?php 
 
                                 $guideDetails = array();

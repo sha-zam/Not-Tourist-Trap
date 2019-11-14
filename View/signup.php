@@ -2,7 +2,9 @@
 
 include '../Controller/signupController.php';
 
-$navBar= file_get_contents("../constants/generalNavBar.php");
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
 
 if (isset($_POST['submit']))
 {
@@ -16,16 +18,20 @@ if (isset($_POST['submit']))
     $primeLang = $_POST["primeLang"];
     $secondLang = $_POST["secondLang"];
     $thirdLang = $_POST["thirdLang"];
+    $profileImg = $_FILES['profileImage']['name'];
 
     //Get profile image
     chdir('../');
     $x = getCwd();
 
-    $profileImg = time() . '_' . $_FILES['profileImage']['name'];
-    $target=  $x . '/Uploaded_Images/' . $profileImg;
+    if($profileImg != '')
+    {
+        $profileImg = time() . '_' . $_FILES['profileImage']['name'];
+        $target=  $x . '/Uploaded_Images/' . $profileImg;
 
-    move_uploaded_file($_FILES['profileImage']['tmp_name'], $target);
-
+        move_uploaded_file($_FILES['profileImage']['tmp_name'], $target);
+    }
+    
     //Pass to Controller
     $signUpCtr = new signupController($email, $fName, $lName, $pwd, $profileImg, $primeLang, $secondLang, $thirdLang);
 
@@ -78,20 +84,11 @@ if (isset($_POST['submit']))
 
         function validateForm() 
         {
-            var profileImage = document.forms["signup"]["profileImage"].value;
-
-            if (profileImage == "") 
-            {
-                alert("Please set a Profile Image!");
-                return false;
-            }
-            
-            if( document.getElementById("termCheck").checked == false)
+            if(!(document.getElementById("termsCheck").checked))
             {
                 alert("Please Agree to the Terms of Privacy!");
                 return false;
             }
-
         }
 
     </script>
@@ -134,7 +131,16 @@ if (isset($_POST['submit']))
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
             <!-- nav list -->
-            <?php echo $navBar; ?>
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
         <!-- end nav bar -->

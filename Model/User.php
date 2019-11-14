@@ -101,6 +101,60 @@ class User
         return ($this->profileImg);
     }
 
+    public function getStatus()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM user WHERE Email = '$this->email' AND Password = '$this->pwd'");
+        $conn->close();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach ($data as $x)
+            {
+                return $x['Status'];
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getRole()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM user WHERE Email = '$this->email' AND Password = '$this->pwd'");
+        $conn->close();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach ($data as $x)
+            {
+                return $x['Role'];
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     //Login function
     public function checkLogin()
     {

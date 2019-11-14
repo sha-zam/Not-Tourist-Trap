@@ -1,6 +1,10 @@
 <?php 
 include '../Controller/tourReviewController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
 //Start session
 session_start();
 
@@ -95,13 +99,14 @@ if(isset($_POST['submit']))
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo displayGeneralNavBar();
                 }
             ?>
+
         </nav>
         <!-- end nav bar -->
         

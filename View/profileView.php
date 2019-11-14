@@ -1,7 +1,14 @@
-<?php //Start session
-    include '../Controller/profileController.php';
-    
+<?php 
+//Start session
+include '../Controller/profileController.php';
+
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
+if(!isset($_SESSION))
     session_start();
+    
 ?>
 
 <!DOCTYPE html>
@@ -53,25 +60,25 @@
             <!--navigation bar-->
             <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
 
-            <!--toggler for small windows-->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <!--toggler for small windows-->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <!--Home hyperlink-->
-            <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
+                <!--Home hyperlink-->
+                <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
-            <?php
-                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                {
-                    include_once("../constants/loggedNavBar.php");
-                }
-                else
-                {
-                    include_once("../constants/generalNavBar.php");
-                }
-            ?>
+                <!-- nav list -->
+                <?php
+                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                    {
+                        echo displayLoggedNavBar($_SESSION['userID']);
+                    }
+                    else
+                    {
+                        echo displayGeneralNavBar();
+                    }
+                ?>
 
             </nav>
             <!--end navigation bar-->

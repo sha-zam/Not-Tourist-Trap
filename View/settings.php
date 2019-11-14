@@ -3,6 +3,10 @@
     //Controller class
     include '../Controller/settingsController.php';
 
+    //Nav Bars
+    include '../constants/loggedNavBar.php';
+    include '../constants/generalNavBar.php';
+
     //Start session
     session_start();
 
@@ -116,21 +120,18 @@
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <!-- nav list -->
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
-                <!--nav list-->
-                <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        include_once("../constants/loggedNavBar.php");
-                    }
-                    else
-                    {
-                        include_once("../constants/generalNavBar.php");
-                    }
-                ?>
-                
-            </div>
         </nav>
 
         <!--Change Account Form-->

@@ -24,11 +24,14 @@ class GuideController
         }
         else
         {
-            $now = new DateTime();
-            $SD = new DateTime($tourStartDate);
-            $ED = new DateTime($tourEndDate);
+            //$now = new DateTime();
+            //$SD = date_format($tourStartDate, 'm/d/Y');
+            //$SD = $SD->format('m/d/Y');
 
-            if($SD > $ED || $now > $SD)
+            //$ED = date_format($tourStartDate, 'm/d/Y');
+            //$SD = $SD->format('m/d/Y');
+
+            if($tourStartDate > $tourEndDate)
             {
                 return 'date';
             }
@@ -120,6 +123,15 @@ class GuideController
         $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
 
         $check = $user->cancelTour($tourID);
+
+        return $check;
+    }
+
+    public static function retrieveBooking($tourID)
+    {
+        $user = new TourGuide($_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'],$_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+
+        $check = $user->getBooking($tourID);
 
         return $check;
     }

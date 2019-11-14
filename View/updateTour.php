@@ -4,6 +4,10 @@
 include '../Controller/tourController.php';
 include '../Controller/GuideController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
 //session check 
 if(!isset($_SESSION))
     session_start();
@@ -14,6 +18,9 @@ $tourID = $_GET['tourID'];
 //fetch tour details and images
 $tourImages = tourController::fetchTourImages($tourID);
 $tourDetails = tourController::fetchTourDetails($tourID);
+
+//retrieve booking for tours
+$bookingDetails = GuideController::retrieveBooking($tourID);
 
 //update tour detail
 if(isset($_POST['updateNameBtn']))
@@ -268,15 +275,15 @@ else if(isset($_POST['cancelSubmit']))
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
+            <!-- nav list -->
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    include_once("../constants/loggedNavBar.php");
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    include_once("../constants/generalNavBar.php");
+                    echo displayGeneralNavBar();
                 }
             ?>
 
@@ -341,6 +348,15 @@ else if(isset($_POST['cancelSubmit']))
                 <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
                 <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
                 <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
+
+                <br><br>
+
+                <?php if(!(is_bool($bookingDetails)) && count($bookingDetails) > 0) : ?>
+                    <h5 class="card-text">Booked By : <a href="./profileView.php?user=<?php echo $bookingDetails[0]?>"><?php echo $bookingDetails[1].' '.$bookingDetails[2]?></a></h5>
+                <?php else : ?>
+                    <h5 class="card-text">No Bookings Yet!</h5>
+                <?php endif; ?>
+
             </div>
             <!-- end div -->
             

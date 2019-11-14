@@ -3,16 +3,19 @@
 //Controller class
 include '../Controller/GuideController.php';
 
-$loggedNavBar = file_get_contents("../constants/loggedNavBar.php");
-$generalNavBar = file_get_contents("../constants/generalNavBar.php");
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
 
 //Start session
-session_start();
+if(!isset($_SESSION))
+    session_start();
+
+// $loggedNavBar = file_get_contents('../constants/loggedNavBar.php');
 
 if (isset($_POST['submit']))
 {
-    $loggedNavBar = file_get_contents("../constants/loggedNavBar.php");
-    $generalNavBar = file_get_contents("../constants/generalNavBar.php");
+    // $loggedNavBar = file_get_contents('../constants/loggedNavBar.php');
 
     $name1 = $_POST['tourName'];
     $name = addslashes($name1);
@@ -145,11 +148,11 @@ if (isset($_POST['submit']))
             <?php
                 if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
                 {
-                    echo $loggedNavBar;
+                    echo displayLoggedNavBar($_SESSION['userID']);
                 }
                 else
                 {
-                    echo $generalNavBar;
+                    echo displayGeneralNavBar();
                 }
             ?>
 
