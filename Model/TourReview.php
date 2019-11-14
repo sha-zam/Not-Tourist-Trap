@@ -20,7 +20,7 @@ class TourReview
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "csit314";
+        $dbname = "csit3142";
         
         $conn = new mysqli($servername, $username, $password, $dbname);
         
@@ -69,7 +69,7 @@ class TourReview
             $tourdetailsQ = "select Name from TOUR where TourID = $this->tourID";
             $tourdetailsQ_result = $conn->query($tourdetailsQ);
             
-            if($tourdetailsQ_result->num_rows > 0)
+            if(!empty($tourdetailsQ_result) && $tourdetailsQ_result->num_rows > 0)
             {
                 while($tourRow = $tourdetailsQ_result->fetch_assoc())
                 {

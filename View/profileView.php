@@ -176,7 +176,7 @@ LANGUAGES;
                     echo "<p class='card-text'>\"$comment\"</p>";
                     echo "<p class='card-text'>Rating: $rating ⭐</p>";
                     echo "<div class='card-footer bg-transparent border-success'>"
-                    . "<a href ='../profileView.php/?user=$reviewerID'>$reviewerName</a></div>";
+                    . "<a href ='profileView.php?user=$reviewerID'>$reviewerName</a></div>";
                 echo "</div>";
             }
         }

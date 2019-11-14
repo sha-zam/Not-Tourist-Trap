@@ -215,21 +215,28 @@ else if(isset($_POST['cancelSubmit']))
             </a>
             </div>
 
-            <!-- replaced with tour update details if user click -->
+            <!-- replaced with booking update details if user click -->
             <div id="tourHeader" class="card-body text-center">
-            <h1 class="card-title"><?php echo $tourDetails[0]['Name']?></h1>
-            <br><br>
-            <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
+                <h1 class="card-title"><?php echo $tourDetails[0]['Name']?></h1>
+                <br><br>
+                <p class="card-text"><?php echo $tourDetails[0]['Description'] ?></p>
             </div>
 
-            <div id="tourHeader" class="card-body">
-            <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
-            <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
-            <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
+            <div id="tourBody" class="card-body">
+                <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
+                <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
+                <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
             </div>
+            
+            <?php if($tourDetails[0]['Status'] == 'ENDED') :?>
+                <div id="tourEndBody" class="card-body text-center">
+                    <h4 class="card-text">Your Tour Has Ended! Please Give a Rating for "<?php echo $tourDetails[0]['Name']?>" by Clicking the Button Below!</h4>
+                </div>
+            <?php endif; ?>
+            
             <!-- end div -->
 
-            <div class="card-body" id="inputSize" style="display:none;">
+            <div class="card-body" id="inputSize" style="display : none;">
                 <label>How Many People Will be Joining You?</label><br>
                             
                 <div class="input-group mb-3">
@@ -240,13 +247,23 @@ else if(isset($_POST['cancelSubmit']))
             <!-- button groups -->
             <div class="card-body text-center">
 
-                <!-- first group of buttons -->
+                <!-- first group of buttons (update or rate) -->
                 <div id="buttonGroup1">
-                    <button type="button" name="update" class="btn btn-dark" onclick="showInput()">Update Booking</button><br><br>
+                    <?php if($tourDetails[0]['Status'] == 'ENDED') : //Check whether tour has ended or not to display appropriate buttons ?>
+
+                        <a href="./tourReviewView.php?booking=<?php echo $bookingID?>"><button type="button" name="rate" class="btn btn-dark">Rate Tour</button></a>
+                
+                    <?php else : ?>
+
+                        <button type="button" name="update" class="btn btn-dark" onclick="showInput()">Update Booking</button><br><br>
                     
-                    <form action="updateBooking.php?bookingID=<?php echo $bookingID?>&tourID=<?php echo $tourID?>" method="post" name="cancelForm" onsubmit="return confirm('Do you really want to cancel your booking?');">
-                        <button type="submit" name="cancelSubmit" class="btn btn-dark">Cancel Booking</button>
-                    </form>
+
+                        <form action="updateBooking.php?bookingID=<?php echo $bookingID?>&tourID=<?php echo $tourID?>" method="post" name="cancelForm" onsubmit="return confirm('Do you really want to cancel your booking?');">
+                            <button type="submit" name="cancelSubmit" class="btn btn-dark">Cancel Booking</button>
+                        </form>
+
+                    <?php endif; ?>
+                    
                 </div>
                 <!-- end group 1 -->
                 
@@ -256,6 +273,12 @@ else if(isset($_POST['cancelSubmit']))
                     <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
                 <!-- end group 2 -->
+
+                 <!-- third group of buttons (update) -->
+                 <!-- <div id="buttonGroup3" style="display:none;">
+                    <button type="button" name="update" class="btn btn-dark" onclick="showInput()">Rate Tour</button><br><br>
+                </div> -->
+                <!-- end group 1 -->
                 
             </div>
             <!-- end button groups -->

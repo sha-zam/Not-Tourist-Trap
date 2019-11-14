@@ -6,7 +6,8 @@ include '../constants/loggedNavBar.php';
 include '../constants/generalNavBar.php';
 
 //Start session
-session_start();
+if(!isset($_SESSION))
+    session_start();
 
 $bookingID = $_GET['booking'];
 $userID = $_SESSION['userID'];
