@@ -24,13 +24,6 @@ class GuideController
         }
         else
         {
-            //$now = new DateTime();
-            //$SD = date_format($tourStartDate, 'm/d/Y');
-            //$SD = $SD->format('m/d/Y');
-
-            //$ED = date_format($tourStartDate, 'm/d/Y');
-            //$SD = $SD->format('m/d/Y');
-
             if($tourStartDate > $tourEndDate)
             {
                 return 'date';
@@ -85,7 +78,7 @@ class GuideController
         }
         else if($toUpdate == 'img')
         {
-            if($data == '')
+            if(count($data) == 0)
             {
                 return false;
             }
@@ -96,12 +89,23 @@ class GuideController
         }
         else if($toUpdate == 'dates')
         {
-            if($data == '' || $data2 == '')
+            if($data == '' || $data2 == '' || ($data > $data2))
             {
                 return false;
             }
 
             $check = $user->updateTourDates($tourID, $data, $data2);
+
+            return $check;
+        }
+        else if($toUpdate == 'price')
+        {
+            if($data == '' || (int)$data < 0)
+            {
+                return false;
+            }
+            
+            $check = $user->updateTourPrice($tourID, $data);
 
             return $check;
         }
@@ -112,7 +116,7 @@ class GuideController
                 return false;
             }
             
-            $check = $user->updateTourPrice($tourID, $data);
+            $check = $user->updateTourStatus($tourID, $data);
 
             return $check;
         }

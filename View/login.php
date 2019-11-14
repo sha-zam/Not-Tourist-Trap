@@ -30,10 +30,13 @@ if (isset($_POST['submit']))
     //Controller validate data 
     $GLOBALS['check'] = $loginCtr->validateData();
 
+    //check user validity(suspension)
+    $GLOBALS['check'] = $loginCtr->checkUserValidity($GLOBALS['check']);
+
     if ($GLOBALS['check'])
     {
         //if user is active
-        if($GLOBALS['check']->getStatus() == 'Active')
+        if($GLOBALS['check'] != 'inactive')
         {
             session_start();
 
@@ -133,6 +136,13 @@ SUSPENDED;
 
     <script src="./src/bootstrap-input-spinner.js"></script>
 
+    <script>
+        function displaySysAdmin()
+        {
+            document.getElementById('custSupportCard').style.display = "block";
+        }
+    </script>
+
     <style>
 
         .jumbotron 
@@ -203,11 +213,25 @@ SUSPENDED;
 
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="./signup.php">New around here? Sign up</a>
-                <a class="dropdown-item" href="#">Forgot password?</a>
-                
+                <a class="dropdown-item" href="#" onclick="displaySysAdmin()">Forgot password?</a>
             </div>
 
         </div>
+        <!-- End login form -->
+
+        <br><br>
+
+        <!-- Sysadmin contact details display (Forgot password) -->
+        <div id="custSupportCard" class="card" style="width:40rem; margin : 0 auto;display:none;">
+            <div class="card-body">
+                <h1 style="margin-top : 10px;">Please Contact Our Customer Support for Help</h1>
+                <div>
+                    <label for="email">Contact us at: </label>
+                    <a href = "mailto: sysadmin@gmail.com">sysadmin@gmail.com</a>
+                </div>
+            </div>
+        </div>
+        <!-- end forgot password -->
 
     </header>
 

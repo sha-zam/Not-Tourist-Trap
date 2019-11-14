@@ -183,16 +183,23 @@ class TourGuide extends User
         //db connection
         $conn = $this->connect();
 
-        //insert images, userid, and tour id into tourimage table 
-        foreach($tourImg as $x)
-        {
-            $imgQ = "UPDATE tourimage SET Image = '$x' WHERE TourID = '$tourID'";
-            $updateImage = $conn->query($imgQ);
-        } 
+        // delete the old ones first
+        $query = "DELETE FROM tourimage WHERE TourID = '$tourID'";
+        $result = $conn->query($query);
 
-        if($updateImage)
-        {
-            return true;
+        if($result)
+        {   
+            //insert images, userid, and tour id into tourimage table 
+            foreach($tourImg as $x)
+            {
+                $imgQ = "INSERT INTO tourimage (TourID, Image) VALUES ('$tourID', '$x')";
+                $insertImage = $conn->query($imgQ);
+            } 
+
+            if($insertImage)
+            {
+                return true;
+            }
         }
         else
             return false;
@@ -221,6 +228,22 @@ class TourGuide extends User
 
         //query
         $result = $conn->query("UPDATE tour SET Price = '$price' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourStatus($tourID, $status)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Status = '$status' WHERE TourID = '$tourID' ");
     
         if($result)
         {

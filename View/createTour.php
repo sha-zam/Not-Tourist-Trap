@@ -36,22 +36,24 @@ if (isset($_POST['submit']))
     chdir('../');
     $x = getCwd();
 
-    for($i = 0; $i < count($_FILES['tourImg']['tmp_name']); $i++)
-    {
-        //Purpose of time() is to avoid naming conflicts
-        $tourImg[$i] = time() . '_' . $_FILES['tourImg']['name'][$i];
-        $target[$i] = $x . '/Uploaded_Images/' . $tourImg[$i];
-    }
+    if(count($_FILES['tourImg']['tmp_name']) > 0)
+    {   
+        for($i = 0; $i < count($_FILES['tourImg']['tmp_name']); $i++)
+        {
+            //Purpose of time() is to avoid naming conflicts
+            $tourImg[$i] = time() . '_' . $_FILES['tourImg']['name'][$i];
+            $target[$i] = $x . '/Uploaded_Images/' . $tourImg[$i];
 
-    //checking
-    // echo "<script type='text/javascript'>alert('$name, $country, $state, $textDescription, $tourStartDate, $tourEndDate,$tourPrice')</script>";
-    // echo "<script type='text/javascript'>alert('$x')</script>";
-
-    //move uploaded images
-    for($i = 0; $i < count($tourImg); $i++)
-    {
-        move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
+            move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
+        }
     }
+    
+    
+    // //move uploaded images
+    // for($i = 0; $i < count($tourImg); $i++)
+    // {
+    //     ;
+    // }
 
     //Pass to Controller
     $check = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);

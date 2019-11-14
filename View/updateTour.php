@@ -137,6 +137,22 @@ else if(isset($_POST['cancelSubmit']))
         header("Location:./tourGuideView.php?alert=true");
     }
 }
+else if(isset($_POST['updateStatusBtn']))
+{
+    //get tour ID
+    $tourID = $_GET['tourID'];
+
+    //get Tour Price
+    $tourStatus = $_POST['tourStatus'];
+
+    //ask controller to update
+    $check = GuideController::updateTour($tourID, $tourStatus, ' ', 'status');
+
+    if ($check)
+    {
+        header("Location:./tourGuideView.php?alert=true");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -210,9 +226,13 @@ else if(isset($_POST['cancelSubmit']))
             {
                 document.getElementById('updateDates').style.display = "block";
             }
-            else
+            else if (field === 'price')
             {
                 document.getElementById('updatePrice').style.display = "block";
+            }
+            else
+            {
+                document.getElementById('updateStatus').style.display = "block";
             }
         }
 
@@ -228,6 +248,7 @@ else if(isset($_POST['cancelSubmit']))
             document.getElementById('updateImages').style.display = "none";
             document.getElementById('updateDates').style.display = "none";
             document.getElementById('updatePrice').style.display = "none";
+            document.getElementById('updateStatus').style.display = "none";
         }
 
     </script>
@@ -348,14 +369,24 @@ else if(isset($_POST['cancelSubmit']))
                 <h5 class="card-text">Dates : <?php echo date_format(date_create($tourDetails[0]['Start_date']), "d M Y") ?> - <?php echo date_format(date_create($tourDetails[0]['End_date']), "d M Y") ?></h5>
                 <h5 class="card-text">Price : $<?php echo $tourDetails[0]['Price'] ?></h5>
                 <h5 class="card-text">Max Tour Size : <?php echo $tourDetails[0]['Group_Size'] ?> people</h5>
+                <h5 class="card-text">Status : <?php echo $tourDetails[0]['Status'] ?></h5>
 
                 <br><br>
+                
+                <?php if($tourDetails[0]['Status'] != 'ENDED') : ?>
 
-                <?php if(!(is_bool($bookingDetails)) && count($bookingDetails) > 0) : ?>
-                    <h5 class="card-text">Booked By : <a href="./profileView.php?user=<?php echo $bookingDetails[0]?>"><?php echo $bookingDetails[1].' '.$bookingDetails[2]?></a></h5>
+                    <?php if(!(is_bool($bookingDetails)) && count($bookingDetails) > 0) : ?>
+                        <h5 class="card-text">Booked By : <a href="./profileView.php?user=<?php echo $bookingDetails[0]?>"><?php echo $bookingDetails[1].' '.$bookingDetails[2]?></a></h5>
+                    <?php else : ?>
+                        <h5 class="card-text">No Bookings Yet!</h5>
+                    <?php endif; ?>
+
                 <?php else : ?>
-                    <h5 class="card-text">No Bookings Yet!</h5>
+
+                    <h5 class="card-text">Pending Review By : <a href="./profileView.php?user=<?php echo $bookingDetails[0]?>"><?php echo $bookingDetails[1].' '.$bookingDetails[2]?></a></h5>
+                    
                 <?php endif; ?>
+                
 
             </div>
             <!-- end div -->
@@ -462,6 +493,25 @@ else if(isset($_POST['cancelSubmit']))
                     <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
             </form>
+
+            <!-- status update -->
+            <form action="updateTour.php?tourID=<?php echo $tourID?>" method="post">
+                <div id="updateStatus" class="card-body" style="display:none;text-align:center;">
+                    <div class="form-group">
+                        <label for="inputTourStatus">Select Tour Status</label>
+                        <select name="tourStatus" class="custom-select" id="inputStatus" required>
+                            <option value="YTS">Yet to Start</option>
+                            <option value="BOOKED">Booked</option>
+                            <option value="ENDED">Ended</option>
+                        </select>
+                        <br><br>
+                        <button type="submit" name="updateStatusBtn" class="btn btn-dark">Confirm</button><br><br>
+                        <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <!-- end status update -->
+
             
             <!-- button groups -->
             <div class="card-body text-center">
@@ -480,19 +530,13 @@ else if(isset($_POST['cancelSubmit']))
                 <div id="buttonGroup2" style="display:none;">
                     <button type="button" name = "updateName" class="btn btn-dark" onclick="showUpdate('name')">Update Tour Name</button>
                     <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('desc')">Update Description</button>
-                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('img')">Update Tour Images</button>
-                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('dates')">Update Tour Dates</button>
-                    <button type="button" name = "updateDesc" class="btn btn-dark" onclick="showUpdate('price')">Update Tour Price</button><br><br>
+                    <button type="button" name = "updateImg" class="btn btn-dark" onclick="showUpdate('img')">Update Tour Images</button>
+                    <button type="button" name = "updateDates" class="btn btn-dark" onclick="showUpdate('dates')">Update Tour Dates</button>
+                    <button type="button" name = "updatePrice" class="btn btn-dark" onclick="showUpdate('price')">Update Tour Price</button><br><br>
+                    <button type="button" name = "updateStatus" class="btn btn-dark" onclick="showUpdate('status')">Update Tour Status</button><br><br>
                     <button type="button" name = "cancel" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
                 <!-- end group 2 -->
-                
-                <!-- 3rd group of buttons -->
-                <!-- <div id="buttonGroup3" style="display:none;">
-                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Cancellation</button></a><br><br>
-                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
-                </div> -->
-                <!-- end group 3 -->
 
             </div>
             <!-- end button groups -->
