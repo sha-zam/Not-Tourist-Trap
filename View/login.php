@@ -55,7 +55,7 @@ if (isset($_POST['submit']))
             if($_SESSION['role'] == 'User')
                 header("location:../index.php");
             else //if admin link to sysadmin page
-                header("location:../index.php");
+                header("location:./userAdminView.php");
         }
         else
         {
