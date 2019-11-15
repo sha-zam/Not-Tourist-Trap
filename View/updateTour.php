@@ -341,7 +341,7 @@ else if(isset($_POST['updateStatusBtn']))
                         <?php endif;?>
 
                         <div class="<?php echo $class ?>">
-                            <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                            <img src="<?php echo $src?>" class="d-block w-100" alt="<?php echo $src?>" style="height:700px;width:400px">
                         </div>
 
                     <?php endfor;?>
@@ -486,7 +486,7 @@ else if(isset($_POST['updateStatusBtn']))
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                         </div>
-                        <input type="text" name="tourPrice" id="updtTourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                        <input type="number" name="tourPrice" id="updtTourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)" value="1" min="1" step="1"/>
                     </div>
                     <br>
                     <button type="submit" name="updatePriceBtn" class="btn btn-dark">Confirm</button></a><br><br>

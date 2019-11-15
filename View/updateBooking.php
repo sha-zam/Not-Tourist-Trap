@@ -18,6 +18,8 @@ $tourID = $_GET['tourID'];
 $tourImages = tourController::fetchTourImages($tourID);
 $tourDetails = tourController::fetchTourDetails($tourID);
 
+//check  for tour reviews
+
 if(isset($_GET['tourSize']))
 {
     $tourSize = $_GET['tourSize'];
@@ -230,7 +232,7 @@ else if(isset($_POST['cancelSubmit']))
             
             <?php if($tourDetails[0]['Status'] == 'ENDED') :?>
                 <div id="tourEndBody" class="card-body text-center">
-                    <h4 class="card-text">Your Tour Has Ended! Please Give a Rating for "<?php echo $tourDetails[0]['Name']?>" by Clicking the Button Below!</h4>
+                    <h4 class="card-text">Your Tour Has Ended!</h4>
                 </div>
             <?php endif; ?>
             
@@ -246,11 +248,19 @@ else if(isset($_POST['cancelSubmit']))
 
             <!-- button groups -->
             <div class="card-body text-center">
+                
+                <!-- check for ratings -->
 
+                <!-- else diplay buttons -->
+                
                 <!-- first group of buttons (update or rate) -->
                 <div id="buttonGroup1">
+
+
                     <?php if($tourDetails[0]['Status'] == 'ENDED') : //Check whether tour has ended or not to display appropriate buttons ?>
 
+                        <h4 class="card-text">Please Give a Rating for "<?php echo $tourDetails[0]['Name']?>" by Clicking the Button Below!</h4>
+                        
                         <a href="./tourReviewView.php?booking=<?php echo $bookingID?>"><button type="button" name="rate" class="btn btn-dark">Rate Tour</button></a>
                 
                     <?php else : ?>
@@ -263,6 +273,8 @@ else if(isset($_POST['cancelSubmit']))
                         </form>
 
                     <?php endif; ?>
+
+
                     
                 </div>
                 <!-- end group 1 -->
@@ -273,12 +285,6 @@ else if(isset($_POST['cancelSubmit']))
                     <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
                 </div>
                 <!-- end group 2 -->
-
-                 <!-- third group of buttons (update) -->
-                 <!-- <div id="buttonGroup3" style="display:none;">
-                    <button type="button" name="update" class="btn btn-dark" onclick="showInput()">Rate Tour</button><br><br>
-                </div> -->
-                <!-- end group 1 -->
                 
             </div>
             <!-- end button groups -->

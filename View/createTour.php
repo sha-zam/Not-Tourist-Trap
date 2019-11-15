@@ -11,12 +11,10 @@ include '../constants/generalNavBar.php';
 if(!isset($_SESSION))
     session_start();
 
-// $loggedNavBar = file_get_contents('../constants/loggedNavBar.php');
+$check = true;
 
 if (isset($_POST['submit']))
 {
-    // $loggedNavBar = file_get_contents('../constants/loggedNavBar.php');
-
     $name1 = $_POST['tourName'];
     $name = addslashes($name1);
     $country = $_POST["country"];
@@ -47,24 +45,69 @@ if (isset($_POST['submit']))
             move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
         }
     }
-    
-    
-    // //move uploaded images
-    // for($i = 0; $i < count($tourImg); $i++)
-    // {
-    //     ;
-    // }
 
     //Pass to Controller
-    $check = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
+    $GLOBALS['check'] = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
     if(is_bool($check) && ($check))
     {
         header("Location:../host.php?tourName=".$name1);
     }
     
-    //$check = $guideCtr->validateData();
 }
+
+//function for alert display
+function displayAlerts()
+{
+    global $check;
+    
+    if(isset($check))
+    {
+        if(!is_bool($check))
+        {
+            echo <<< ALERT
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Failed to Create Tour</h4>
+                <hr>
+ALERT;
+
+                if ($check == 'date')
+                {
+                    echo <<< DATE
+
+                    <p>Invalid Tour Dates Provided! Please Enter the Correct Informations</p>
+DATE;
+                }
+                else if ($check == 'price')
+                {
+                    echo <<< PRICE
+                    <p>Invalid Tour Price Provided! Please Enter the Correct Informations</p>
+PRICE;
+                }
+                else if ($check == 'size')
+                {
+                    echo <<< SIZE
+
+                    <p>Invalid Tour Size Provided! Please Enter the Correct Informations</p>
+                
+SIZE;
+                }
+                else
+                {
+                    echo <<< INCOMPLETE
+
+                    <p>Please Complete the Form Before Submitting!</p>
+
+INCOMPLETE;
+                }
+                    
+            echo '</div>';
+        }
+
+    }
+
+}
+
 
 //End Form Process
 ?> 
@@ -95,13 +138,6 @@ if (isset($_POST['submit']))
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
-    <!-- <script>
-        $( function() 
-        {
-            $( "#datepicker1, #datepicker2" ).datepicker();
-        });
-    </script> -->
-
     <script>
         $("input[type='number']").inputSpinner();
     </script>
@@ -162,33 +198,7 @@ if (isset($_POST['submit']))
         <!-- end nav bar -->
 
         <!-- Fail Alert -->
-        <?php if(isset($check)) : ?> 
-
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Failed to Create Tour</h4>
-                <hr>
-
-                <?php if ($check == 'date') :  ?>
-                    
-                    <p>Invalid Tour Dates Provided! Please Enter the Correct Informations</p>
-                
-                <?php elseif ($check == 'price') : ?>
-
-                    <p>Invalid Tour Price Provided! Please Enter the Correct Informations</p>
-                
-                <?php elseif ($check == 'size') : ?>
-
-                    <p>Invalid Tour Size Provided! Please Enter the Correct Informations</p>
-                
-                <?php else : ?>
-                    
-                    <p>Please Complete the Form Before Submitting!</p>
-
-                <?php endif;?>
-            
-            </div>
-
-        <?php endif;?>
+        <?php echo displayAlerts() ?> 
         <!-- End Alert -->
         
         <!--Tour Guide Form-->
