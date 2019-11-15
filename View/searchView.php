@@ -1,14 +1,14 @@
 <?php 
 
 include '../Controller/destController.php';
+include '../Controller/tourController.php';
 
 //Nav Bars
 include '../constants/loggedNavBar.php';
 include '../constants/generalNavBar.php';
-    
-//start session
-session_start();
 
+if(!isset($_SESSION))
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -26,15 +26,11 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
     <style>
         html
         {
             scroll-behavior: smooth;
-        }
-        
-        body{
-            background-color: #080808;
         }
         
         .jumbotron 
@@ -42,13 +38,20 @@ session_start();
             background-image : url("../Images/bridge_night.jpg");
             background-size : cover;
             background-position : center center; 
-            height : 100vh;
+            height : 100%;
             margin-bottom:0;
         }
 
         .navbar
         {
             position : fixed;
+        }
+        
+        .card-img-top 
+        {
+            max-width: 100%;
+            max-height : 100%;
+            object-fit: cover;
         }
         
     </style>
@@ -125,26 +128,42 @@ NORESULTSFOUND;
     }
     else
     {
-        echo "<div class='row' style='top:50%'>";
+        ?>
+        <h2 style="margin:20px; color:white;">Search results for '<?php echo $searchEntry?>': </h2>
+        <div class="container-fluid">
+            <div class="row flex-row flex-nowrap">
+        <?php
+        //echo "<div class='row' style='top:50%'>";
         foreach($tours as $data)
         {
             $tourName = $data['Name'];
             
+            $tourImages = array();
+            $tourImages = tourController::fetchTourImages($data['TourID']);
+            $src = "../Uploaded_Images/".$tourImages[0]; //get first image of tour images
+            
+            $guideDetails = array();
+            $guideDetails = tourController::fetchTourGuideDetails($data['TourGuideID']);
+            
             $country = destController::fetchCountryDetails($data['CountryID']);
             $state = destController::fetchStateDetails($data['StateID']);
-?>
+?>          
             <div class="col-3">
-                <div class="card card-block">
-                    <img class="card-img-top" src="../Images/<?php echo $state[0]['Image_3']?>" >
-                    <div class="card-body text-center">
-                        <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
-                        <h5 class="card-title"><?php echo $tourName ?></h5>
+                <div class="card card-block text-center">
+                    <img class="card-img-top" src="<?php echo $src?>" style="width:500px; height:400px">
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $tourName ?></h4>
+                        <h5 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h5>
+                        <p class="card-text">By: <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
+                        <a href="./tourView.php?state=<?php echo $state[0]['Name']?>&country=<?php echo $country[0]['Name']?>&tourID=<?php echo $data['TourID']?>&tourName=<?php echo $data['Name']?>&tourGuideID=<?php echo $data['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo "../Images/tent_night.jpg"?>">
+                            <button type="button" class="btn btn-primary">Click Here for More Details</button>
+                        </a>
                     </div>
                 </div>
             </div>
  <?php
         }
-        echo "</div>"; //close row class
+        echo "</div></div>";
     }
 }
 
