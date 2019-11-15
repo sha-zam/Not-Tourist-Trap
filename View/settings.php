@@ -7,8 +7,8 @@
     include '../constants/loggedNavBar.php';
     include '../constants/generalNavBar.php';
 
-    //Start session
-    session_start();
+    if(!isset($_SESSION))
+        session_start();
 
     $id = $_SESSION['userID'];
     $settingsCtr = new settingsController($id);
@@ -88,6 +88,7 @@
         .jumbotron
         {
             background-image: url("../Images/New-York-City-Night-Cityscape.jpg"); 
+            height:100%;
         }
 
         .accordion, .alert
@@ -151,7 +152,7 @@
                             <div class="form-group">
                                 <label for="inputFirstName">Input New First Name</label>
                                 <form id="firstName_form" action="settings.php" method="POST" enctype="multipart/form-data">
-                                    <input name="input_fName" type="text" class="form-control" id="firstName">
+                                    <input name="input_fName" type="text" class="form-control" id="firstName" required pattern="[A-Za-z]{1,}">
                                     <button type="submit" name="submit_fName" class="btn btn-primary" style="margin-top:10px; margin-left:auto; margin-right:auto;">Submit</button>
                                 </form>
                             </div>
@@ -173,7 +174,7 @@
                             <div class="form-group">
                                 <form id="lastName_form" action="settings.php" method="POST" enctype="multipart/form-data">
                                     <label for="inputLastName">Input New Last Name</label>
-                                    <input name="input_lName" type="text" class="form-control" id="inputLastName">
+                                    <input name="input_lName" type="text" class="form-control" id="inputLastName" required pattern="[A-Za-z]{1,}">
                                     <button type="submit" name="submit_lName" class="btn btn-primary" style="margin-top:10px; margin-left:auto; margin-right:auto;">Submit</button>
                                 </form>
                             </div>
@@ -195,7 +196,7 @@
                             <div class="form-group">
                                 <form id="email_form" action="settings.php" method="POST" enctype="multipart/form-data">
                                     <label for="inputEmail">Input New Email</label>
-                                    <input name="input_email" type="text" class="form-control" id="inputEmail">
+                                    <input name="input_email" type="email" class="form-control" id="inputEmail" required>
                                     <button type="submit" name="submit_email" class="btn btn-primary" style="margin-top:10px; margin-left:auto; margin-right:auto;">Submit</button>
                                 </form>
                             </div>
@@ -217,7 +218,7 @@
                             <div class="form-group">
                                 <form id="password_form" action="settings.php" method="POST" enctype="multipart/form-data">
                                     <label for="inputPassword">Input New Password</label>
-                                    <input name="input_password" type="password" class="form-control" id="inputPassword" minlength="8">
+                                    <input name="input_password" type="password" class="form-control" id="inputPassword" minlength="8" required>
                                     <small id="passwordHelp" class="form-text text-muted">Password must be at least 8 characters in length</small>
                                     <button type="submit" name="submit_password" class="btn btn-primary" style="margin-top:10px; margin-left:auto; margin-right:auto;">Submit</button>
                                 </form>
@@ -241,7 +242,7 @@
                                 <label>Select Your New Profile Picture</label><br>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="profilePic" name="input_profilePic" aria-describedby="inputGroupFileAddon01" accept=".jpg, .png, .jpeg"/>
+                                        <input type="file" class="custom-file-input" id="profilePic" name="input_profilePic" aria-describedby="inputGroupFileAddon01" accept=".jpg, .png, .jpeg" required/>
                                         <label class="custom-file-label" for="profilePic">Choose file</label>
                                         <script>
                                             $('#profilePic').on('change',function(){
