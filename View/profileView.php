@@ -152,34 +152,42 @@ LANGUAGES;
         echo "</div>";
         echo "<br>";
         
-        $noReview = sizeOf($tourReview);
-        if($noReview > 0)
+        if(!is_bool($tourReview))
         {
-            echo "<div class = 'card border-info mb-3' style='width:40rem; margin : 0 auto;'>";
-                    echo"<div class='card-header'>";
-                    if ($noReview == 1) {
-                        echo "$noReview Review";
-                    }else
-                        echo "$noReview Reviews";
-            echo "</div>";
-            
-            for($i = 0; $i < $noReview; $i++)
+            $noReview = sizeOf($tourReview);
+            if($noReview > 0)
             {
-                $comment = $tourReview[$i]->getComment();
-                $rating = $tourReview[$i]->getRating();
-                $tourName = $tourReview[$i]->getTourName();
-                $reviewerName = $tourReview[$i]->getReviewerName();
-                $reviewerID = $tourReview[$i]->getReviewerID();
-                
-                echo "<div class='card-body'>";
-                    echo "<h5 class='card-title'>$tourName</h5>";
-                    echo "<p class='card-text'>\"$comment\"</p>";
-                    echo "<p class='card-text'>Rating: $rating ⭐</p>";
-                    echo "<div class='card-footer bg-transparent border-success'>"
-                    . "<a href ='profileView.php?user=$reviewerID'>$reviewerName</a></div>";
+                echo "<div class = 'card border-info mb-3' style='width:40rem; margin : 0 auto;'>";
+                        echo"<div class='card-header'>";
+                        if ($noReview == 1) {
+                            echo "$noReview Review";
+                        }else
+                            echo "$noReview Reviews";
                 echo "</div>";
+                
+                for($i = 0; $i < $noReview; $i++)
+                {
+                    $comment = $tourReview[$i]->getComment();
+                    $rating = $tourReview[$i]->getRating();
+                    $tourName = $tourReview[$i]->getTourName();
+                    $reviewerName = $tourReview[$i]->getReviewerName();
+                    $reviewerID = $tourReview[$i]->getReviewerID();
+                    
+                    echo "<div class='card-body'>";
+                        echo "<h5 class='card-title'>$tourName</h5>";
+                        echo "<p class='card-text'>\"$comment\"</p>";
+                        
+                        echo "<p class='card-text'>Rating: ";
+                        echo str_repeat("⭐",$rating);
+                        echo "</p>";
+                        
+                        echo "<div class='card-footer bg-transparent border-success'>"
+                            . "<a href ='profileView.php?user=$reviewerID'>$reviewerName</a></div>";
+                        echo "</div>";
+                }
             }
         }
+        
     }
     else    //user not found
     {

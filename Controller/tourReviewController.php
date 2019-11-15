@@ -12,4 +12,13 @@ class tourReviewController
         
         return $check;
     }
+
+    public static function retrieveReview($bookingID)
+    {
+        $review = new TourReview($bookingID);
+        
+        $check = $review->getTourReview();
+
+        return $check;
+    }
 }
