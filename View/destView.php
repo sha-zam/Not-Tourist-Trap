@@ -39,7 +39,7 @@ for ($i = 0 ; $i < count($imgArr); $i++)
 }
 
 //Ask destController to fetch number of tours available
-$tours = destController::fetchTours($country, $state);
+$tours = destController::fetchTours($state);
 
 ?>
 
