@@ -293,6 +293,7 @@ class TourGuide extends User
             foreach($data as $x)
             {
                 $userID = $x['UserID'];
+                $bookingID = $x['BookingID'];
             }
 
             //query name
@@ -313,6 +314,7 @@ class TourGuide extends User
                     $resultArr[0] = $userID;
                     $resultArr[1] = $userFName;
                     $resultArr[2] = $userLName;
+                    $resultArr[3] = $bookingID;
                 }
             }
             

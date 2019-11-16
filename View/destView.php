@@ -212,24 +212,25 @@ $tours = destController::fetchTours($country, $state);
                     <?php foreach($tours as $x) : ?>
 
                         <?php if($x['Status'] == 'YTS') : //if tour is available?> 
-                            <?php 
 
+                            <?php 
+                                $tourID = $x['TourID'];
                                 $guideDetails = array();
 
                                 //Ask guideCtr for tourguide name and profileImg
                                 $guideDetails= tourController::fetchTourGuideDetails($x['TourGuideID']);
-                                //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
 
-                                $guideDetails[3] = "../Uploaded_Images/".$guideDetails[3];
+                                //fetch tour Images (necessary info : TourID and TourGuideID)
+                                $tourImg = tourController::fetchTourImages($tourID);
                             ?>
 
                             <div class="col-3">
                                 <div class="card card-block text-center">
-                                    <img class="card-img-top" src="<?php echo $guideDetails[3] ?>" alt="tourguide" style="width:500px; height:400px">
+                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $tourImg[0] ?>" alt="tourguide" style="width:500px; height:400px">
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo $x['Name']?></h5>
                                         <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
-                                        <a href="./tourView.php?state=<?php echo $state?>&country=<?php echo $country?>&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo $imageSrc[2]?>">
+                                        <a href="./tourView.php?state=<?php echo $state?>&country=<?php echo $country?>&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>">
                                             <button type="button" class="btn btn-primary">Click Here for More Details</button>
                                         </a>
                                     </div>

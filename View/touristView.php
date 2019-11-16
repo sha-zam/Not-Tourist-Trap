@@ -4,6 +4,7 @@
 include '../Controller/bookingController.php';
 include '../Controller/tourController.php';
 include '../Controller/destController.php';
+include '../Controller/tourReviewController.php';
 
 //Nav Bars
 include '../constants/loggedNavBar.php';
@@ -18,6 +19,9 @@ $bookings = bookingController::retrieveBooking('tourist', $_SESSION['userID'], $
 
 //data to be displayed : country, state, tour name, tour guide
 
+$activeTours = array();
+$pastTours = array();
+
 //check if any bookings exist
 if($bookings != false)
 {
@@ -28,10 +32,31 @@ if($bookings != false)
         {
             $bookingData[]=$row;
         }
+
+        //check which tours are still active (if any exists)
+        foreach($bookingData as $bData)
+        {
+            $tourID = $bData['TourID'];
+            $bookingID = $bData['BookingID'];
+
+            //check if booking is already reviewed
+            $checkReview = tourReviewController::retrieveReview($bookingID);
+
+            if(is_bool($checkReview) && (!$checkReview)) //if its an active tour
+            {
+                array_push($activeTours, $bData);
+            }
+            else
+            {
+                array_push($pastTours, $bData);
+            }
+
+        }
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,107 +113,163 @@ if($bookings != false)
 
 </head>
 <body>
+
+    <!--navigation bar-->
+    <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
+
+        <!--toggler for small windows-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--Home hyperlink-->
+        <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
+
+        <!-- nav list -->
+        <?php
+            if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+            {
+                echo displayLoggedNavBar($_SESSION['userID']);
+            }
+            else
+            {
+                echo displayGeneralNavBar();
+            }
+        ?>
+
+    </nav>
+    <!--end navigation bar-->
+
+    <!-- alert section -->
+    <?php if (isset($_GET['alert'])) :?>
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Booking Successfully Updated!</h4>
+            <hr>
+            <p>Your Booking has been Successfully Updated!</p>
+        </div>
+
+    <?php endif; ?>
+    <!-- end alert section -->
     
-    <!-- jumbotron header -->
-    <!-- <header class="jumbotron jumbotron-fluid"> -->
-
-        <!--navigation bar-->
-        <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
-
-            <!--toggler for small windows-->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!--Home hyperlink-->
-            <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
-
-            <!-- nav list -->
-            <?php
-                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                {
-                    echo displayLoggedNavBar($_SESSION['userID']);
-                }
-                else
-                {
-                    echo displayGeneralNavBar();
-                }
-            ?>
-
-        </nav>
-        <!--end navigation bar-->
-
+    <!-- active bookings / bookings not yet rated -->
+    <div class="container-fluid">
+        
         <h1 class="display-4" style="color:white;margin-left:20px;margin-top:5%;"><b>Your Bookings</b></h1>
 
-        <!-- alert section -->
-        <?php if (isset($_GET['alert'])) :?>
+        <div class="row flex-row flex-nowrap">
+            
+            <?php if (count($activeTours) > 0) : ?> 
 
-            <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">Booking Successfully Updated!</h4>
-                <hr>
-                <p>Your Booking has been Successfully Updated!</p>
-            </div>
+                <?php foreach($activeTours as $data) :?>
 
-        <?php endif; ?>
-        <!-- end alert section -->
+                    <?php 
+                        //tour details
+                        $tourDetails = tourController::fetchTourDetails($data['TourID']);
 
-        <div class="container-fluid">
+                        //query for tour images
+                        $images = tourController::fetchTourImages($data['TourID']);
 
-            <div class="row flex-row flex-nowrap">
+                        foreach($tourDetails as $data2)
+                        {
+                            $tourName = $data2['Name'];
 
-                <?php if(!$bookings) :?>
+                            //query for tour guide name
+                            $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
+
+                            //query for state and country name
+                            $country = destController::fetchCountryDetails($data2['CountryID']);
+                            $state = destController::fetchStateDetails($data2['StateID']);
+                        }
+                        
+                    ?>
+
+                    <div class="col-3">
+                        <a href="./updateBooking.php?bookingID=<?php echo $data['BookingID']?>&tourID=<?php echo $data['TourID']?>">
+                            <div class="card card-block">
+                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="tour image" style="width:500px; height:400px">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
+                                    <h5 class="card-title"><?php echo $tourName ?></h5>
+                                    <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                <?php endforeach; ?>
+
+            <?php else : ?>
+
+                <div class="col-3">
 
                     <p class="lead" style="color:white; margin-left:30px;"><b>No Bookings Available</b></p>
+            
+                </div>
                 
-                <?php else :?>
+            <?php endif; ?>
+            
+        </div>
+    </div>
+    <!-- end active tour section -->
 
-                    <?php foreach($bookingData as $data) :?>
+    <!-- past tours section --> 
+    <div class="container-fluid">
+    
+        <h1 class="display-4" style="color:white;margin-left:20px;margin-top:5%;"><b>Past Tours</b></h1>
 
-                        <?php 
-                            $tourID = $data['TourID'];
-                            $bookingID = $data['BookingID'];
+        <div class="row flex-row flex-nowrap">
 
-                            $tourDetails = tourController::fetchTourDetails($tourID);
+            
+            <?php if (count($pastTours) > 0) : ?> 
 
-                            //query for tour images
-                            $images = tourController::fetchTourImages($tourID);
+                <?php foreach($pastTours as $data3) :?>
 
-                            foreach($tourDetails as $data2)
-                            {
-                                $tourName = $data2['Name'];
+                    <?php 
+                        //tour details
+                        $tourDetails2 = tourController::fetchTourDetails($data3['TourID']);
 
-                                //query for tour guide name
-                                $guideDetails = tourController::fetchTourGuideDetails($data2['TourGuideID']);
+                        //query for tour images
+                        $images2 = tourController::fetchTourImages($data3['TourID']);
 
-                                //query for state and country name
-                                $country = destController::fetchCountryDetails($data2['CountryID']);
-                                $state = destController::fetchStateDetails($data2['StateID']);
-                            }
-                            
-                        ?>
+                        foreach($tourDetails2 as $data4)
+                        {
+                            $tourName2 = $data4['Name'];
 
-                        <div class="col-3">
-                            <a href="./updateBooking.php?bookingID=<?php echo $bookingID?>&tourID=<?php echo $tourID?>">
-                                <div class="card card-block">
-                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $images[0]?>" alt="tour image" style="width:500px; height:400px">
-                                    <div class="card-body text-center">
-                                        <h4 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h4>
-                                        <h5 class="card-title"><?php echo $tourName ?></h5>
-                                        <p class="card-text">By : <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
-                                    </div>
+                            //query for tour guide name
+                            $guideDetails2 = tourController::fetchTourGuideDetails($data4['TourGuideID']);
+
+                            //query for state and country name
+                            $country2 = destController::fetchCountryDetails($data4['CountryID']);
+                            $state2 = destController::fetchStateDetails($data4['StateID']);
+                        }
+                        
+                    ?>
+
+                    <div class="col-3">
+                        <a href="./pastBooking.php?bookingID=<?php echo $data3['BookingID']?>&tourID=<?php echo $data3['TourID']?>">
+                            <div class="card card-block">
+                                <img class="card-img-top" src="../Uploaded_Images/<?php echo $images2[0]?>" alt="tour image" style="width:500px; height:400px">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title"><?php echo $state2[0]['Name'].', '.$country2[0]['Name'] ?></h4>
+                                    <h5 class="card-title"><?php echo $tourName2 ?></h5>
+                                    <p class="card-text">By : <?php echo $guideDetails2[1].' '.$guideDetails2[2]?></p>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
+                    </div>
 
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
 
-                <?php endif; ?>
+            <?php else : ?>
 
-            </div>
-       </div>
-
-    <!-- </header> -->
-    <!-- end jumbotron header -->
+                <p class="lead" style="color:white; margin-left:30px;"><b>No Past Tours Available</b></p>
+            
+            <?php endif; ?>
+        
+        </div>
+    </div>
+    <!-- end past tours section -->
 
 </body>
 </html>

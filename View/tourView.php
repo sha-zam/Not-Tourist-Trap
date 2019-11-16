@@ -20,7 +20,6 @@ $state = $_GET['state'];
 $tourID = $_GET['tourID'];
 $tourName = str_replace("%20", " ", $_GET['tourName']);
 $tourGuide = str_replace("%20", " ", $_GET['tourGuide']);
-$bgImg = $_GET['bgImg'];
 $tourGuideID = $_GET['tourGuideID'];
 
 if(isset($_SESSION['userID']))
@@ -119,7 +118,7 @@ if(isset($_GET['tourSize']))
     <style>
         .jumbotron 
         {
-            background-image : url("<?php echo $bgImg?>");
+            background-image : url("../Images/hk_night.jpg");
             height : 100%;
         }
 
