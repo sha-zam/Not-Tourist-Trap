@@ -155,7 +155,7 @@ NORESULTSFOUND;
                         <h4 class="card-title"><?php echo $tourName ?></h4>
                         <h5 class="card-title"><?php echo $state[0]['Name'].', '.$country[0]['Name'] ?></h5>
                         <p class="card-text">By: <?php echo $guideDetails[1].' '.$guideDetails[2]?></p>
-                        <a href="./tourView.php?state=<?php echo $state[0]['Name']?>&country=<?php echo $country[0]['Name']?>&tourID=<?php echo $data['TourID']?>&tourName=<?php echo $data['Name']?>&tourGuideID=<?php echo $data['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>&bgImg=<?php echo "../Images/tent_night.jpg"?>">
+                        <a href="./tourView.php?state=<?php echo $state[0]['Name']?>&country=<?php echo $country[0]['Name']?>&tourID=<?php echo $data['TourID']?>&tourName=<?php echo $data['Name']?>&tourGuideID=<?php echo $data['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>">
                             <button type="button" class="btn btn-primary">Click Here for More Details</button>
                         </a>
                     </div>
