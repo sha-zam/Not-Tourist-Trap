@@ -58,6 +58,39 @@ class Destination
         return $instance;
     }
 
+    public static function StateConstruct($state)
+    {
+        $instance = new self();
+
+        $instance->state = $state;
+
+        //set country and state ID
+        //create connection to DB
+        $conn = $instance->connect();
+
+        //query country ID
+        $query = "SELECT * FROM state WHERE Name = '$state'";
+        $result = $conn->query($query);
+
+        if($result->num_rows > 0) //if state exists
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $instance->stateID = $x['StateID'];
+            }
+            
+        }
+
+        $conn->close();
+
+        return $instance;
+    }
+
     //Constructor with ID
     public static function IDConstruct($countryID, $stateID)
     {
@@ -403,8 +436,8 @@ class Destination
         //create connection to DB
         $conn = $this->connect();
 
-        //query for all tours with current country and state ID
-        $query = "SELECT * FROM tour WHERE CountryID = '$this->countryID' AND StateID = '$this->stateID'";
+        //query for all tours with current state ID
+        $query = "SELECT * FROM tour WHERE StateID = '$this->stateID'";
         $result = $conn->query($query);
 
         $conn->close();

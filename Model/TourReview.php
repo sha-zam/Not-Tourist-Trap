@@ -56,7 +56,7 @@ class TourReview
         $query = "select * from TOURREVIEW where BookingID = $this->bookingID";
         $count = $conn -> query($query);
         
-        if($count -> num_rows > 0)
+        if(!empty($count) && $count -> num_rows > 0)
         {
             while($row = $count->fetch_assoc())
             {               

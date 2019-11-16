@@ -42,9 +42,9 @@ class destController
         return $titles;
     }
 
-    public static function fetchTours($country, $state)
+    public static function fetchTours($state)
     {
-        $destination = Destination::NameConstruct($country, $state);
+        $destination = Destination::StateConstruct($state);
 
         $tours = $destination->getTours();
         return $tours;

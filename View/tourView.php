@@ -15,7 +15,7 @@ if(!isset($_SESSION))
     session_start();
 
 //get params
-$country = $_GET['country'];
+//$country = $_GET['country'];
 $state = $_GET['state'];
 $tourID = $_GET['tourID'];
 $tourName = str_replace("%20", " ", $_GET['tourName']);
@@ -26,7 +26,7 @@ if(isset($_SESSION['userID']))
     $userID = $_SESSION['userID'];
 
 //Ask destController to fetch tour details
-$tours = destController::fetchTours($country, $state);
+$tours = destController::fetchTours($state);
 
 //get specific tour details matching tour ID
 foreach($tours as $x)
