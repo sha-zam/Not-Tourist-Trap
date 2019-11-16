@@ -51,6 +51,11 @@ if(!isset($_SESSION))
         {
             overflow-x: auto;
         }
+	
+	.container-fluid::-webkit-scrollbar 
+        { 
+            display: none; 
+        }
        
         .card-img-top 
         {
