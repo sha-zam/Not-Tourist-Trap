@@ -47,6 +47,11 @@ if(!isset($_SESSION))
             position : fixed;
         }
         
+        .container-fluid
+        {
+            overflow-x: auto;
+        }
+       
         .card-img-top 
         {
             max-width: 100%;

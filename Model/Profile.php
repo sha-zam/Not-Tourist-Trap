@@ -8,6 +8,7 @@ class Profile
     private $fName;
     private $lName;
     private $email;
+    private $profileImg;
     private $lang = array();
     
     private $bookingID = array();
@@ -37,6 +38,11 @@ class Profile
     public function getEmail()
     {
         return ($this->email);
+    }
+    
+    public function getProfileImg()
+    {
+        return $this->profileImg;
     }
     
     public function getLang()
@@ -76,6 +82,7 @@ class Profile
                 $this->fName = $row["FirstName"];
                 $this->lName = $row["LastName"];
                 $this->email = $row["Email"];
+                $this->profileImg = $row["Profile_Image"];
             }
            
             //get language ID
@@ -117,12 +124,9 @@ class Profile
                 foreach($this->bookingID as $key => $value)
                 {
                     $tourReview = new TourReview($value);
-                    $this->tourReview[$key] = $tourReview->getTourReview();
-                    // $comment = $this->tourReview[$key]->getComment();   
-                    // $rating = $this->tourReview[$key]->getRating();
-                    // $tourname = $this->tourReview[$key]->getTourName();
-                    // $reviewerName = $this->tourReview[$key]->getReviewerName();
-                    
+                    $check = $tourReview->getTourReview();
+                    if(!is_bool($check))
+                        $this->tourReview[$key] = $check;
                 }
             }
             

@@ -165,7 +165,7 @@ GENERAL;
                 <h1 style="margin-top : 10px;">Where to next?</h1>
                 <form id="search_form" action="View/searchView.php" method="GET" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <input type="text" name="search_country" class="form-control" placeholder="Search for tours by country" aria-describedby="button-addon2">
+                        <input type="text" name="search_country" class="form-control" placeholder="Search for tours by country" aria-describedby="button-addon2" required>
                         <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
                         </div>

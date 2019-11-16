@@ -18,10 +18,6 @@ if(isset($_POST['submit']))
     $comment = addslashes($inputComment);
     $rating = $_POST["input_rating"];
 
-    //checking
-    echo "<script type='text/javascript'>alert('$bookingID . $userID')</script>"; 
-    echo "<script type='text/javascript'>alert('$comment . $rating')</script>";
-
     //Pass to Controller
     $check = tourReviewController::submitReview($bookingID, $userID, $comment, $rating);
 }
