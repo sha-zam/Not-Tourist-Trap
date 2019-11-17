@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 15, 2019 at 02:42 PM
+-- Generation Time: Nov 17, 2019 at 01:02 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.32
 
@@ -1039,7 +1039,8 @@ INSERT INTO `booking` (`BookingID`, `TourID`, `UserID`, `Group_Size`) VALUES
 (997, 997, 997, 16),
 (998, 998, 998, 33),
 (999, 999, 999, 46),
-(1000, 1000, 1000, 6);
+(1000, 1000, 1000, 6),
+(1001, 2001, 236, 1);
 
 -- --------------------------------------------------------
 
@@ -4636,7 +4637,9 @@ INSERT INTO `tour` (`TourID`, `Name`, `Description`, `TourGuideID`, `CountryID`,
 (1997, 'Deleniti omnis ea perferendis asperiores.', 'Vero illum ut voluptate sint inventore suscipit. Aperiam et numquam possimus voluptas sint nemo voluptatem iure. Dolorem cupiditate natus ut qui eum.', 32, 125, 134, '01/13/1983', '10/10/1973', '717', 30, 'YTS'),
 (1998, 'Illo qui impedit cumque perferendis officiis tempora.', 'Quo omnis libero maiores magnam nisi. Accusamus expedita repellendus facere molestiae possimus nisi.', 2, 126, 135, '05/14/2016', '09/14/2012', '290', 10, 'YTS'),
 (1999, 'Tempore reiciendis iste omnis placeat quae molestiae et.', 'Quia occaecati fugit laborum voluptas. Culpa voluptatem culpa et odit veniam. Fugiat dolorum aut distinctio sint vel ut voluptatem sint.', 948, 127, 136, '07/29/2017', '03/02/1994', '488', 46, 'YTS'),
-(2000, 'Occaecati magnam doloribus ullam voluptate.', 'Molestiae quis officiis consequatur. Sequi rerum quibusdam occaecati sapiente sapiente veritatis quisquam. Provident perferendis doloremque dicta qui sit voluptatum ducimus.', 689, 128, 137, '07/28/1991', '05/28/1998', '316', 41, 'YTS');
+(2000, 'Occaecati magnam doloribus ullam voluptate.', 'Molestiae quis officiis consequatur. Sequi rerum quibusdam occaecati sapiente sapiente veritatis quisquam. Provident perferendis doloremque dicta qui sit voluptatum ducimus.', 689, 128, 137, '07/28/1991', '05/28/1998', '316', 41, 'YTS'),
+(2001, 'Paris Lights', 'Lights Galore!', 236, 49, 201, '2019-11-22', '2019-11-29', '200', 3, 'YTS'),
+(2002, 'Paris Lights', 'Lights', 236, 49, 201, '2019-11-23', '2019-11-24', '200', 2, 'YTS');
 
 -- --------------------------------------------------------
 
@@ -6655,7 +6658,10 @@ INSERT INTO `tourimage` (`TourImgID`, `TourID`, `Image`) VALUES
 (1997, 1997, '1573284013_Fight-komodo-dragons.jpg'),
 (1998, 1998, '1573284013_Fight-komodo-dragons.jpg'),
 (1999, 1999, '1573284013_Fight-komodo-dragons.jpg'),
-(2000, 2000, '1573284013_Fight-komodo-dragons.jpg');
+(2000, 2000, '1573284013_Fight-komodo-dragons.jpg'),
+(2001, 2001, '1573826691_louvre.jpg');
+INSERT INTO `tourimage` (`TourImgID`, `TourID`, `Image`) VALUES
+(2002, 2002, '1573897657_louvre.jpg');
 
 -- --------------------------------------------------------
 
@@ -8667,7 +8673,7 @@ INSERT INTO `user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, `Pro
 (963, 'Marques', 'Goyette', 'stacey75@example.com', 'fa403138e0c1ad545b2c2cfc52c60d84', '1573219768_h.jpeg', 'User', 'Active'),
 (964, 'Matt', 'Anderson', 'labadie.zetta@example.net', '58170ff3e57526fc2a69eb8db4ca4974', '1573219768_h.jpeg', 'User', 'Active'),
 (965, 'Johanna', 'Dietrich', 'cummings.corine@example.net', 'e1c54aac586a0d00deb129a6113eb1c5', '1573219768_h.jpeg', 'User', 'Active'),
-(966, 'Abbey', 'Carroll', 'johns.bartholome@example.net', 'afb921c908b58819e1ef5a8126d2429b', '1573219768_h.jpeg', 'User', 'Active'),
+(966, 'Abbey', 'Carroll', 'johns.bartholome@example.net', 'johnbart1234', '1573219768_h.jpeg', 'User', 'Active'),
 (967, 'Joesph', 'Moore', 'frami.amie@example.com', '35c25d9528b18615100762785d002563', '1573219768_h.jpeg', 'User', 'Active'),
 (968, 'Imani', 'Hintz', 'beatty.audreanne@example.net', '4690936db91d087ae76ceda7e8a2c130', '1573219768_h.jpeg', 'User', 'Active'),
 (969, 'Brielle', 'Rath', 'sbraun@example.com', 'b2f1b98b4582ef3fbbcd1e3eefb4092f', '1573219768_h.jpeg', 'User', 'Active'),
@@ -8783,7 +8789,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -8807,13 +8813,13 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2001;
+  MODIFY `TourID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
 
 --
 -- AUTO_INCREMENT for table `tourimage`
 --
 ALTER TABLE `tourimage`
-  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2001;
+  MODIFY `TourImgID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
 
 --
 -- AUTO_INCREMENT for table `tourreview`

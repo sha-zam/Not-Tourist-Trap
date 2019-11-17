@@ -60,4 +60,6 @@ To Run the website (on localhost) :
 3. Move the folder (Not-Tourist-Trap) to XAMPP->htdocs
 4. Start the XAMPP manager (in OSX : manager-osx) inside the XAMPP folder
 5. Start MYSQLDatabase and Apache Web Server
+6. Navigate to localhost->phpmyadmin
+6. Import the database csit3142.sql to phppyadmin
 6. Type "localhost/Not-Tourist-Trap/index.php" to begin browsing the website
