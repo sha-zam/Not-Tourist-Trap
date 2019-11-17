@@ -3,60 +3,60 @@
 //include controllers
 include '../Controller/tourController.php';
 include '../Controller/destController.php';
+include '../Controller/bookingController.php';
+
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
 
 //start session
-session_start();
+if(!isset($_SESSION))
+    session_start();
 
 //get params
-$country = $_GET['country'];
+//$country = $_GET['country'];
 $state = $_GET['state'];
 $tourID = $_GET['tourID'];
 $tourName = str_replace("%20", " ", $_GET['tourName']);
 $tourGuide = str_replace("%20", " ", $_GET['tourGuide']);
-$bgImg = $_GET['bgImg'];
 $tourGuideID = $_GET['tourGuideID'];
 
+if(isset($_SESSION['userID']))
+    $userID = $_SESSION['userID'];
+
 //Ask destController to fetch tour details
-$destCtr = new destController($country, $state);
-$result = $destCtr->fetchTours();
+$tours = destController::fetchTours($state);
 
-if($result->num_rows > 0)
+//get specific tour details matching tour ID
+foreach($tours as $x)
 {
-    while($row = $result->fetch_assoc())
+    if($x['TourID'] == $tourID)
     {
-        $tours[] = $row; //tour rows
-    }
-
-    //get specific tour details matching tour ID
-    foreach($tours as $x)
-    {
-        if($x['TourID'] == $tourID)
-        {
-            $tourDesc = $x['Description'];
-            $tourSD = date_create($x['Start_date']);
-            $tourED = date_create($x['End_date']);
-            $tourPrice = $x['Price'];
-        }
+        $tourDesc = $x['Description'];
+        $tourSD = date_create($x['Start_date']);
+        $tourED = date_create($x['End_date']);
+        $tourPrice = $x['Price'];
+        $tourSize = $x['Group_Size'];
     }
 }
 
 //fetch tour Images (necessary info : TourID and TourGuideID)
-$tourImg = tourController::fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDesc, $tourPrice, $tourSD, $tourED);
+$tourImg = tourController::fetchTourImages($tourID);
 
-function submitBooking()
+if(isset($_GET['tourSize']))
 {
-    echo "<script type='text/javascript'>alert('$email'); alert('x')</script>";
+    //check size
+    if ($_GET['tourSize'] == 0 || $_GET['tourSize'] > $tourSize)
+    {
+        $check = 'size';
+    }
+    else
+    {   
+        $check = bookingController::submitBook($tourID, $_GET['tourSize'], $_SESSION['userID'], $_SESSION['email'], $_SESSION['pwd'], $_SESSION['ufName'], $_SESSION['ulName'], $_SESSION['profileImg'], $_SESSION['uLangs']);
+    }
+    
 }
-// if(!$tourImg)
-// {
-//     echo 'not found';
-// }
-// else
-// {
-//     echo $tourImg[0].'<br>';
-//     echo $tourImg[1].'<br>';
-//     echo $tourImg[2].'<br>';
-// }
 
 ?>
 
@@ -91,13 +91,24 @@ function submitBooking()
         });
     </script>
 
+    <script>
+        $("input[type='number']").inputSpinner();
+    </script>
+
     <script type="text/javascript">
-        function clicked() {
-        if (confirm('Do you want to submit?')) {
-            <?php submitBooking() ?>;
-        } else {
-            return false;
+
+        function showInput() 
+        {
+            document.getElementById('inputSize').style.display = "block";
+            document.getElementById('buttonGroup2').style.display = "block";
+            document.getElementById('buttonGroup1').style.display = "none";
         }
+
+        function closeInput()
+        {
+            document.getElementById('inputSize').style.display = "none";
+            document.getElementById('buttonGroup2').style.display = "none";
+            document.getElementById('buttonGroup1').style.display = "block";
         }
 
     </script>
@@ -107,17 +118,25 @@ function submitBooking()
     <style>
         .jumbotron 
         {
-            background-image : url("<?php echo $bgImg?>");
+            background-image : url("../Images/hk_night.jpg");
             height : 100%;
         }
 
         .card 
         {
             width : 70rem;
-            height : 80rem;
+            height : 90rem;
             margin : 0 auto;
             margin-top : 80px;
             margin-bottom : 40px;
+        }
+
+        .alert
+        {
+            width : 70rem;
+            margin : 0 auto;
+            margin-top : 30px;
+            margin-bottom : 30px;
         }
     </style>
 
@@ -137,109 +156,144 @@ function submitBooking()
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
-            <div class="collapse navbar-collapse">
-
-                <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        echo <<< LOGGEDNAV
-
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color : white">View Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
-                                </li>
-                            </ul>
-
-LOGGEDNAV;
-                    }
-                    else
-                    {
-                        echo <<< GENERALNAV
-
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./login.php" style="color : white">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./signup.php" style="color : white">Sign Up</a>
-                            </li>
-                        </ul>
-
-GENERALNAV;
-                    }
-                ?>
-                
-
-            </div>
+            <!-- nav list -->
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
         <!--end navigation bar-->
+        
+        <!-- Success or Fail Alert -->
+        <?php if(isset($check)) : ?> 
+            
+            <?php if (is_bool($check)) : ?>
 
+                <?php if ($check) : ?>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Tour Successfully Booked!</h4>
+                        <hr>
+                        <p>You can View "<?php echo $tourName ?>" in Your List of Bookings</p>
+                    </div>
+
+                <?php else : ?>
+
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Failed to Book Tour</h4>
+                        <hr>
+                        <p>Booking already exists!</p>
+                    </div>
+
+                <?php endif;?>
+
+            <?php else : ?>
+
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Failed to Book Tour</h4>
+                    <hr>
+                    <p>Please Enter a Valid Number of People!</p>
+                </div>
+
+            <?php endif;?>
+
+        <?php endif;?>
+        <!-- End Alert -->
+        
+        <!-- Tour Card / Booking Form -->
         <div class="card">
             <div id="carouselImages" class="carousel slide" data-ride="carousel">
 
                 <div class="carousel-inner">
 
-                    <?php for($i=0; $i < count($tourImg); $i++) :?>
-                        <?php $src = "../Uploaded_Images/".$tourImg[$i];?>
-                        
-                        <?php if($i == 0) : $class = "carousel-item active"?>
+                        <?php for($i=0; $i < count($tourImg); $i++) :?>
+                            <?php $src = "../Uploaded_Images/".$tourImg[$i];?>
                             
-                        <?php else : $class="carousel-item"?>
+                            <?php if($i == 0) : $class = "carousel-item active"?>
+                                
+                            <?php else : $class="carousel-item"?>
 
-                        <?php endif;?>
+                            <?php endif;?>
 
-                        <div class="<?php echo $class ?>">
-                            <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
-                        </div>
+                            <div class="<?php echo $class ?>">
+                                <img src="<?php echo $src?>" class="d-block w-100" alt="..." style="height:700px;width:400px">
+                            </div>
 
-                    <?php endfor;?>
-                    
+                        <?php endfor;?>
+                        
+                    </div>
+
+                    <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
 
-                <a class="carousel-control-prev" href="#carouselImages" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselImages" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-
-            <div class="card-body text-center">
-                <h1 class="card-title"><?php echo $tourName?></h1>
-                <h4 class="card-text">By : <?php echo $tourGuide ?></h4>
-                <br><br>
-                <p class="card-text"><?php echo $tourDesc ?></p>
-            </div>
+                <div class="card-body text-center">
+                    <h1 class="card-title"><?php echo $tourName?></h1>
+                    <h4 class="card-text">By : <?php echo $tourGuide ?></h4>
+                    <br><br>
+                    <p class="card-text"><?php echo $tourDesc ?></p>
+                </div>
 
             <div class="card-body">
-                <p class="card-text">Dates : <?php echo date_format($tourSD, "d M Y") ?> - <?php echo date_format($tourED, "d M Y") ?></p>
-                <p class="card-text">Price : $<?php echo $tourPrice ?></p>
+                <h5 class="card-text">Dates : <?php echo date_format($tourSD, "d M Y") ?> - <?php echo date_format($tourED, "d M Y") ?></h5>
+                <h5 class="card-text">Price : $<?php echo $tourPrice ?></h5>
+                <h5 class="card-text">Max Tour Size : <?php echo $tourSize ?> people</h5>
+            </div>
+
+            <div class="card-body" id="inputSize" style="display:none;">
+                <label>How Many People Will be Joining You?</label><br>
+                            
+                <div class="input-group mb-3">
+                    <input type="number" id="tourSize" name="tourSize" class="form-control" value="1" min="1" max="<?php echo $tourSize?>" step="1"/>
+                </div>
             </div>
             
             <div class="card-body text-center">
-                <button type="button" name="book" class="btn btn-primary" onclick="return clicked()">Book Tour</button><br><br>
-                <p class="card-text">OR</p>
-                <button type="button" class="btn btn-primary">Contact Tour Guide for More Information</button>
-            </div>
+                <!-- <a href="<?php echo $_SERVER['REQUEST_URI'].'&confirm=true'?>"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br> -->
 
+                <!-- check if user has logged in -->
+                <?php if (isset($_SESSION['userID'])) : ?>
+
+                    <!-- first group of buttons -->
+                    <div id="buttonGroup1">
+                        <button type="button" name="book" class="btn btn-dark" onclick="showInput()">Book Tour</button><br><br>
+                        <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
+                    </div>
+
+                <?php else : ?>
+
+                    <!-- first group of buttons -->
+                    <div id="buttonGroup1">
+                        <a href="./login.php"><button type="button" name="book" class="btn btn-dark">Book Tour</button></a><br><br>
+                        <a href="./profileView.php?user=<?php echo $tourGuideID?>"><button type="button" class="btn btn-dark">Click Here for More Information about <?php echo $tourGuide?></button></a>
+                    </div>
+
+                <?php endif;?>
+
+                <!--second group of buttons-->
+                <div id="buttonGroup2" style="display:none;">
+                    <a href='' onclick="this.href='<?php echo $_SERVER['REQUEST_URI']?>&tourSize='+document.getElementById('tourSize').value"><button type="button" name="book" class="btn btn-dark">Confirm Booking</button></a><br><br>
+                    <button type="button" class="btn btn-dark" onclick="closeInput()">Cancel</button>
+                </div>
+
+            </div>
         </div>
+        <!-- End Tour Card / Booking Form -->
 
     </header>
-    
-    
 
 </body>
 </html>

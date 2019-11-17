@@ -1,6 +1,6 @@
 <?php
 
-    include '../Model/Tourist.php';
+    include '../Model/User.php';
 
     class loginController 
     {
@@ -21,13 +21,38 @@
             }
         }
 
+        public function checkUserValidity($check)
+        {
+            if(!is_bool($check))
+            {
+                //check whether user is suspended or not
+                $status = $check->getStatus();
+
+                if($status == 'Active')
+                {
+                    return $check;
+                }
+                else
+                {
+                    return 'inactive';
+                }
+            }
+            else
+            {
+                return $check;
+            }
+        }
+
         public function validateData()
         {
             $this->user = new User($this->email, $this->pwd, '', '', '', $this->lang); 
 
             $checkData = $this->user->checkLogin();
+
             return $checkData;
         }
+
+        
     }
 
 ?>

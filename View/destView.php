@@ -2,7 +2,12 @@
 
 //Controller include
 include '../Controller/destController.php';
+include '../Controller/tourController.php';
 include '../Controller/guideController.php';
+
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
 
 //Ask the controller for the necessary information
 $country = $_GET['country'];
@@ -12,37 +17,29 @@ $state = $_GET['state'];
 if(!isset($_SESSION))
     session_start();
 
-$destCtr = new destController($country, $state);
-
 //Fetch the destination images
-$imgArr = $destCtr->fetchImages();
+$imgArr = destController::fetchImages($country, $state);
 
 //Fetch the descriptions
-$descArr = $destCtr->fetchDesc();
+$descArr = destController::fetchDesc($country, $state);
 
 //Fetch the image titles
-$titleArr = $destCtr->fetchTitles();
+$titleArr = destController::fetchTitles($country, $state);
+
+$textColor = destController::fetchtextColor($country, $state);
 
 $imageSrc = array();
 $descSrc = array();
 $tours = array();
 
-//Assign them to arrays for display
+//Assign images to arrays for display
 for ($i = 0 ; $i < count($imgArr); $i++)
 {
     $imageSrc[$i] = "../Images/".$imgArr[$i];
 }
 
 //Ask destController to fetch number of tours available
-$result = $destCtr->fetchTours();
-
-if($result->num_rows > 0)
-{
-    while($row = $result->fetch_assoc())
-    {
-        $tours[] = $row; //tour rows
-    }
-}
+$tours = destController::fetchTours($state);
 
 ?>
 
@@ -136,50 +133,17 @@ if($result->num_rows > 0)
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
-            <div class="collapse navbar-collapse">
-
-                <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        echo <<< LOGGEDNAV
-
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color : white">View Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
-                                </li>
-                            </ul>
-
-LOGGEDNAV;
-                    }
-                    else
-                    {
-                        echo <<< GENERALNAV
-
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./login.php" style="color : white">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./signup.php" style="color : white">Sign Up</a>
-                            </li>
-                        </ul>
-
-GENERALNAV;
-                    }
-                ?>
-                
-
-            </div>
+            <!-- nav list -->
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
         <!--end navigation bar-->
@@ -193,9 +157,9 @@ GENERALNAV;
             text-align:center;"
         >
                     
-            <h1 class="display-4" style="font-size: 100px;"><?php echo $state ?></h1>
-            <hr class="my-4">
-            <p class="lead" style="font-size: 50px;"><?php echo $country?></p>
+            <h1 class="display-4" style="font-size: 100px; color:<?php echo $textColor ?>"><?php echo $state ?></h1>
+            <hr class="my-4" style="border-color:<?php echo $textColor ?>">
+            <p class="lead" style="font-size: 50px; color:<?php echo $textColor ?>"><?php echo $country?></p>
             
         </div>
         
@@ -247,29 +211,32 @@ GENERALNAV;
 
                     <?php foreach($tours as $x) : ?>
 
-                        <?php 
+                        <?php if($x['Status'] == 'YTS') : //if tour is available?> 
 
-                            $guideDetails = array();
+                            <?php 
+                                $tourID = $x['TourID'];
+                                $guideDetails = array();
 
-                            //Ask guideCtr for tourguide name and profileImg
-                            $guideDetails= $destCtr->fetchTourGuideDetails($x['TourGuideID']);
-                            //$guideImg = $destCtr->fetchTourGuideImg($x['TourGuideID']);
+                                //Ask guideCtr for tourguide name and profileImg
+                                $guideDetails= tourController::fetchTourGuideDetails($x['TourGuideID']);
 
-                            $guideDetails[2] = "../Uploaded_Images/".$guideDetails[2];
-                        ?>
+                                //fetch tour Images (necessary info : TourID and TourGuideID)
+                                $tourImg = tourController::fetchTourImages($tourID);
+                            ?>
 
-                        <div class="col-3">
-                            <div class="card card-block text-center">
-                                <img class="card-img-top" src="<?php echo $guideDetails[2] ?>" alt="tourguide" style="width:500px; height:400px">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $x['Name']?></h5>
-                                    <p class="card-text">By : <?php echo $guideDetails[0].' '. $guideDetails[1] ?></p>
-                                    <a href="./tourView.php?state=Paris&country=France&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[0].' '. $guideDetails[1] ?>&bgImg=<?php echo $imageSrc[2]?>">
-                                        <button type="button" class="btn btn-primary">Click Here for More Details</button>
-                                    </a>
+                            <div class="col-3">
+                                <div class="card card-block text-center">
+                                    <img class="card-img-top" src="../Uploaded_Images/<?php echo $tourImg[0] ?>" alt="tourguide" style="width:500px; height:400px">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo $x['Name']?></h5>
+                                        <p class="card-text">By : <?php echo $guideDetails[1].' '. $guideDetails[2] ?></p>
+                                        <a href="./tourView.php?state=<?php echo $state?>&tourID=<?php echo $x['TourID']?>&tourName=<?php echo $x['Name']?>&tourGuideID=<?php echo $x['TourGuideID']?>&tourGuide=<?php echo $guideDetails[1].' '. $guideDetails[2] ?>">
+                                            <button type="button" class="btn btn-primary">Click Here for More Details</button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif;?>
 
                     <?php endforeach; ?>
 

@@ -2,6 +2,10 @@
 
 session_start();
 
+//Nav Bars
+include './constants/loggedNavBar.php';
+include './constants/generalNavBar.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -59,52 +63,29 @@ session_start();
             <!--Home hyperlink-->
             <a class="navbar-brand" href="./index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!-- nav bar -->
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-
+            <!-- nav list -->
             <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        echo <<< LOGGEDNAV
-
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color : white">View Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./logout.php" style="color : white">Log Out</a>
-                                </li>
-                            </ul>
-
-LOGGEDNAV;
-                    }
-                    else
-                    {
-                        echo <<< GENERALNAV
-
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./View/login.php" style="color : white">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./View/signup.php" style="color : white">Sign Up</a>
-                            </li>
-                        </ul>
-
-GENERALNAV;
-                    }
-                ?>
-                
-
-            </div>
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
+
+        <?php if(isset($_GET['tourName'])) :?>
+        
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Tour Successfully Created!</h4>
+                <hr>
+                <p>"<?php echo $_GET['tourName'] ?>" Has been Inserted to Your List of Tours</p>
+            </div>
+
+        <?php endif;?>
         
         <!--Welcome text-->
         <?php
@@ -118,7 +99,7 @@ GENERALNAV;
                         <h1 class="display-4"><b>Welcome to Not-Tourist-Trap <br> Experiences</b>, $ufName</h1>
                         <p class="lead"><b>Start a personalised tour of your own and <br> earn money</b></p>
                         <hr class="my-4">
-                        <a class="btn btn-primary btn-light" id="startBtn" href="./View/hostForm.php" role="button">Let's Start!</a>
+                        <a class="btn btn-primary btn-light" id="startBtn" href="./View/createTour.php" role="button">Let's Start!</a>
                     </div>
 
 GENERALWELCOME;

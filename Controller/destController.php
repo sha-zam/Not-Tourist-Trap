@@ -1,60 +1,90 @@
 <?php
 
 //Entity Class
-include '../Model/Destination.php';
+include_once('../Model/Destination.php');
 
 class destController
 {
-    private $destination;
-
-    public function __construct($country, $state)
-    {   
-        $this->destination = new Destination($country, $state);
-    }
-
-    public function fetchImages()
+    public static function fetchImages($country, $state)
     {
+        $destination = Destination::NameConstruct($country, $state);
+
         $img = array();
 
-        $img[0] = $this->destination->getImage1();
-        $img[1] = $this->destination->getImage2();
-        $img[2] = $this->destination->getImage3();
+        $img[0] = $destination->getImage1();
+        $img[1] = $destination->getImage2();
+        $img[2] = $destination->getImage3();
 
         return $img;
     }
 
-    public function fetchDesc()
+    public static function fetchDesc($country, $state)
     {
+        $destination = Destination::NameConstruct($country, $state);
+
         $desc = array();
 
-        $desc[0] = $this->destination->getDesc1();
-        $desc[1] = $this->destination->getDesc2();
+        $desc[0] = $destination->getDesc1();
+        $desc[1] = $destination->getDesc2();
 
         return $desc;
     }
 
-    public function fetchTitles()
+    public static function fetchTitles($country, $state)
     {
+        $destination = Destination::NameConstruct($country, $state);
+
         $titles = array();
 
-        $titles[0] = $this->destination->getTitle1();
-        $titles[1] = $this->destination->getTitle2();
+        $titles[0] = $destination->getTitle1();
+        $titles[1] = $destination->getTitle2();
 
         return $titles;
     }
 
-    public function fetchTours()
+    public static function fetchTours($state)
     {
-        $tours = $this->destination->getTours();
+        $destination = Destination::StateConstruct($state);
+
+        $tours = $destination->getTours();
         return $tours;
     }
 
-    public function fetchTourGuideDetails($guideID)
+    public static function fetchCountryDetails($countryID)
     {
-        $guideDetails = $this->destination->getTourGuideDetails($guideID);
-        return $guideDetails;
+        $destination = new Destination();
+
+        $country = $destination->getCountryDetails($countryID);
+
+        return $country;
     }
 
+    public static function fetchtextColor($country, $state)
+    {
+        $destination = Destination::NameConstruct($country, $state);
+
+        $color = $destination->getTextColor();
+
+        return $color;
+    }
+
+    public static function fetchStateDetails($stateID)
+    {
+        $destination = new Destination();
+
+        $state = $destination->getStateDetails($stateID);
+
+        return $state;
+    }
+    
+    public static function searchCountry($searchEntry)
+    {
+        $destination = new Destination();
+        
+        $tours = $destination->searchCountry($searchEntry);
+        
+        return $tours;
+    }
 }
 
 ?>

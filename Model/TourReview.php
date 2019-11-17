@@ -20,7 +20,7 @@ class TourReview
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "csit314";
+        $dbname = "csit3142";
         
         $conn = new mysqli($servername, $username, $password, $dbname);
         
@@ -56,20 +56,19 @@ class TourReview
         $query = "select * from TOURREVIEW where BookingID = $this->bookingID";
         $count = $conn -> query($query);
         
-        if($count -> num_rows > 0)
+        if(!empty($count) && $count -> num_rows > 0)
         {
             while($row = $count->fetch_assoc())
-            {
-                $this->tourID = $row["TourID"];
+            {               
                 $this->reviewerID = $row["ReviewByUser"];
                 $this->comment = $row["Comment"];
                 $this->rating = $row["Rating"];
             }
             
-            $tourdetailsQ = "select Name from TOUR where TourID = $this->tourID";
+            $tourdetailsQ = "select Name from TOUR where TourID IN(SELECT TourID FROM BOOKING where BookingID = $this->bookingID)";
             $tourdetailsQ_result = $conn->query($tourdetailsQ);
             
-            if($tourdetailsQ_result->num_rows > 0)
+            if(!empty($tourdetailsQ_result) && $tourdetailsQ_result->num_rows > 0)
             {
                 while($tourRow = $tourdetailsQ_result->fetch_assoc())
                 {
@@ -97,7 +96,24 @@ class TourReview
             return false;
         }
     }
-}
     
+    public function submitReview($userID, $comment, $rating)
+    {
+        $conn=$this->connect();
+        
+        $result = $conn->query("INSERT INTO tourreview "
+                . "(ReviewByUser, BookingID, Comment, Rating) "
+                . "VALUES ('$userID', '$this->bookingID', '$comment', '$rating')"); 
+    
+        if($result)
+        {
+            return true;
+        }
+        else    
+        {
+            return false;
+        }
+    }
+}
 ?>
 

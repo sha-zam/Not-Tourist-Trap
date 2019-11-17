@@ -8,6 +8,7 @@ class Profile
     private $fName;
     private $lName;
     private $email;
+    private $profileImg;
     private $lang = array();
     
     private $bookingID = array();
@@ -39,6 +40,11 @@ class Profile
         return ($this->email);
     }
     
+    public function getProfileImg()
+    {
+        return $this->profileImg;
+    }
+    
     public function getLang()
     {
         return ($this->lang);
@@ -54,7 +60,7 @@ class Profile
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "csit314";
+        $dbname = "csit3142";
         
         $conn = new mysqli($servername, $username, $password, $dbname);
         
@@ -69,13 +75,14 @@ class Profile
         
         $count = $conn -> query($query);
         
-        if($count -> num_rows > 0)
+        if(!empty($count) && $count -> num_rows > 0)
         {
             while($row = $count -> fetch_assoc())
             {
                 $this->fName = $row["FirstName"];
                 $this->lName = $row["LastName"];
                 $this->email = $row["Email"];
+                $this->profileImg = $row["Profile_Image"];
             }
            
             //get language ID
@@ -107,24 +114,22 @@ class Profile
             $bookingQ = "select BookingID from BOOKING where TourID in (SELECT TourID from TOUR where TourGuideID = $this->userID)";
             $bookingQ_result = $conn->query($bookingQ);
             
-            if($bookingQ_result->num_rows > 0)
+            if(!empty($bookingQ_result) && $bookingQ_result->num_rows > 0)
             {
                 while($booking_row = $bookingQ_result->fetch_assoc())
                 {
                     $this->bookingID[] = $booking_row["BookingID"];
                 }
+
+                foreach($this->bookingID as $key => $value)
+                {
+                    $tourReview = new TourReview($value);
+                    $check = $tourReview->getTourReview();
+                    if(!is_bool($check))
+                        $this->tourReview[$key] = $check;
+                }
             }
             
-            foreach($this->bookingID as $key => $value)
-            {
-                $tourReview = new TourReview($value);
-                $this->tourReview[$key] = $tourReview->getTourReview();
-                $comment = $this->tourReview[$key]->getComment();   
-                $rating = $this->tourReview[$key]->getRating();
-                $tourname = $this->tourReview[$key]->getTourName();
-                $reviewerName = $this->tourReview[$key]->getReviewerName();
-                
-            }
             $conn->close();
             return $this;
         }

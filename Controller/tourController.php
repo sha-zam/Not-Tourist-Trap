@@ -1,29 +1,36 @@
 <?php 
 
-include '../Model/Tour.php';
+include_once('../Model/Tour.php');
 
 class tourController
 {
-    // private $tourID;
-    // private $tourGuideID;
-    // private $tourName;
-    // private $country;
-    // private $state;
-    // private $tourDesc;
-    // private $tourPrice;
-    // private $tourSD;
-    // private $tourED;
- 
-    public static function fetchTourImages($tourID, $tourName, $tourGuideID, $country, $state, $tourDescription, $tourPrice, $tourStartDate, $tourEndDate)
+    public static function fetchTourImages($tourID)
     {
-        $temp = new Tour($tourName, $tourGuideID, $country, $state, $tourDescription, ' ', $tourPrice, $tourStartDate, $tourEndDate);
-        $tourImg = $temp->getImages($tourID, $tourGuideID);
+        $tour = new Tour();
+        $tour->setTourID($tourID);
+
+        $tourImg = $tour->getImages();
 
         return $tourImg;
     }
 
-    public static function fetchTourGuideDetails($tourGuideID)
+    public static function fetchTourDetails($tourID)
     {
+        //create tour entity and set tour id
+        $tour = new Tour();
+        $tour->setTourID($tourID);
+
+        $tourDetails = $tour->getTourDetails();
+        return $tourDetails;
+    }
+
+    public static function fetchTourGuideDetails($guideID)
+    {
+        $tour = new Tour();
+        $tour->setTourGuideID($guideID);
+
+        $guideDetails = $tour->getTourGuideDetails();
+        return $guideDetails;
 
     }
 }

@@ -3,19 +3,29 @@
 //Controller class
 include '../Controller/GuideController.php';
 
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
 //Start session
-session_start();
+if(!isset($_SESSION))
+    session_start();
+
+$check = true;
 
 if (isset($_POST['submit']))
 {
-    $name = $_POST['tourName'];
+    $name1 = $_POST['tourName'];
+    $name = addslashes($name1);
     $country = $_POST["country"];
-    $state = $_POST["state"];
-    $textDescription = $_POST["tourDescription"];
+    $state = ucwords($_POST["state"]);
+    $state = addslashes($state);
+    $textDescription = addslashes($_POST["tourDescription"]);
     
     $tourStartDate = $_POST["startDate"];
     $tourEndDate = $_POST["endDate"];
     $tourPrice = $_POST["tourPrice"];
+    $tourSize = $_POST["tourSize"];
 
     //Array for uploaded images
     $tourImg = array();
@@ -24,28 +34,80 @@ if (isset($_POST['submit']))
     chdir('../');
     $x = getCwd();
 
-    for($i = 0; $i < count($_FILES['tourImg']['tmp_name']); $i++)
-    {
-        //Purpose of time() is to avoid naming conflicts
-        $tourImg[$i] = time() . '_' . $_FILES['tourImg']['name'][$i];
-        $target[$i] = $x . '/Uploaded_Images/' . $tourImg[$i];
-    }
+    if(count($_FILES['tourImg']['tmp_name']) > 0)
+    {   
+        for($i = 0; $i < count($_FILES['tourImg']['tmp_name']); $i++)
+        {
+            //Purpose of time() is to avoid naming conflicts
+            $tourImg[$i] = time() . '_' . $_FILES['tourImg']['name'][$i];
+            $target[$i] = $x . '/Uploaded_Images/' . $tourImg[$i];
 
-    //checking
-    echo "<script type='text/javascript'>alert('$name, $country, $state, $textDescription, $tourStartDate, $tourEndDate,$tourPrice')</script>";
-    echo "<script type='text/javascript'>alert('$x')</script>";
-
-    //move uploaded images
-    for($i = 0; $i < count($tourImg); $i++)
-    {
-        move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
+            move_uploaded_file($_FILES['tourImg']['tmp_name'][$i], $target[$i]);
+        }
     }
 
     //Pass to Controller
-    $guideCtr = new GuideController($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate);
+    $GLOBALS['check'] = GuideController::validateTourForm($name, $country, $state, $textDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
 
-    $check = $guideCtr->validateData();
+    if(is_bool($check) && ($check))
+    {
+        header("Location:../host.php?tourName=".$name1);
+    }
+    
 }
+
+//function for alert display
+function displayAlerts()
+{
+    global $check;
+    
+    if(isset($check))
+    {
+        if(!is_bool($check))
+        {
+            echo <<< ALERT
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Failed to Create Tour</h4>
+                <hr>
+ALERT;
+
+                if ($check == 'date')
+                {
+                    echo <<< DATE
+
+                    <p>Invalid Tour Dates Provided! Please Enter the Correct Informations</p>
+DATE;
+                }
+                else if ($check == 'price')
+                {
+                    echo <<< PRICE
+                    <p>Invalid Tour Price Provided! Please Enter the Correct Informations</p>
+PRICE;
+                }
+                else if ($check == 'size')
+                {
+                    echo <<< SIZE
+
+                    <p>Invalid Tour Size Provided! Please Enter the Correct Informations</p>
+                
+SIZE;
+                }
+                else
+                {
+                    echo <<< INCOMPLETE
+
+                    <p>Please Complete the Form Before Submitting!</p>
+
+INCOMPLETE;
+                }
+                    
+            echo '</div>';
+        }
+
+    }
+
+}
+
 
 //End Form Process
 ?> 
@@ -77,10 +139,7 @@ if (isset($_POST['submit']))
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
     <script>
-        $( function() 
-        {
-            $( "#datepicker1, #datepicker2" ).datepicker();
-        });
+        $("input[type='number']").inputSpinner();
     </script>
 
     <link rel="stylesheet" type="text/css" href="../GeneralStyles.css"/>
@@ -89,7 +148,8 @@ if (isset($_POST['submit']))
 
         .jumbotron
         {
-            background-image: url("../Images/bali.jpg"); 
+            background-image: url("../Images/bali.jpg");
+            height:100%; 
         }
 
         .accordion, .alert
@@ -122,52 +182,29 @@ if (isset($_POST['submit']))
             <!--Home hyperlink-->
             <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-
-                <!--nav list-->
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../host.php" style="color : white">Host a Tour</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="" style="color : white">View Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
-                    </li>
-                </ul>
-
-            </div>
+            <!-- nav list -->
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
+        <!-- end nav bar -->
 
-        <!-- Success or Fail Alert -->
-        <?php if(isset($check)) : ?> 
-
-            <?php if ($check) : ?>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Tour Successfully Created!</h4>
-                    <hr>
-                    <p>"<?php echo $name ?>" Has been Inserted to Your List of Tours</p>
-                </div>
-
-            <?php else : ?>
-
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Failed to Create Tour</h4>
-                    <hr>
-                    <p>Invalid Information Provided! Please Enter the Correct Informations</p>
-                </div>
-            <?php endif;?>
-
-        <?php endif;?>
+        <!-- Fail Alert -->
+        <?php echo displayAlerts() ?> 
         <!-- End Alert -->
         
         <!--Tour Guide Form-->
         <div class="accordion" id="accordionForm">
             
-            <form action="hostForm.php" method="POST" name="tourForm" enctype="multipart/form-data">
+            <form action="createTour.php" method="POST" name="tourForm" enctype="multipart/form-data">
                 
                 <!--Tour Name-->
                 <div class="card">
@@ -327,6 +364,26 @@ if (isset($_POST['submit']))
                                     <span class="input-group-text">$</span>
                                 </div>
                                 <input type="text" name="tourPrice" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Size -->
+                <div class="card">
+                    <div class="card-header" id="headingSeven">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                Tour Group Size
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionForm">
+                        <div class="card-body">
+                            <label>Set Maximum Size of Tour Group</label><br>
+                            
+                            <div class="input-group mb-3">
+                                <input type="number" name="tourSize" class="form-control" value="1" min="1" max="50" step="1"/>
                             </div>
                         </div>
                     </div>

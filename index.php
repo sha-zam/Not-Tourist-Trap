@@ -2,6 +2,10 @@
 
 session_start();
 
+//Nav Bars
+include './constants/loggedNavBar.php';
+include './constants/generalNavBar.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +81,11 @@ session_start();
             object-fit: cover;
         }
 
+        .suggestions a 
+        {
+            text-decoration:none; color:black;
+        }
+
     </style>
 </head>
 <body>
@@ -95,50 +104,17 @@ session_start();
             <!--Home hyperlink-->
             <a class="navbar-brand" href="./index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!--nav list-->
-            <div class="collapse navbar-collapse">
-
-                <?php
-                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-                    {
-                        echo <<< LOGGEDNAV
-
-                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color : white">View Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./logout.php" style="color : white">Log Out</a>
-                                </li>
-                            </ul>
-
-LOGGEDNAV;
-                    }
-                    else
-                    {
-                        echo <<< GENERALNAV
-
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="./host.php" style="color : white">Host a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./View/login.php" style="color : white">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./View/signup.php" style="color : white">Sign Up</a>
-                            </li>
-                        </ul>
-
-GENERALNAV;
-                    }
-                ?>
-                
-
-            </div>
+            <!-- nav list -->
+            <?php
+                if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                {
+                    echo displayLoggedNavBar($_SESSION['userID']);
+                }
+                else
+                {
+                    echo displayGeneralNavBar();
+                }
+            ?>
 
         </nav>
         <!--end navigation bar-->
@@ -184,55 +160,21 @@ GENERAL;
 
     <!--where-to form-->
     <div class="whereToForm" id="whereTo">
-        
         <div class="card" style="width:40rem; margin : 0 auto;">
-
             <div class="card-body">
-
-                <h1 style="margin-top : 10px;">Where to Next ?</h1>
-
-                <form>
-
+                <h1 style="margin-top : 10px;">Where to next?</h1>
+                <form id="search_form" action="View/searchView.php" method="GET" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">Country</label>
+                        <input type="text" name="search_country" class="form-control" placeholder="Search for tours by country" aria-describedby="button-addon2" required>
+                        <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
                         </div>
-                        <select class="custom-select" id="inputGroupCountry">
-                            <option selected>Choose Available Countries</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="United States of America">United States of America</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Korea">Korea</option>
-                        </select>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">City</label>
-                        </div>
-                        <select class="custom-select" id="inputGroupCountry">
-                            <option selected>Choose Available Cities</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="United States of America">United States of America</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Korea">Korea</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupCountry">Number of People</label>
-                        </div>
-                        <input type="number" class="form-control" value="1" min="1" max="50" step="1"/>
-                    </div>
-            
-                    <button type="submit" class="btn btn-primary" style="margin-top : 10px;">Submit</button>
                 </form>
-
             </div>
-
         </div>
     </div>
+    <!-- End Where To Form -->
 
     <!--Cards of suggestions-->
     <div class="suggestions">
@@ -255,10 +197,12 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/labuan_bajo.jpg" alt="labuan bajo cap" style="width:500px; height:400px">
-                        <div class="card-body">
-                            <h5 class="card-title">Flores, Indonesia</h5>
-                            <p class="card-text">Love the beach? Love nature? Love being in unspoilt territory? Then Labuan Bajo is next on your list. If you’ve never heard of this Asian paradise in Flores, Indonesia, it’s not too late to book a tour there now</p>
-                        </div>
+                        <a href="View/destView.php?country=Indonesia&state=Flores">
+                            <div class="card-body">
+                                <h5 class="card-title">Flores, Indonesia</h5>
+                                <p class="card-text">Love the beach? Love nature? Love being in unspoilt territory? Then Labuan Bajo is next on your list. If you’ve never heard of this Asian paradise in Flores, Indonesia, it’s not too late to book a tour there now</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -277,26 +221,31 @@ GENERAL;
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/nyc.jpeg" alt="new york city cap" style="width:500px; height:400px">
+                        <a href="View/destView.php?country=United States of America&state=New York City">
                             <div class="card-body">
                                 <h5 class="card-title">New York City, USA</h5>
                                 <p class="card-text">Discover why so many people love New York City. There's plenty of events, attractions and restaurants to experience. Let the experienced tour guides help you plan your NYC adventure</p>
                             </div>
+                        </a>
                     </div>
                 </div>
 
                 <div class="col-3">
                     <div class="card card-block">
                         <img class="card-img-top" src="Images/seoul.jpeg" alt="seoul cap" style="width:500px; height:400px">
+                        <a href="View/destView.php?country=South Korea&state=Seoul">
                             <div class="card-body">
                                 <h5 class="card-title">Seoul, South Korea</h5>
                                 <p class="card-text">Fashion- and technology-forward but also deeply traditional, this dynamic city mashes up palaces, temples, cutting-edge design and mountain trails, all to a nonstop K-Pop beat</p>
                             </div>
+                        </a>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+    <!-- End Cards of Suggestions -->
 
 </body>
 </html>

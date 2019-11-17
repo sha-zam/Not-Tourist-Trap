@@ -1,6 +1,6 @@
 <?php
 
-    include '../Model/Tourist.php';
+    include '../Model/User.php';
 
     class signupController 
     {
@@ -31,7 +31,19 @@
             //check password length
             if (strlen($this->pwd) < 8)
             {
-                return false;
+                return 'Password';
+            }
+            else if ($this->email == '') //check other things
+            {
+                return 'Email';
+            } 
+            else if ($this->fName == '' || $this->lName == '')
+            {
+                return 'Name';
+            }
+            else if ($this->profileImg == '')
+            {
+                return 'Profile Image';
             }
             else
             {

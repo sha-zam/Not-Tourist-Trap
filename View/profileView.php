@@ -1,7 +1,14 @@
-<?php //Start session
-    include '../Controller/profileController.php';
-    
+<?php 
+//Start session
+include '../Controller/profileController.php';
+
+//Nav Bars
+include '../constants/loggedNavBar.php';
+include '../constants/generalNavBar.php';
+
+if(!isset($_SESSION))
     session_start();
+    
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +39,7 @@
         
         .jumbotron 
         {
-            background-image : url("../../Images/bridge_night.jpg");
+            background-image : url("../Images/hk_night.jpg");
             background-size : cover;
             background-position : center center; 
             height : 100vh;
@@ -50,56 +57,32 @@
     <!--jumbotron header-->
     <header class="jumbotron jumbotron-fluid">
         
-        <!--navigation bar-->
-        <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
+            <!--navigation bar-->
+            <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
 
-            <!--toggler for small windows-->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <!--toggler for small windows-->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <!--Home hyperlink-->
-            <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
+                <!--Home hyperlink-->
+                <a class="navbar-brand" href="../index.php"><h3 style="color : white;">Not-Tourist-Trap</h3></a>
 
-            <!-- nav bar -->
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <!-- nav list -->
+                <?php
+                    if (isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
+                    {
+                        echo displayLoggedNavBar($_SESSION['userID']);
+                    }
+                    else
+                    {
+                        echo displayGeneralNavBar();
+                    }
+                ?>
 
-            <?php
-            if(isset($_SESSION['ufName'])) //display nav bar according to whether the user has been logged in
-            {
-                echo <<< LOGGEDNAV
-
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../host.php" style="color : white">Host an Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./profile.php/?user=12" style="color : white">View Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../logout.php" style="color : white">Log Out</a>
-                    </li>
-                </ul>
-LOGGEDNAV;
-            }
-            else
-            {
-                echo <<< GENERALNAV
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../host.php" style="color : white">Host an Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php" style="color : white">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="signup.php" style="color : white">Sign Up</a>
-                    </li>
-                </ul>
-GENERALNAV;
-            }
-            ?>
-            </div>
+            </nav>
+            <!--end navigation bar-->
+            
         </nav>
         <?php 
             $method = $_SERVER["REQUEST_METHOD"];
@@ -140,10 +123,14 @@ function createProfile($id)
         $uEmail = $check->getEmail();
         $uLang = $check->getLang();
         $tourReview = $check->getTourReview();
+        $profileImg = $check->getProfileImg();
         
         echo <<<PARTICULARS
         <div class="card border-info mb-3" style="width:40rem; margin : 0 auto;">
                 <div class="card-body">
+                    <img src = "../Uploaded_Images/$profileImg" 
+                        style="max-width: 100%; max-height : 100%; object-fit: cover; 
+                            width:600px; height:400px; border-radius:30%;"/>
                     <h1 style="margin-top : 10px;">Hi, I'm $ufName $ulName</h1>
                     <div>
                         <label for="email">Contact me at: </label>
@@ -193,7 +180,7 @@ LANGUAGES;
                     echo "<p class='card-text'>\"$comment\"</p>";
                     echo "<p class='card-text'>Rating: $rating ⭐</p>";
                     echo "<div class='card-footer bg-transparent border-success'>"
-                    . "<a href ='../profile.php/?user=$reviewerID'>$reviewerName</a></div>";
+                    . "<a href ='profileView.php?user=$reviewerID'>$reviewerName</a></div>";
                 echo "</div>";
             }
         }

@@ -10,25 +10,32 @@ class Destination
 
     private $tours = array();
 
-
     //Database Variables
     private $servername;
     private $username;
     private $password;
     private $dbname;
 
-    //Constructor
-    public function __construct($country, $state)
+    //Default Constructor
+    public function __construct()
     {
-        $this->country = $country;
-        $this->state = $state;
+        
+    }
+
+    //Constructor with Name
+    public static function NameConstruct($country, $state)
+    {
+        $instance = new self();
+
+        $instance->country = $country;
+        $instance->state = $state;
 
         //set country and state ID
         //create connection to DB
-        $conn = $this->connect();
+        $conn = $instance->connect();
 
         //query country ID
-        $query = "SELECT * FROM state WHERE Name='$this->state'";
+        $query = "SELECT * FROM state WHERE Name = '$state'";
         $result = $conn->query($query);
 
         if($result->num_rows > 0) //if state exists
@@ -40,13 +47,103 @@ class Destination
 
             foreach($data as $x)
             {
-                $this->countryID = $x['CountryID'];
-                $this->stateID = $x['StateID'];
+                $instance->countryID = $x['CountryID'];
+                $instance->stateID = $x['StateID'];
             }
             
         }
 
         $conn->close();
+
+        return $instance;
+    }
+
+    public static function StateConstruct($state)
+    {
+        $instance = new self();
+
+        $instance->state = $state;
+
+        //set country and state ID
+        //create connection to DB
+        $conn = $instance->connect();
+
+        //query country ID
+        $query = "SELECT * FROM state WHERE Name = '$state'";
+        $result = $conn->query($query);
+
+        if($result->num_rows > 0) //if state exists
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $instance->stateID = $x['StateID'];
+            }
+            
+        }
+
+        $conn->close();
+
+        return $instance;
+    }
+
+    //Constructor with ID
+    public static function IDConstruct($countryID, $stateID)
+    {
+        $instance = new self();
+
+        $instance->countryID = $country;
+        $instance->stateID = $state;
+
+        //set country and state names
+        //1. create connection to DB
+        $conn = $instance->connect();
+
+        //2. query state name
+        $stateQuery = "SELECT * FROM state WHERE StateID = '$stateID'";
+        $result = $conn->query($stateQuery);
+
+        if(!(empty($result)) && ($result->num_rows > 0))//if state exists
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                //3. set state name
+                $instance->state = $x['Name'];
+            }
+            
+        }
+
+        //2. query country name
+        $countryQuery = "SELECT * FROM country WHERE CountryID = '$countryID'";
+        $result1 = $conn->query($countryQuery);
+
+        if(!(empty($result)) && $result1->num_rows > 0) //if country exists
+        {
+            while($row1 = $result1->fetch_assoc())
+            {
+                $data1[] = $row1;
+            }
+
+            foreach($data1 as $y)
+            {
+                //3. set country name
+                $instance->country = $y['Name'];
+            }
+            
+        }
+
+        $conn->close();
+
+        return $instance;
     }
 
     //Database connection (private)
@@ -55,21 +152,63 @@ class Destination
         $this->servername = "localhost";
         $this->username = "root";
         $this->password = "";
-        $this->dbname = "csit314";
+        $this->dbname = "csit3142";
         $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
         return $conn;
     }
 
     //Accessors
-    public function getCountry()
+    public function getCountryDetails($id)
     {
-        return $this->country;
+        if(isset($country))
+            return $this->country;
+        else
+        {
+            //query country name by ID
+            $conn = $this->connect();
+            $result = $conn->query("SELECT * FROM country WHERE CountryID = '$id' ");
+
+            if(!empty($result) && $result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                return $data;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
-    public function getState()
+    public function getStateDetails($id)
     {
-        return $this->state;
+        if(isset($state))
+            return $this->state;
+        else
+        {
+            //query state name by id
+            $conn = $this->connect();
+            $result = $conn->query("SELECT * FROM state WHERE StateID = '$id' ");
+
+            if(!empty($result) && $result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                return $data;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     public function getCountryID()
@@ -81,7 +220,6 @@ class Destination
     {
         return $this->stateID;
     }
-
 
     public function getImage1()
     {
@@ -267,33 +405,16 @@ class Destination
         }
     }
 
-    public function getTours()
+    public function getTextColor()
     {
         //create connection to DB
         $conn = $this->connect();
 
-        //query for all tours with current country and state ID
-        $query = "SELECT * FROM tour WHERE CountryID = '$this->countryID' AND StateID = '$this->stateID'";
+        //query
+        $query = "SELECT * FROM state WHERE Name = '$this->state'";
         $result = $conn->query($query);
 
         $conn->close();
-
-        //return query result
-        return $result;
-    }
-
-    public function getTourGuideDetails($guideID)
-    {
-        //create connection to DB
-        $conn = $this->connect();
-
-        //query profileImage, fname, and lname from user table
-        $query = "SELECT * FROM user WHERE UserID = '$guideID'";
-        $result = $conn->query($query);
-
-        $conn->close();
-
-        $resultArr = array();
 
         if($result->num_rows > 0)
         {
@@ -305,27 +426,75 @@ class Destination
 
             foreach($data as $x)
             {
-                $resultArr[0] = $x['FirstName'];
-                $resultArr[1] = $x['LastName'];
-                $resultArr[2] = $x['Profile_Image'];
+                return $x['BG_Text_Color'];
             }
-
-            return $resultArr;
         }
     }
 
+    public function getTours()
+    {
+        //create connection to DB
+        $conn = $this->connect();
+
+        //query for all tours with current state ID
+        $query = "SELECT * FROM tour WHERE StateID = '$this->stateID'";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        //if any tours exist
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $tours[] = $row;
+            }
+
+            //return query result
+            return $tours;
+        }
+    }
+    
+    public function searchCountry($searchEntry)
+    {
+        $conn = $this->connect();
+        
+        //query for all tours with country name similar to search entry
+        $query = "SELECT * FROM tour WHERE CountryID IN (SELECT CountryID FROM country WHERE Name LIKE '%$searchEntry%')";
+        $result = $conn->query($query);
+
+        $conn->close();
+
+        //if any tours exist
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //return userID, fName, lName
+            while($row = $result->fetch_assoc())
+            {
+                $tours[] = $row;
+            }
+
+            //return query result
+            return $tours;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     //Mutators
-    public function setCountry()
+    public function setCountryName($country)
     {
-
+        $this->country = $country;
     }
 
-    public function setState()
+    public function setStateName($state)
     {
-
+        $this->state = $state;
     }
-
+    
 }
 
 ?>

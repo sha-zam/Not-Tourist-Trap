@@ -14,11 +14,7 @@ class User
     private $profileImg;
     private $lang = array();
 
-    private $servername;
-    private $username;
-    private $password;
-    private $dbname;
-
+    
     public function __construct($email, $pwd, $fName, $lName, $profileImg, $lang)
     {
         $this->email = $email;
@@ -27,44 +23,47 @@ class User
         $this->lName = $lName;
         $this->profileImg = $profileImg;
 
-        for($i = 0; $i < count($lang); $i++)
+        if (count($lang) > 0)
         {
-            $this->lang[$i] = $lang[$i];
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = $lang[$i];
+            }
         }
+        else
+        {
+            for($i = 0; $i < count($lang); $i++)
+            {
+                $this->lang[$i] = '';
+            }
+        }
+        
+    }
+    
+    //construct using only userID
+    public function withID($id)
+    {
+        $user = new self('','','','','',array());
+        $user->loadByID($id);
+        return $user;   
+    }
+    
+    public function loadByID($id)
+    {
+        $this->userID = $id;
     }
 
-    protected function connect()
+    protected static function connect()
     {
-        $this->servername = "localhost";
-        $this->username = "root";
-        $this->password = "";
-        $this->dbname = "csit314";
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "csit3142";
 
-        $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
         return $conn;
     }
-
-    //Mutators (to be added later , possibly in a different entity)
-    // public function setEmail($email)
-    // {
-    //     $this->email = $email;
-    // }
-
-    // public function setPwd($pwd)
-    // {
-    //     $this->pwd = md5($pwd);
-    // }
-
-    // public function setFName($fName)
-    // {
-    //     $this->fName = $fName;
-    // }
-
-    // public function setLName($lName)
-    // {
-    //     $this->lName = $lName;
-    // }
 
     //Accessors (to be added later)
     public function getUserID()
@@ -102,22 +101,72 @@ class User
         return ($this->profileImg);
     }
 
+    public function getStatus()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM user WHERE Email = '$this->email' AND Password = '$this->pwd'");
+        $conn->close();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach ($data as $x)
+            {
+                return $x['Status'];
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getRole()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM user WHERE Email = '$this->email' AND Password = '$this->pwd'");
+        $conn->close();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach ($data as $x)
+            {
+                return $x['Role'];
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     //Login function
     public function checkLogin()
     {
-        echo "<script type='text/javascript'>alert('checking $this->email and $this->pwd')</script>";
-
         $conn = $this->connect(); //create connection
 
-        //query
-        $this->pwd = md5($this->pwd);
+        //query md5
+        //$this->pwd = md5($this->pwd);
 
         $query = "SELECT * from user WHERE Email='$this->email' and Password='$this->pwd'";
 
         $check = $conn->query($query);
         $count_row = $check->num_rows;
-
-        echo "<script type='text/javascript'>alert('$count_row')</script>";
 
         if($count_row > 0) 
         {
@@ -134,8 +183,6 @@ class User
                 $this->userID = $x['UserID'];
                 $this->profileImg = $x['Profile_Image'];
             }
-
-            echo "<script type='text/javascript'>alert('user full name = $this->fName $this->lName, user id = $this->userID)</script>";
 
             //get language ID
             $langQ = "SELECT LanguageID FROM spokenlanguage WHERE UserID = '$this->userID'";
@@ -170,12 +217,8 @@ class User
 
                     $i++;
                 }
-
             }
-            
-
             return $this;
-
         }
         else
         {
@@ -186,8 +229,6 @@ class User
     //Register function (echoes to be removed later)
     public function Regist()
     {
-        echo "<script type='text/javascript'>alert('regist $this->email and $this->pwd')</script>";
-
         //create connection
         $conn = $this->connect(); 
 
@@ -196,20 +237,16 @@ class User
         $check = $conn->query($query);
         $count_row = $check->num_rows;
 
-        echo "<script type='text/javascript'>alert('$count_row')</script>";
-
         if($count_row == 0)//Check whether user already exists 
         {
             //md5 pwd
-            $this->pwd = md5($this->pwd);
+            //$this->pwd = md5($this->pwd);
 
             //query to insert user 
             $sql1 = "INSERT INTO user (FirstName,LastName,Email,Password,Profile_Image) VALUES ('$this->fName','$this->lName','$this->email','$this->pwd','$this->profileImg')"; 
             $insertUser = $conn->query($sql1);
 
             $last_uid = $conn->insert_id;
-
-            echo "<script type='text/javascript'>alert('last id : $last_uid')</script>";
 
             //query for languageID 
             for ($i = 0; $i < 3; $i++)
@@ -230,8 +267,6 @@ class User
                         $langID = $x['LanguageID'];
                     }
 
-                    echo "<script type='text/javascript'>alert('insert : $temp id $langID')</script>";
-
                     //insert into spoken language
                     $spkQ = $conn->query("INSERT INTO spokenlanguage (UserID, LanguageID) VALUES ('$last_uid', '$langID')");
                 }
@@ -250,7 +285,84 @@ class User
             return false;
         }
     }
+    
+    public function updateFName($fName)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set FirstName = '$fName' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateLName($lName)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set LastName = '$lName' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateEmail($email)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Email = '$email' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updatePassword($password)
+    {
+        $pwd = md5($password);
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Password = '$pwd' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
+    
+    public function updateProfilePic($profilePic)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "update User set Profile_Image = '$profilePic' where UserID = $this->userID";
+        
+        $conn -> query($query);
+    }
 
+    public function updateLanguages($lang)
+    {
+        $conn = $this->connect(); //create connection
+        
+        $query = "delete from SPOKENLANGUAGE where UserID = $this->userID";
+        
+        $conn -> query($query);
+        
+        for ($i = 0; $i < 3; $i++)
+        {
+            $temp = $lang[$i];
+
+            if ($temp != "none") //If user does not leave language blank 
+            {
+                $langQ = $conn->query("SELECT LanguageID FROM language WHERE Name='$temp'");
+
+                while($row = $langQ->fetch_assoc())
+                {
+                    $data[] = $row;
+                }
+
+                foreach($data as $x)
+                {
+                    $langID = $x['LanguageID'];
+                }
+
+                //insert into spoken language
+                $spkQ = $conn->query("INSERT INTO spokenlanguage (UserID, LanguageID) VALUES ('$this->userID', '$langID')");
+            }
+        }
+    }
 }
 
 ?>

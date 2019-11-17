@@ -1,7 +1,7 @@
 <?php
 
 include_once('User.php');
-include 'Tour.php';
+include_once('Tour.php');
 
 class TourGuide extends User
 {
@@ -23,10 +23,10 @@ class TourGuide extends User
         $this->userID = $userID;
     }
 
-    public function submitTour($name, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate)
+    public function submitTour($name, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize)
     {
         //generate Tour
-        $tour = new Tour($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate);
+        $tour = Tour::dataConstruct($name, $this->userID, $country, $state, $tourDescription, $tourImg, $tourPrice, $tourStartDate, $tourEndDate, $tourSize);
         
         //create connection to database
         $conn = $this->connect();
@@ -89,50 +89,241 @@ class TourGuide extends User
         //checkpoint checking
         //echo "<script type='text/javascript'>alert('countryID = $countryID, stateID = $stateID')</script>";
 
-        //insert tour name, description, tourguideid, countryID, stateID, startDate, endDate, price
-        $tourQ = "INSERT INTO tour (Name, Description, TourGuideID, CountryID, StateID, Start_date, End_date, Price) VALUES('$name', '$tourDescription', '$this->userID', '$countryID', '$stateID', '$tourStartDate', '$tourEndDate', '$tourPrice')";
+        //insert tour name, description, tourguideid, countryID, stateID, startDate, endDate, price, size
+        $tourQ = "INSERT INTO tour (Name, Description, TourGuideID, CountryID, StateID, Start_date, End_date, Price, Group_Size) VALUES('$name', '$tourDescription', '$this->userID', '$countryID', '$stateID', '$tourStartDate', '$tourEndDate', '$tourPrice', '$tourSize')";
         $insertTour = $conn->query($tourQ);
 
-        //query for tour id
-        $tourID = $conn->insert_id;
-
-        //checkpoint checking
-        //echo "<script type='text/javascript'>alert('$name, $tourDescription, $this->userID, $countryID, $stateID, $tourStartDate, $tourEndDate, $tourPrice')</script>";
-        //echo "<script type='text/javascript'>alert('tourID = $tourID')</script>";
-
-
-        //insert images, userid, and tour id into tourimage table 
-        for($i = 0; $i < count($tourImg); $i++)
+        if($insertTour)
         {
-            $imgQ = "INSERT INTO tourimage (TourID, AddedByUser, Image) VALUES ('$tourID', '$this->userID', '$tourImg[$i]')";
-            $insertImage = $conn->query($imgQ);
+            //query for tour id
+            $tourID = $conn->insert_id;
+
+            //insert images, userid, and tour id into tourimage table 
+            foreach($tourImg as $x)
+            {
+                $imgQ = "INSERT INTO tourimage (TourID, Image) VALUES ('$tourID', '$x')";
+                $insertImage = $conn->query($imgQ);
+            } 
+
+            if($insertImage)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    public function getTours()
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM tour WHERE TourGuideID = '$this->userID'");
+
+        //check if any tours exists, else return false
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            return $data;
+        }
+        else
+        {
+            return false;
         }
 
-        //checkpoint
-        //echo "<script type='text/javascript'>alert('tourimageID = $conn->insert_id')</script>";
+    }
 
-        //image display attempt
-        // $testQ = "SELECT * FROM tourimage WHERE TourImgID = '$conn->insert_id'";
-        // $testResult = $conn->query($testQ);
+    public function updateTourName($tourID, $name)
+    {
+        //db connection
+        $conn = $this->connect();
 
-        // if ($testResult->num_rows > 0)
-        // {
-        //     while($testRow = $testResult->fetch_assoc())
-        //     {
-        //         $testData[] = $testRow;
-        //     }
+        //query
+        $result = $conn->query("UPDATE tour SET Name = '$name' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 
-        //     foreach($testData as $z)
-        //     {
-        //         $img = $z['Image'];
-        //         echo '<img src="../Uploaded_Images/'.$img.'"/>';
-        //     }
+    public function updateTourDesc($tourID, $desc)
+    {
+        //db connection
+        $conn = $this->connect();
 
+        //query
+        $result = $conn->query("UPDATE tour SET Description = '$desc' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourImg($tourID, $tourImg)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        // delete the old ones first
+        $query = "DELETE FROM tourimage WHERE TourID = '$tourID'";
+        $result = $conn->query($query);
+
+        if($result)
+        {   
+            //insert images, userid, and tour id into tourimage table 
+            foreach($tourImg as $x)
+            {
+                $imgQ = "INSERT INTO tourimage (TourID, Image) VALUES ('$tourID', '$x')";
+                $insertImage = $conn->query($imgQ);
+            } 
+
+            if($insertImage)
+            {
+                return true;
+            }
+        }
+        else
+            return false;
+    }
+
+    public function updateTourDates($tourID, $sd, $ed)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Start_date = '$sd', End_date = '$ed' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourPrice($tourID, $price)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Price = '$price' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function updateTourStatus($tourID, $status)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("UPDATE tour SET Status = '$status' WHERE TourID = '$tourID' ");
+    
+        if($result)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function cancelTour($tourID)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("DELETE FROM tour WHERE TourID = $tourID AND TourGuideID = $this->userID");
+    
+        if($result === TRUE)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
             
-        // }
-        
+    }
 
-        return true;
+    public function getBooking($tourID)
+    {
+        //db connection
+        $conn = $this->connect();
+
+        //query
+        $result = $conn->query("SELECT * FROM booking WHERE TourID = '$tourID'");
+
+        $resultArr = array();
+
+        if(!empty($result) && $result->num_rows > 0)
+        {
+            //if there's any booking, query the user name and user ID
+            while($row = $result->fetch_assoc())
+            {
+                $data[] = $row;
+            }
+
+            foreach($data as $x)
+            {
+                $userID = $x['UserID'];
+                $bookingID = $x['BookingID'];
+            }
+
+            //query name
+            $nameQ = $conn->query("SELECT * FROM user WHERE UserID = '$userID'");
+
+            if(!empty($nameQ) && $nameQ->num_rows > 0)
+            {
+                while($row2 = $nameQ->fetch_assoc())
+                {
+                    $data2[] = $row2;
+                }
+
+                foreach($data2 as $y)
+                {
+                    $userFName = $y['FirstName'];
+                    $userLName = $y['LastName'];
+
+                    $resultArr[0] = $userID;
+                    $resultArr[1] = $userFName;
+                    $resultArr[2] = $userLName;
+                    $resultArr[3] = $bookingID;
+                }
+            }
+            
+            return $resultArr;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
