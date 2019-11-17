@@ -34,18 +34,13 @@ if(!isset($_SESSION))
         }
         
         body{
-            background-color: #080808;
-        }
-        
-        .jumbotron 
-        {
             background-image : url("../Images/hk_night.jpg");
             background-size : cover;
             background-position : center center; 
-            height : 100vh;
-            margin-bottom:0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
-
+        
         .navbar
         {
             position : fixed;
@@ -55,7 +50,7 @@ if(!isset($_SESSION))
 </head>
 <body>
     <!--jumbotron header-->
-    <header class="jumbotron jumbotron-fluid">
+    <!-- <header class="jumbotron jumbotron-fluid"> -->
         
             <!--navigation bar-->
             <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
@@ -92,7 +87,7 @@ if(!isset($_SESSION))
                 createProfile($id);
             }
         ?>        
-    </header>
+    <!-- </header> -->
 </body>
 </html>
 
@@ -126,7 +121,7 @@ function createProfile($id)
         $profileImg = $check->getProfileImg();
         
         echo <<<PARTICULARS
-        <div class="card border-info mb-3" style="width:40rem; margin : 0 auto;">
+        <div class="card border-info mb-3" style="width:40rem; margin : 0 auto; margin-top : 5%;">
                 <div class="card-body">
                     <img src = "../Uploaded_Images/$profileImg" 
                         style="max-width: 100%; max-height : 100%; object-fit: cover; 

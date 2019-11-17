@@ -85,10 +85,19 @@
 
     <style>
 
+        body
+        {
+            background-image: url("../Images/New-York-City-Night-Cityscape.jpg"); 
+            background-size : cover;
+            background-position : center center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
         .jumbotron
         {
             background-image: url("../Images/New-York-City-Night-Cityscape.jpg"); 
-            height:100%;
+            height:100vh;
         }
 
         .accordion, .alert
@@ -96,6 +105,7 @@
             width:40rem; 
             margin:0 auto;
             margin-bottom:20px;
+            margin-top : 8%;
         }
 
         .card 
@@ -108,7 +118,7 @@
 </head>
 <body>
     <!--jumbotron header-->
-    <header class="jumbotron jumbotron-fluid">
+    <!-- <header class="jumbotron jumbotron-fluid"> -->
 
         <!--navigation bar-->
         <nav class="navbar fixed-top transparent navbar-expand-lg navbar-light">
@@ -311,6 +321,6 @@
                 </div>
         </div>
 
-    </header>
+    <!-- </header> -->
 </body>
 </html>
